@@ -20,9 +20,9 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/server.mjs ./server.mjs
 
-EXPOSE 3000
+EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:3000/tr || exit 1
+  CMD /bin/sh -c 'wget --no-verbose --tries=1 --spider "http://127.0.0.1:${PORT:-3000}/tr" || exit 1'
 
 CMD ["npm", "run", "start"]
