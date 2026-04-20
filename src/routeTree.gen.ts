@@ -9,23 +9,41 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LocaleRouteImport } from './routes/$locale'
+import { Route as SarkiOnerRouteImport } from './routes/sarki-oner'
+import { Route as MenuRouteImport } from './routes/menu'
+import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
-import { Route as LocaleSarkiOnerRouteImport } from './routes/$locale.sarki-oner'
-import { Route as LocaleMenuRouteImport } from './routes/$locale.menu'
-import { Route as LocaleHakkimizdaRouteImport } from './routes/$locale.hakkimizda'
-import { Route as LocaleAuthRouteImport } from './routes/$locale.auth'
-import { Route as LocaleAdminRouteImport } from './routes/$locale.admin'
-import { Route as LocaleAdminIndexRouteImport } from './routes/$locale.admin.index'
-import { Route as LocaleAdminSarkilarRouteImport } from './routes/$locale.admin.sarkilar'
-import { Route as LocaleAdminMenuRouteImport } from './routes/$locale.admin.menu'
-import { Route as LocaleAdminKullanicilarRouteImport } from './routes/$locale.admin.kullanicilar'
-import { Route as LocaleAdminCalanRouteImport } from './routes/$locale.admin.calan'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminSarkilarRouteImport } from './routes/admin.sarkilar'
+import { Route as AdminMenuRouteImport } from './routes/admin.menu'
+import { Route as AdminKullanicilarRouteImport } from './routes/admin.kullanicilar'
+import { Route as AdminCalanRouteImport } from './routes/admin.calan'
 
-const LocaleRoute = LocaleRouteImport.update({
-  id: '/$locale',
-  path: '/$locale',
+const SarkiOnerRoute = SarkiOnerRouteImport.update({
+  id: '/sarki-oner',
+  path: '/sarki-oner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MenuRoute = MenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HakkimizdaRoute = HakkimizdaRouteImport.update({
+  id: '/hakkimizda',
+  path: '/hakkimizda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -33,164 +51,156 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocaleIndexRoute = LocaleIndexRouteImport.update({
+const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => LocaleRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const LocaleSarkiOnerRoute = LocaleSarkiOnerRouteImport.update({
-  id: '/sarki-oner',
-  path: '/sarki-oner',
-  getParentRoute: () => LocaleRoute,
-} as any)
-const LocaleMenuRoute = LocaleMenuRouteImport.update({
-  id: '/menu',
-  path: '/menu',
-  getParentRoute: () => LocaleRoute,
-} as any)
-const LocaleHakkimizdaRoute = LocaleHakkimizdaRouteImport.update({
-  id: '/hakkimizda',
-  path: '/hakkimizda',
-  getParentRoute: () => LocaleRoute,
-} as any)
-const LocaleAuthRoute = LocaleAuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => LocaleRoute,
-} as any)
-const LocaleAdminRoute = LocaleAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => LocaleRoute,
-} as any)
-const LocaleAdminIndexRoute = LocaleAdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => LocaleAdminRoute,
-} as any)
-const LocaleAdminSarkilarRoute = LocaleAdminSarkilarRouteImport.update({
+const AdminSarkilarRoute = AdminSarkilarRouteImport.update({
   id: '/sarkilar',
   path: '/sarkilar',
-  getParentRoute: () => LocaleAdminRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const LocaleAdminMenuRoute = LocaleAdminMenuRouteImport.update({
+const AdminMenuRoute = AdminMenuRouteImport.update({
   id: '/menu',
   path: '/menu',
-  getParentRoute: () => LocaleAdminRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const LocaleAdminKullanicilarRoute = LocaleAdminKullanicilarRouteImport.update({
+const AdminKullanicilarRoute = AdminKullanicilarRouteImport.update({
   id: '/kullanicilar',
   path: '/kullanicilar',
-  getParentRoute: () => LocaleAdminRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const LocaleAdminCalanRoute = LocaleAdminCalanRouteImport.update({
+const AdminCalanRoute = AdminCalanRouteImport.update({
   id: '/calan',
   path: '/calan',
-  getParentRoute: () => LocaleAdminRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$locale': typeof LocaleRouteWithChildren
-  '/$locale/admin': typeof LocaleAdminRouteWithChildren
-  '/$locale/auth': typeof LocaleAuthRoute
-  '/$locale/hakkimizda': typeof LocaleHakkimizdaRoute
-  '/$locale/menu': typeof LocaleMenuRoute
-  '/$locale/sarki-oner': typeof LocaleSarkiOnerRoute
-  '/$locale/': typeof LocaleIndexRoute
-  '/$locale/admin/calan': typeof LocaleAdminCalanRoute
-  '/$locale/admin/kullanicilar': typeof LocaleAdminKullanicilarRoute
-  '/$locale/admin/menu': typeof LocaleAdminMenuRoute
-  '/$locale/admin/sarkilar': typeof LocaleAdminSarkilarRoute
-  '/$locale/admin/': typeof LocaleAdminIndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/menu': typeof MenuRoute
+  '/sarki-oner': typeof SarkiOnerRoute
+  '/admin/calan': typeof AdminCalanRoute
+  '/admin/kullanicilar': typeof AdminKullanicilarRoute
+  '/admin/menu': typeof AdminMenuRoute
+  '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$locale/auth': typeof LocaleAuthRoute
-  '/$locale/hakkimizda': typeof LocaleHakkimizdaRoute
-  '/$locale/menu': typeof LocaleMenuRoute
-  '/$locale/sarki-oner': typeof LocaleSarkiOnerRoute
-  '/$locale': typeof LocaleIndexRoute
-  '/$locale/admin/calan': typeof LocaleAdminCalanRoute
-  '/$locale/admin/kullanicilar': typeof LocaleAdminKullanicilarRoute
-  '/$locale/admin/menu': typeof LocaleAdminMenuRoute
-  '/$locale/admin/sarkilar': typeof LocaleAdminSarkilarRoute
-  '/$locale/admin': typeof LocaleAdminIndexRoute
+  '/auth': typeof AuthRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/menu': typeof MenuRoute
+  '/sarki-oner': typeof SarkiOnerRoute
+  '/admin/calan': typeof AdminCalanRoute
+  '/admin/kullanicilar': typeof AdminKullanicilarRoute
+  '/admin/menu': typeof AdminMenuRoute
+  '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/$locale': typeof LocaleRouteWithChildren
-  '/$locale/admin': typeof LocaleAdminRouteWithChildren
-  '/$locale/auth': typeof LocaleAuthRoute
-  '/$locale/hakkimizda': typeof LocaleHakkimizdaRoute
-  '/$locale/menu': typeof LocaleMenuRoute
-  '/$locale/sarki-oner': typeof LocaleSarkiOnerRoute
-  '/$locale/': typeof LocaleIndexRoute
-  '/$locale/admin/calan': typeof LocaleAdminCalanRoute
-  '/$locale/admin/kullanicilar': typeof LocaleAdminKullanicilarRoute
-  '/$locale/admin/menu': typeof LocaleAdminMenuRoute
-  '/$locale/admin/sarkilar': typeof LocaleAdminSarkilarRoute
-  '/$locale/admin/': typeof LocaleAdminIndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/menu': typeof MenuRoute
+  '/sarki-oner': typeof SarkiOnerRoute
+  '/admin/calan': typeof AdminCalanRoute
+  '/admin/kullanicilar': typeof AdminKullanicilarRoute
+  '/admin/menu': typeof AdminMenuRoute
+  '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/$locale'
-    | '/$locale/admin'
-    | '/$locale/auth'
-    | '/$locale/hakkimizda'
-    | '/$locale/menu'
-    | '/$locale/sarki-oner'
-    | '/$locale/'
-    | '/$locale/admin/calan'
-    | '/$locale/admin/kullanicilar'
-    | '/$locale/admin/menu'
-    | '/$locale/admin/sarkilar'
-    | '/$locale/admin/'
+    | '/admin'
+    | '/auth'
+    | '/hakkimizda'
+    | '/menu'
+    | '/sarki-oner'
+    | '/admin/calan'
+    | '/admin/kullanicilar'
+    | '/admin/menu'
+    | '/admin/sarkilar'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/$locale/auth'
-    | '/$locale/hakkimizda'
-    | '/$locale/menu'
-    | '/$locale/sarki-oner'
-    | '/$locale'
-    | '/$locale/admin/calan'
-    | '/$locale/admin/kullanicilar'
-    | '/$locale/admin/menu'
-    | '/$locale/admin/sarkilar'
-    | '/$locale/admin'
+    | '/auth'
+    | '/hakkimizda'
+    | '/menu'
+    | '/sarki-oner'
+    | '/admin/calan'
+    | '/admin/kullanicilar'
+    | '/admin/menu'
+    | '/admin/sarkilar'
+    | '/admin'
   id:
     | '__root__'
     | '/'
-    | '/$locale'
-    | '/$locale/admin'
-    | '/$locale/auth'
-    | '/$locale/hakkimizda'
-    | '/$locale/menu'
-    | '/$locale/sarki-oner'
-    | '/$locale/'
-    | '/$locale/admin/calan'
-    | '/$locale/admin/kullanicilar'
-    | '/$locale/admin/menu'
-    | '/$locale/admin/sarkilar'
-    | '/$locale/admin/'
+    | '/admin'
+    | '/auth'
+    | '/hakkimizda'
+    | '/menu'
+    | '/sarki-oner'
+    | '/admin/calan'
+    | '/admin/kullanicilar'
+    | '/admin/menu'
+    | '/admin/sarkilar'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LocaleRoute: typeof LocaleRouteWithChildren
+  AdminRoute: typeof AdminRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  HakkimizdaRoute: typeof HakkimizdaRoute
+  MenuRoute: typeof MenuRoute
+  SarkiOnerRoute: typeof SarkiOnerRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/$locale': {
-      id: '/$locale'
-      path: '/$locale'
-      fullPath: '/$locale'
-      preLoaderRoute: typeof LocaleRouteImport
+    '/sarki-oner': {
+      id: '/sarki-oner'
+      path: '/sarki-oner'
+      fullPath: '/sarki-oner'
+      preLoaderRoute: typeof SarkiOnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/menu': {
+      id: '/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hakkimizda': {
+      id: '/hakkimizda'
+      path: '/hakkimizda'
+      fullPath: '/hakkimizda'
+      preLoaderRoute: typeof HakkimizdaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -200,130 +210,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/': {
-      id: '/$locale/'
+    '/admin/': {
+      id: '/admin/'
       path: '/'
-      fullPath: '/$locale/'
-      preLoaderRoute: typeof LocaleIndexRouteImport
-      parentRoute: typeof LocaleRoute
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/$locale/sarki-oner': {
-      id: '/$locale/sarki-oner'
-      path: '/sarki-oner'
-      fullPath: '/$locale/sarki-oner'
-      preLoaderRoute: typeof LocaleSarkiOnerRouteImport
-      parentRoute: typeof LocaleRoute
-    }
-    '/$locale/menu': {
-      id: '/$locale/menu'
-      path: '/menu'
-      fullPath: '/$locale/menu'
-      preLoaderRoute: typeof LocaleMenuRouteImport
-      parentRoute: typeof LocaleRoute
-    }
-    '/$locale/hakkimizda': {
-      id: '/$locale/hakkimizda'
-      path: '/hakkimizda'
-      fullPath: '/$locale/hakkimizda'
-      preLoaderRoute: typeof LocaleHakkimizdaRouteImport
-      parentRoute: typeof LocaleRoute
-    }
-    '/$locale/auth': {
-      id: '/$locale/auth'
-      path: '/auth'
-      fullPath: '/$locale/auth'
-      preLoaderRoute: typeof LocaleAuthRouteImport
-      parentRoute: typeof LocaleRoute
-    }
-    '/$locale/admin': {
-      id: '/$locale/admin'
-      path: '/admin'
-      fullPath: '/$locale/admin'
-      preLoaderRoute: typeof LocaleAdminRouteImport
-      parentRoute: typeof LocaleRoute
-    }
-    '/$locale/admin/': {
-      id: '/$locale/admin/'
-      path: '/'
-      fullPath: '/$locale/admin/'
-      preLoaderRoute: typeof LocaleAdminIndexRouteImport
-      parentRoute: typeof LocaleAdminRoute
-    }
-    '/$locale/admin/sarkilar': {
-      id: '/$locale/admin/sarkilar'
+    '/admin/sarkilar': {
+      id: '/admin/sarkilar'
       path: '/sarkilar'
-      fullPath: '/$locale/admin/sarkilar'
-      preLoaderRoute: typeof LocaleAdminSarkilarRouteImport
-      parentRoute: typeof LocaleAdminRoute
+      fullPath: '/admin/sarkilar'
+      preLoaderRoute: typeof AdminSarkilarRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/$locale/admin/menu': {
-      id: '/$locale/admin/menu'
+    '/admin/menu': {
+      id: '/admin/menu'
       path: '/menu'
-      fullPath: '/$locale/admin/menu'
-      preLoaderRoute: typeof LocaleAdminMenuRouteImport
-      parentRoute: typeof LocaleAdminRoute
+      fullPath: '/admin/menu'
+      preLoaderRoute: typeof AdminMenuRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/$locale/admin/kullanicilar': {
-      id: '/$locale/admin/kullanicilar'
+    '/admin/kullanicilar': {
+      id: '/admin/kullanicilar'
       path: '/kullanicilar'
-      fullPath: '/$locale/admin/kullanicilar'
-      preLoaderRoute: typeof LocaleAdminKullanicilarRouteImport
-      parentRoute: typeof LocaleAdminRoute
+      fullPath: '/admin/kullanicilar'
+      preLoaderRoute: typeof AdminKullanicilarRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/$locale/admin/calan': {
-      id: '/$locale/admin/calan'
+    '/admin/calan': {
+      id: '/admin/calan'
       path: '/calan'
-      fullPath: '/$locale/admin/calan'
-      preLoaderRoute: typeof LocaleAdminCalanRouteImport
-      parentRoute: typeof LocaleAdminRoute
+      fullPath: '/admin/calan'
+      preLoaderRoute: typeof AdminCalanRouteImport
+      parentRoute: typeof AdminRoute
     }
   }
 }
 
-interface LocaleAdminRouteChildren {
-  LocaleAdminCalanRoute: typeof LocaleAdminCalanRoute
-  LocaleAdminKullanicilarRoute: typeof LocaleAdminKullanicilarRoute
-  LocaleAdminMenuRoute: typeof LocaleAdminMenuRoute
-  LocaleAdminSarkilarRoute: typeof LocaleAdminSarkilarRoute
-  LocaleAdminIndexRoute: typeof LocaleAdminIndexRoute
+interface AdminRouteChildren {
+  AdminCalanRoute: typeof AdminCalanRoute
+  AdminKullanicilarRoute: typeof AdminKullanicilarRoute
+  AdminMenuRoute: typeof AdminMenuRoute
+  AdminSarkilarRoute: typeof AdminSarkilarRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
-const LocaleAdminRouteChildren: LocaleAdminRouteChildren = {
-  LocaleAdminCalanRoute: LocaleAdminCalanRoute,
-  LocaleAdminKullanicilarRoute: LocaleAdminKullanicilarRoute,
-  LocaleAdminMenuRoute: LocaleAdminMenuRoute,
-  LocaleAdminSarkilarRoute: LocaleAdminSarkilarRoute,
-  LocaleAdminIndexRoute: LocaleAdminIndexRoute,
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminCalanRoute: AdminCalanRoute,
+  AdminKullanicilarRoute: AdminKullanicilarRoute,
+  AdminMenuRoute: AdminMenuRoute,
+  AdminSarkilarRoute: AdminSarkilarRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
-const LocaleAdminRouteWithChildren = LocaleAdminRoute._addFileChildren(
-  LocaleAdminRouteChildren,
-)
-
-interface LocaleRouteChildren {
-  LocaleAdminRoute: typeof LocaleAdminRouteWithChildren
-  LocaleAuthRoute: typeof LocaleAuthRoute
-  LocaleHakkimizdaRoute: typeof LocaleHakkimizdaRoute
-  LocaleMenuRoute: typeof LocaleMenuRoute
-  LocaleSarkiOnerRoute: typeof LocaleSarkiOnerRoute
-  LocaleIndexRoute: typeof LocaleIndexRoute
-}
-
-const LocaleRouteChildren: LocaleRouteChildren = {
-  LocaleAdminRoute: LocaleAdminRouteWithChildren,
-  LocaleAuthRoute: LocaleAuthRoute,
-  LocaleHakkimizdaRoute: LocaleHakkimizdaRoute,
-  LocaleMenuRoute: LocaleMenuRoute,
-  LocaleSarkiOnerRoute: LocaleSarkiOnerRoute,
-  LocaleIndexRoute: LocaleIndexRoute,
-}
-
-const LocaleRouteWithChildren =
-  LocaleRoute._addFileChildren(LocaleRouteChildren)
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LocaleRoute: LocaleRouteWithChildren,
+  AdminRoute: AdminRouteWithChildren,
+  AuthRoute: AuthRoute,
+  HakkimizdaRoute: HakkimizdaRoute,
+  MenuRoute: MenuRoute,
+  SarkiOnerRoute: SarkiOnerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
