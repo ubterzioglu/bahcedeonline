@@ -8,8 +8,10 @@ export default defineConfig({
   plugins: [
     tsConfigPaths(),
     tailwindcss(),
-    viteReact(),
+    // tanstackStart() includes the TanStack Router plugin, which MUST run
+    // before any JSX-transform plugin (viteReact). Order is enforced.
     tanstackStart(),
+    viteReact(),
   ],
   server: {
     host: true,
