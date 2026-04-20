@@ -12,8 +12,8 @@ export const Route = createFileRoute("/$locale/auth")({
 });
 
 function AuthPage() {
-  const { locale, dictionary } = useI18n();
   const navigate = useNavigate();
+  const { locale, dictionary } = useI18n();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,77 +22,64 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) {
-        navigate({ to: "/$locale/admin", params: { locale } });
-      }
+      if (data.session) navigate({ to: "/$locale/admin", params: { locale } });
     });
-  }, [locale, navigate]);
+  }, [navigate, locale]);
 
-  const submit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError(null);
     setLoading(true);
 
     if (mode === "signup") {
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/${locale}/admin`,
-        },
+        options: { emailRedirectTo: `${window.location.origin}/${locale}/admin` },
       });
-
-      if (signUpError) {
-        setError(signUpError.message);
-      } else {
-        navigate({ to: "/$locale/admin", params: { locale } });
-      }
+      if (error) setError(error.message);
+      else navigate({ to: "/$locale/admin", params: { locale } });
     } else {
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (signInError) {
-        setError(dictionary.authPage.invalidCredentials);
-      } else {
-        navigate({ to: "/$locale/admin", params: { locale } });
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) setError(dictionary.authPage.invalidCredentials);
+      else navigate({ to: "/$locale/admin", params: { locale } });
     }
-
     setLoading(false);
   };
 
   return (
-    <div className="px-4 pt-10 sm:px-5 sm:pt-12">
-      <div className="mb-8 text-center">
-        <p className="mb-1 font-script text-2xl text-gradient-gold">{dictionary.nav.staffOnly}</p>
+    <div className="px-5 pt-12">
+      <div className="text-center mb-8">
+        <p className="font-script text-2xl text-gradient-gold mb-1">{dictionary.nav.staffOnly}</p>
         <h1 className="font-display text-3xl text-foreground">{dictionary.authPage.heading}</h1>
-        <p className="mt-2 text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground mt-2">
           {mode === "signin" ? dictionary.authPage.welcomeBack : dictionary.authPage.signupIntro}
         </p>
       </div>
 
-      <form onSubmit={submit} className="glass-card space-y-4 rounded-2xl p-5">
+      <form onSubmit={submit} className="glass-card rounded-2xl p-5 space-y-4">
         <input
           type="email"
           required
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder={dictionary.authPage.email}
-          className="w-full rounded-full border border-border bg-input/60 px-5 py-3 text-sm focus:border-gold focus:outline-none"
+          className="w-full bg-input/60 border border-border rounded-full px-5 py-3 text-sm focus:border-gold focus:outline-none"
         />
         <input
           type="password"
           required
           minLength={6}
           value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder={dictionary.authPage.password}
-          className="w-full rounded-full border border-border bg-input/60 px-5 py-3 text-sm focus:border-gold focus:outline-none"
+          className="w-full bg-input/60 border border-border rounded-full px-5 py-3 text-sm focus:border-gold focus:outline-none"
         />
         {error && <p className="text-sm text-destructive">{error}</p>}
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-full bg-gold py-3.5 text-sm font-medium text-gold-foreground shadow-gold transition active:scale-[0.98] disabled:opacity-50"
+          className="w-full bg-gold text-gold-foreground rounded-full py-3.5 text-sm font-medium shadow-gold disabled:opacity-50 active:scale-[0.98] transition"
         >
           {loading
             ? "..."
@@ -119,12 +106,10 @@ function AuthPage() {
           </>
         )}
       </div>
-
-      <p className="mt-4 px-6 text-center text-[10px] text-muted-foreground/70">
+      <p className="text-[10px] text-muted-foreground/70 mt-4 text-center px-6">
         {dictionary.authPage.firstUserAdmin}
       </p>
-
-      <div className="mt-5 text-center">
+      <div className="text-center mt-5">
         <Link to="/$locale" params={{ locale }} className="text-xs text-muted-foreground">
           ← {dictionary.authPage.backHome}
         </Link>

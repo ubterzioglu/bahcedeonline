@@ -25,9 +25,7 @@ export function SiteFooter() {
             <Instagram className="h-4 w-4 text-primary shrink-0" /> {dictionary.brand.instagram}
           </p>
           <p className="flex items-center gap-3 text-muted-foreground text-xs">
-            <span className="text-gold uppercase tracking-widest text-[10px]">
-              {dictionary.common.active}
-            </span>
+            <span className="text-gold uppercase tracking-widest text-[10px]">Open</span>
             {dictionary.brand.hours}
           </p>
         </div>

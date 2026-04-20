@@ -7,7 +7,6 @@ import { getDictionary, getLocaleFromUnknown, useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/$locale/menu")({
   head: ({ params }) => {
     const dictionary = getDictionary(getLocaleFromUnknown(params.locale));
-
     return {
       meta: [
         { title: dictionary.menuPage.title },
@@ -45,54 +44,53 @@ function MenuPage() {
         .select("*")
         .eq("is_available", true)
         .order("sort_order", { ascending: true });
-
       setItems(data ?? []);
       setLoading(false);
     })();
   }, []);
 
-  const filtered = items.filter((item) => item.category === active);
+  const filtered = items.filter((i) => i.category === active);
 
   return (
-    <div className="px-4 pt-8 sm:px-5">
-      <div className="mb-6 text-center">
-        <p className="mb-1 font-script text-2xl text-gradient-gold">
+    <div className="px-5 pt-8">
+      <div className="text-center mb-6">
+        <p className="font-script text-2xl text-gradient-gold mb-1">
           {dictionary.menuPage.eyebrow}
         </p>
         <h1 className="font-display text-4xl text-foreground">{dictionary.menuPage.heading}</h1>
         <p className="mt-2 text-sm text-muted-foreground">{dictionary.menuPage.subheading}</p>
       </div>
 
-      <div className="-mx-4 mb-6 overflow-x-auto px-4 scrollbar-none sm:-mx-5 sm:px-5">
-        <div className="flex min-w-max gap-2 pb-2">
-          {CATEGORY_ORDER.map((category) => (
+      <div className="-mx-5 px-5 overflow-x-auto scrollbar-none mb-6">
+        <div className="flex gap-2 min-w-max pb-2">
+          {CATEGORY_ORDER.map((cat) => (
             <button
-              key={category}
-              onClick={() => setActive(category)}
-              className={`rounded-full border px-4 py-2 text-xs tracking-wide whitespace-nowrap transition ${
-                active === category
-                  ? "border-transparent bg-gold text-gold-foreground shadow-gold"
-                  : "border-border/50 bg-glass text-foreground/80"
+              key={cat}
+              onClick={() => setActive(cat)}
+              className={`px-4 py-2 rounded-full text-xs whitespace-nowrap tracking-wide transition border ${
+                active === cat
+                  ? "bg-gold text-gold-foreground border-transparent shadow-gold"
+                  : "bg-glass border-border/50 text-foreground/80"
               }`}
             >
-              {dictionary.categories[category]}
+              {dictionary.categories[cat]}
             </button>
           ))}
         </div>
       </div>
 
       {loading ? (
-        <p className="py-12 text-center text-sm text-muted-foreground">
+        <p className="text-center text-muted-foreground py-12 text-sm">
           {dictionary.menuPage.loading}
         </p>
       ) : filtered.length === 0 ? (
-        <div className="glass-card rounded-2xl py-12 text-center">
+        <div className="text-center py-12 glass-card rounded-2xl">
           <p className="font-display text-xl text-foreground/80">{dictionary.menuPage.empty}</p>
         </div>
       ) : (
         <div className="space-y-4">
           {filtered.map((item) => (
-            <article key={item.id} className="glass-card overflow-hidden rounded-2xl">
+            <article key={item.id} className="glass-card rounded-2xl overflow-hidden">
               {item.image_url && (
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <img
@@ -103,13 +101,13 @@ function MenuPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                   {item.tags && item.tags.length > 0 && (
-                    <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-                      {item.tags.map((tag) => (
+                    <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                      {item.tags.map((t) => (
                         <span
-                          key={tag}
-                          className="rounded-full bg-gold/90 px-2 py-1 text-[9px] uppercase tracking-widest text-gold-foreground"
+                          key={t}
+                          className="text-[9px] uppercase tracking-widest px-2 py-1 rounded-full bg-gold/90 text-gold-foreground"
                         >
-                          {tag}
+                          {t}
                         </span>
                       ))}
                     </div>
@@ -117,39 +115,39 @@ function MenuPage() {
                 </div>
               )}
               <div className="p-5">
-                <div className="mb-1.5 flex items-start justify-between gap-3">
-                  <h3 className="flex-1 font-display text-xl leading-tight text-foreground">
+                <div className="flex items-start justify-between gap-3 mb-1.5">
+                  <h3 className="font-display text-xl text-foreground leading-tight flex-1">
                     {item.name}
                   </h3>
-                  <span className="font-display text-xl whitespace-nowrap text-gold">
-                    TL{Number(item.price).toFixed(0)}
+                  <span className="text-gold font-display text-xl whitespace-nowrap">
+                    ₺{Number(item.price).toFixed(0)}
                   </span>
                 </div>
                 {item.description && (
-                  <p className="text-[13px] leading-relaxed text-muted-foreground">
+                  <p className="text-[13px] text-muted-foreground leading-relaxed">
                     {item.description}
                   </p>
                 )}
                 {!item.image_url && item.tags && item.tags.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {item.tags.map((tag) => (
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {item.tags.map((t) => (
                       <span
-                        key={tag}
-                        className="rounded-full bg-gold/15 px-2 py-1 text-[9px] uppercase tracking-widest text-gold"
+                        key={t}
+                        className="text-[9px] uppercase tracking-widest px-2 py-1 rounded-full bg-gold/15 text-gold"
                       >
-                        {tag}
+                        {t}
                       </span>
                     ))}
                   </div>
                 )}
                 {item.details && Object.keys(item.details as object).length > 0 && (
-                  <dl className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 border-t border-border/40 pt-3 text-xs">
-                    {Object.entries(item.details as Record<string, string>).map(([key, value]) => (
-                      <div key={key}>
-                        <dt className="inline text-[9px] uppercase tracking-wider text-muted-foreground">
-                          {key}:{" "}
+                  <dl className="mt-3 pt-3 border-t border-border/40 flex flex-wrap gap-x-5 gap-y-1.5 text-xs">
+                    {Object.entries(item.details as Record<string, string>).map(([k, v]) => (
+                      <div key={k}>
+                        <dt className="text-muted-foreground uppercase tracking-wider text-[9px] inline">
+                          {k}:{" "}
                         </dt>
-                        <dd className="inline text-foreground/90">{value}</dd>
+                        <dd className="text-foreground/90 inline">{v}</dd>
                       </div>
                     ))}
                   </dl>

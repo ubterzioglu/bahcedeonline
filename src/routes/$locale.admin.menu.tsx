@@ -1,19 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$locale/admin/menu")({
-  component: AdminMenuPage,
+  component: AdminMenu,
 });
 
 type Item = Database["public"]["Tables"]["menu_items"]["Row"];
 type Category = Database["public"]["Enums"]["menu_category"];
 
-const emptyItem = {
+const empty = {
   name: "",
   description: "",
   price: 0,
@@ -25,11 +25,11 @@ const emptyItem = {
   sort_order: 0,
 };
 
-function AdminMenuPage() {
+function AdminMenu() {
   const { dictionary } = useI18n();
   const { isAdmin } = useAuth();
   const [items, setItems] = useState<Item[]>([]);
-  const [editing, setEditing] = useState<(typeof emptyItem & { id?: string }) | null>(null);
+  const [editing, setEditing] = useState<(typeof empty & { id?: string }) | null>(null);
   const [filter, setFilter] = useState<Category | "all">("all");
   const [uploading, setUploading] = useState(false);
 
@@ -50,16 +50,14 @@ function AdminMenuPage() {
       .order("sort_order");
     setItems(data ?? []);
   };
-
   useEffect(() => {
     load();
   }, []);
 
-  const filtered = filter === "all" ? items : items.filter((item) => item.category === filter);
+  const filtered = filter === "all" ? items : items.filter((i) => i.category === filter);
 
   const save = async () => {
     if (!editing) return;
-
     const payload = {
       name: editing.name,
       description: editing.description || null,
@@ -71,18 +69,16 @@ function AdminMenuPage() {
       is_available: editing.is_available,
       sort_order: editing.sort_order,
     };
-
     if (editing.id) {
       await supabase.from("menu_items").update(payload).eq("id", editing.id);
     } else {
       await supabase.from("menu_items").insert(payload);
     }
-
     setEditing(null);
     load();
   };
 
-  const remove = async (id: string) => {
+  const del = async (id: string) => {
     if (!confirm(dictionary.adminMenuPage.confirmDelete)) return;
     await supabase.from("menu_items").delete().eq("id", id);
     load();
@@ -91,26 +87,23 @@ function AdminMenuPage() {
   const onUpload = async (file: File) => {
     if (!editing) return;
     setUploading(true);
-
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const { error } = await supabase.storage
       .from("menu-images")
       .upload(path, file, { upsert: false });
-
     if (!error) {
       const { data } = supabase.storage.from("menu-images").getPublicUrl(path);
       setEditing({ ...editing, image_url: data.publicUrl });
     } else {
       alert(`${dictionary.adminMenuPage.uploadFailed}: ${error.message}`);
     }
-
     setUploading(false);
   };
 
   return (
     <div className="pb-4">
-      <div className="mb-4 flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between mb-4 gap-3">
         <div>
           <h1 className="font-display text-3xl text-foreground">
             {dictionary.adminMenuPage.heading}
@@ -118,27 +111,22 @@ function AdminMenuPage() {
           <p className="text-xs text-muted-foreground">{dictionary.adminMenuPage.subheading}</p>
         </div>
         <button
-          onClick={() => setEditing({ ...emptyItem })}
-          className="inline-flex items-center gap-1.5 rounded-full bg-gold px-4 py-2 text-xs text-gold-foreground shadow-gold"
+          onClick={() => setEditing({ ...empty })}
+          className="inline-flex items-center gap-1.5 bg-gold text-gold-foreground rounded-full px-4 py-2 text-xs shadow-gold"
         >
-          <Plus className="h-3.5 w-3.5" />
-          {dictionary.adminMenuPage.newItem}
+          <Plus className="h-3.5 w-3.5" /> {dictionary.adminMenuPage.newItem}
         </button>
       </div>
 
-      <div className="-mx-4 mb-4 overflow-x-auto px-4 scrollbar-none sm:-mx-5 sm:px-5">
-        <div className="flex min-w-max gap-2 pb-2">
-          <FilterButton active={filter === "all"} onClick={() => setFilter("all")}>
+      <div className="-mx-5 px-5 overflow-x-auto scrollbar-none mb-4">
+        <div className="flex gap-2 min-w-max pb-2">
+          <FilterBtn active={filter === "all"} onClick={() => setFilter("all")}>
             {dictionary.common.all}
-          </FilterButton>
-          {categories.map((category) => (
-            <FilterButton
-              key={category.value}
-              active={filter === category.value}
-              onClick={() => setFilter(category.value)}
-            >
-              {category.label}
-            </FilterButton>
+          </FilterBtn>
+          {categories.map((c) => (
+            <FilterBtn key={c.value} active={filter === c.value} onClick={() => setFilter(c.value)}>
+              {c.label}
+            </FilterBtn>
           ))}
         </div>
       </div>
@@ -149,39 +137,39 @@ function AdminMenuPage() {
             {dictionary.adminMenuPage.noItems}
           </div>
         )}
-        {filtered.map((item) => (
-          <div key={item.id} className="glass-card flex items-center gap-3 rounded-2xl p-3">
-            {item.image_url ? (
+        {filtered.map((it) => (
+          <div key={it.id} className="glass-card rounded-2xl p-3 flex items-center gap-3">
+            {it.image_url ? (
               <img
-                src={item.image_url}
+                src={it.image_url}
                 alt=""
-                className="h-14 w-14 shrink-0 rounded-xl object-cover"
+                className="h-14 w-14 rounded-xl object-cover shrink-0"
               />
             ) : (
-              <div className="h-14 w-14 shrink-0 rounded-xl bg-sea" />
+              <div className="h-14 w-14 rounded-xl bg-sea shrink-0" />
             )}
-            <div className="min-w-0 flex-1">
+            <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="truncate font-display text-base text-foreground">{item.name}</h3>
-                {!item.is_available && (
-                  <span className="rounded-full bg-destructive/20 px-1.5 py-0.5 text-[9px] text-destructive">
+                <h3 className="font-display text-base text-foreground truncate">{it.name}</h3>
+                {!it.is_available && (
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-destructive/20 text-destructive">
                     {dictionary.common.inactive}
                   </span>
                 )}
               </div>
-              <p className="truncate text-[11px] text-muted-foreground">
-                {dictionary.categories[item.category]} · TL{Number(item.price).toFixed(0)}
+              <p className="text-[11px] text-muted-foreground truncate">
+                {dictionary.categories[it.category]} · ₺{Number(it.price).toFixed(0)}
               </p>
             </div>
             <button
               onClick={() =>
                 setEditing({
-                  ...emptyItem,
-                  ...item,
-                  description: item.description ?? "",
-                  image_url: item.image_url,
-                  tags: item.tags ?? [],
-                  details: (item.details as Record<string, string>) ?? {},
+                  ...empty,
+                  ...it,
+                  description: it.description ?? "",
+                  image_url: it.image_url,
+                  tags: it.tags ?? [],
+                  details: (it.details as Record<string, string>) ?? {},
                 })
               }
               className="p-2 text-foreground/70 active:text-gold"
@@ -190,7 +178,7 @@ function AdminMenuPage() {
             </button>
             {isAdmin && (
               <button
-                onClick={() => remove(item.id)}
+                onClick={() => del(it.id)}
                 className="p-2 text-foreground/70 active:text-destructive"
               >
                 <Trash2 className="h-4 w-4" />
@@ -201,9 +189,9 @@ function AdminMenuPage() {
       </div>
 
       {editing && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-background/95">
-          <div className="mx-auto max-w-screen-sm p-4 pb-32 sm:p-5 sm:pb-32">
-            <div className="sticky top-0 -mx-4 mb-5 flex items-center justify-between border-b border-border/40 bg-background/90 px-4 py-3 backdrop-blur sm:-mx-5 sm:px-5">
+        <div className="fixed inset-0 z-50 bg-background/95 overflow-y-auto">
+          <div className="max-w-md mx-auto p-5 pb-32">
+            <div className="flex items-center justify-between mb-5 sticky top-0 bg-background/90 backdrop-blur py-3 -mx-5 px-5 border-b border-border/40">
               <h2 className="font-display text-xl">
                 {editing.id
                   ? dictionary.adminMenuPage.editProduct
@@ -218,60 +206,58 @@ function AdminMenuPage() {
               <Input
                 label={dictionary.adminMenuPage.fields.name}
                 value={editing.name}
-                onChange={(value) => setEditing({ ...editing, name: value })}
+                onChange={(v) => setEditing({ ...editing, name: v })}
               />
               <div>
-                <label className="mb-1.5 block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
                   {dictionary.adminMenuPage.fields.category}
                 </label>
                 <select
                   value={editing.category}
-                  onChange={(event) =>
-                    setEditing({ ...editing, category: event.target.value as Category })
-                  }
-                  className="w-full rounded-full border border-border bg-input/60 px-4 py-3 text-sm focus:border-gold focus:outline-none"
+                  onChange={(e) => setEditing({ ...editing, category: e.target.value as Category })}
+                  className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
                 >
-                  {categories.map((category) => (
-                    <option key={category.value} value={category.value}>
-                      {category.label}
+                  {categories.map((c) => (
+                    <option key={c.value} value={c.value}>
+                      {c.label}
                     </option>
                   ))}
                 </select>
               </div>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-2 gap-3">
                 <Input
                   label={dictionary.adminMenuPage.fields.price}
                   type="number"
                   value={String(editing.price)}
-                  onChange={(value) => setEditing({ ...editing, price: Number(value) })}
+                  onChange={(v) => setEditing({ ...editing, price: Number(v) })}
                 />
                 <Input
                   label={dictionary.adminMenuPage.fields.order}
                   type="number"
                   value={String(editing.sort_order)}
-                  onChange={(value) => setEditing({ ...editing, sort_order: Number(value) })}
+                  onChange={(v) => setEditing({ ...editing, sort_order: Number(v) })}
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
                   {dictionary.adminMenuPage.fields.description}
                 </label>
                 <textarea
                   value={editing.description}
-                  onChange={(event) => setEditing({ ...editing, description: event.target.value })}
+                  onChange={(e) => setEditing({ ...editing, description: e.target.value })}
                   rows={3}
-                  className="w-full rounded-2xl border border-border bg-input/60 px-4 py-3 text-sm focus:border-gold focus:outline-none"
+                  className="w-full bg-input/60 border border-border rounded-2xl px-4 py-3 text-sm focus:border-gold focus:outline-none"
                 />
               </div>
               <Input
                 label={dictionary.adminMenuPage.fields.tags}
                 value={editing.tags.join(", ")}
-                onChange={(value) =>
+                onChange={(v) =>
                   setEditing({
                     ...editing,
-                    tags: value
+                    tags: v
                       .split(",")
-                      .map((tag) => tag.trim())
+                      .map((t) => t.trim())
                       .filter(Boolean),
                   })
                 }
@@ -279,23 +265,23 @@ function AdminMenuPage() {
               <Input
                 label={dictionary.adminMenuPage.fields.details}
                 value={Object.entries(editing.details)
-                  .map(([key, value]) => `${key}:${value}`)
+                  .map(([k, v]) => `${k}:${v}`)
                   .join(", ")}
-                onChange={(value) => {
-                  const details: Record<string, string> = {};
-                  value.split(",").forEach((pair) => {
-                    const [key, detail] = pair.split(":").map((part) => part?.trim());
-                    if (key && detail) details[key] = detail;
+                onChange={(v) => {
+                  const obj: Record<string, string> = {};
+                  v.split(",").forEach((p) => {
+                    const [k, val] = p.split(":").map((s) => s?.trim());
+                    if (k && val) obj[k] = val;
                   });
-                  setEditing({ ...editing, details });
+                  setEditing({ ...editing, details: obj });
                 }}
               />
 
               <div>
-                <label className="mb-1.5 block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
                   {dictionary.adminMenuPage.fields.image}
                 </label>
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   {editing.image_url && (
                     <img
                       src={editing.image_url}
@@ -303,7 +289,7 @@ function AdminMenuPage() {
                       className="h-20 w-20 rounded-xl object-cover"
                     />
                   )}
-                  <label className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-border px-4 py-2.5 text-xs">
+                  <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-border text-xs">
                     <Upload className="h-3.5 w-3.5" />
                     {uploading
                       ? dictionary.adminMenuPage.uploading
@@ -312,9 +298,7 @@ function AdminMenuPage() {
                       type="file"
                       accept="image/*"
                       hidden
-                      onChange={(event) =>
-                        event.target.files?.[0] && onUpload(event.target.files[0])
-                      }
+                      onChange={(e) => e.target.files?.[0] && onUpload(e.target.files[0])}
                     />
                   </label>
                   {editing.image_url && (
@@ -332,27 +316,25 @@ function AdminMenuPage() {
                 <input
                   type="checkbox"
                   checked={editing.is_available}
-                  onChange={(event) =>
-                    setEditing({ ...editing, is_available: event.target.checked })
-                  }
+                  onChange={(e) => setEditing({ ...editing, is_available: e.target.checked })}
                   className="h-4 w-4 accent-[oklch(0.82_0.13_85)]"
                 />
                 {dictionary.adminMenuPage.fields.active}
               </label>
             </div>
 
-            <div className="fixed bottom-0 left-0 right-0 border-t border-border/40 bg-background/95 p-4 backdrop-blur">
-              <div className="mx-auto flex max-w-screen-sm gap-3">
+            <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur border-t border-border/40">
+              <div className="max-w-md mx-auto flex gap-3">
                 <button
                   onClick={() => setEditing(null)}
-                  className="flex-1 rounded-full border border-border px-5 py-3 text-sm"
+                  className="flex-1 px-5 py-3 rounded-full border border-border text-sm"
                 >
                   {dictionary.common.cancel}
                 </button>
                 <button
                   onClick={save}
                   disabled={!editing.name}
-                  className="flex-1 rounded-full bg-gold px-5 py-3 text-sm text-gold-foreground shadow-gold disabled:opacity-50"
+                  className="flex-1 px-5 py-3 rounded-full bg-gold text-gold-foreground text-sm shadow-gold disabled:opacity-50"
                 >
                   {dictionary.common.save}
                 </button>
@@ -365,7 +347,7 @@ function AdminMenuPage() {
   );
 }
 
-function FilterButton({
+function FilterBtn({
   active,
   onClick,
   children,
@@ -377,7 +359,7 @@ function FilterButton({
   return (
     <button
       onClick={onClick}
-      className={`rounded-full border px-4 py-1.5 text-[11px] uppercase tracking-wider whitespace-nowrap ${active ? "border-transparent bg-gold text-gold-foreground" : "border-border"}`}
+      className={`px-4 py-1.5 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap border ${active ? "bg-gold text-gold-foreground border-transparent" : "border-border"}`}
     >
       {children}
     </button>
@@ -392,19 +374,19 @@ function Input({
 }: {
   label: string;
   value: string;
-  onChange: (value: string) => void;
+  onChange: (v: string) => void;
   type?: string;
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+      <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
         {label}
       </label>
       <input
         type={type}
         value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-full border border-border bg-input/60 px-4 py-3 text-sm focus:border-gold focus:outline-none"
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
       />
     </div>
   );

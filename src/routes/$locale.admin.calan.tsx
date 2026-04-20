@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Save } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$locale/admin/calan")({
-  component: AdminNowPlayingPage,
+  component: AdminNowPlaying,
 });
 
-function AdminNowPlayingPage() {
+function AdminNowPlaying() {
   const { dictionary } = useI18n();
   const [form, setForm] = useState({ track_title: "", artist: "", cover_url: "" });
   const [saved, setSaved] = useState(false);
@@ -16,13 +16,12 @@ function AdminNowPlayingPage() {
   useEffect(() => {
     (async () => {
       const { data } = await supabase.from("now_playing").select("*").eq("id", 1).maybeSingle();
-      if (data) {
+      if (data)
         setForm({
           track_title: data.track_title ?? "",
           artist: data.artist ?? "",
           cover_url: data.cover_url ?? "",
         });
-      }
     })();
   }, []);
 
@@ -50,36 +49,50 @@ function AdminNowPlayingPage() {
 
   return (
     <div>
-      <h1 className="mb-1 font-display text-3xl text-foreground">
+      <h1 className="font-display text-3xl text-foreground mb-1">
         {dictionary.adminNowPlayingPage.heading}
       </h1>
-      <p className="mb-5 text-xs text-muted-foreground">
+      <p className="text-xs text-muted-foreground mb-5">
         {dictionary.adminNowPlayingPage.subheading}
       </p>
 
-      <div className="glass-card space-y-4 rounded-2xl p-5">
-        <Field
-          label={dictionary.adminNowPlayingPage.fields.track}
-          value={form.track_title}
-          onChange={(value) => setForm({ ...form, track_title: value })}
-        />
-        <Field
-          label={dictionary.adminNowPlayingPage.fields.artist}
-          value={form.artist}
-          onChange={(value) => setForm({ ...form, artist: value })}
-        />
-        <Field
-          label={dictionary.adminNowPlayingPage.fields.cover}
-          value={form.cover_url}
-          onChange={(value) => setForm({ ...form, cover_url: value })}
-          placeholder="https://..."
-        />
+      <div className="glass-card rounded-2xl p-5 space-y-4">
+        <div>
+          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+            {dictionary.adminNowPlayingPage.fields.track}
+          </label>
+          <input
+            value={form.track_title}
+            onChange={(e) => setForm({ ...form, track_title: e.target.value })}
+            className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+            {dictionary.adminNowPlayingPage.fields.artist}
+          </label>
+          <input
+            value={form.artist}
+            onChange={(e) => setForm({ ...form, artist: e.target.value })}
+            className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+            {dictionary.adminNowPlayingPage.fields.cover}
+          </label>
+          <input
+            value={form.cover_url}
+            onChange={(e) => setForm({ ...form, cover_url: e.target.value })}
+            placeholder="https://…"
+            className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
+          />
+        </div>
         <button
           onClick={save}
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold py-3.5 text-sm text-gold-foreground shadow-gold"
+          className="w-full inline-flex items-center justify-center gap-2 bg-gold text-gold-foreground rounded-full py-3.5 text-sm shadow-gold"
         >
-          <Save className="h-4 w-4" />
-          {dictionary.common.save}
+          <Save className="h-4 w-4" /> {dictionary.common.save}
         </button>
         <button onClick={clear} className="w-full text-xs text-muted-foreground">
           {dictionary.common.clear}
@@ -90,32 +103,6 @@ function AdminNowPlayingPage() {
           </p>
         )}
       </div>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-}) {
-  return (
-    <div>
-      <label className="mb-1.5 block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-        {label}
-      </label>
-      <input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder={placeholder}
-        className="w-full rounded-full border border-border bg-input/60 px-4 py-3 text-sm focus:border-gold focus:outline-none"
-      />
     </div>
   );
 }

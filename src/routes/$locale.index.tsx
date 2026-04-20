@@ -1,14 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GlassWater, Beer, Sparkles, ChevronRight } from "lucide-react";
 import hero from "@/assets/hero-bahce.jpg";
 import turtle from "@/assets/turtle.jpg";
 import { NowPlayingWidget } from "@/components/NowPlayingWidget";
+import { GlassWater, Beer, Sparkles, ChevronRight } from "lucide-react";
 import { getDictionary, getLocaleFromUnknown, useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$locale/")({
   head: ({ params }) => {
     const dictionary = getDictionary(getLocaleFromUnknown(params.locale));
-
     return {
       meta: [
         { title: dictionary.home.title },
@@ -18,10 +17,10 @@ export const Route = createFileRoute("/$locale/")({
       ],
     };
   },
-  component: HomePage,
+  component: Home,
 });
 
-function HomePage() {
+function Home() {
   const { locale, dictionary } = useI18n();
   const cards = [
     { icon: GlassWater, ...dictionary.home.cards[0] },
@@ -31,7 +30,7 @@ function HomePage() {
 
   return (
     <>
-      <section className="relative min-h-[72svh] overflow-hidden md:min-h-[78vh]">
+      <section className="relative h-[78vh] min-h-[560px] overflow-hidden">
         <img
           src={hero}
           alt={dictionary.brand.name}
@@ -41,30 +40,29 @@ function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/55 to-background" />
 
-        <div className="relative flex min-h-[72svh] flex-col px-4 pb-8 pt-10 sm:px-6 md:min-h-[78vh] md:pt-12">
+        <div className="relative px-6 pt-12 pb-8 h-full flex flex-col">
           <p className="font-script text-2xl text-gradient-gold">{dictionary.nav.sinceSea}</p>
-          <h1 className="mt-2 max-w-[10ch] text-[42px] leading-[1.02] text-foreground sm:text-[44px] md:max-w-none md:text-[52px]">
+          <h1 className="font-display text-[44px] leading-[1.05] mt-2 text-foreground">
             {dictionary.home.heroTitleTop}
             <br />
             <span className="text-gradient-sea">{dictionary.home.heroTitleBottom}</span>
           </h1>
 
-          <div className="mt-auto space-y-3.5">
-            <p className="max-w-[34ch] text-[15px] leading-relaxed text-foreground/85">
+          <div className="mt-auto space-y-4">
+            <p className="text-[15px] text-foreground/85 leading-relaxed">
               {dictionary.home.heroBody}
             </p>
             <Link
               to="/$locale/menu"
               params={{ locale }}
-              className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 text-sm font-medium text-gold-foreground shadow-gold transition active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 text-sm font-medium text-gold-foreground shadow-gold active:scale-[0.98] transition"
             >
-              <Sparkles className="h-4 w-4" />
-              {dictionary.home.ctaMenu}
+              <Sparkles className="h-4 w-4" /> {dictionary.home.ctaMenu}
             </Link>
             <Link
               to="/$locale/sarki-oner"
               params={{ locale }}
-              className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-foreground/25 bg-glass px-6 py-3.5 text-sm text-foreground transition active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 rounded-full border border-foreground/25 bg-glass px-6 py-3.5 text-sm text-foreground active:scale-[0.98] transition"
             >
               {dictionary.home.ctaSong}
             </Link>
@@ -72,16 +70,16 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="relative z-10 -mt-8 px-4 sm:px-5">
+      <section className="px-5 -mt-8 relative z-10">
         <NowPlayingWidget />
       </section>
 
-      <section className="px-4 pt-12 sm:px-5">
-        <div className="mb-6 text-center">
-          <p className="mb-2 text-[10px] uppercase tracking-[0.4em] text-gold">
+      <section className="px-5 pt-12">
+        <div className="text-center mb-6">
+          <p className="text-[10px] uppercase tracking-[0.4em] text-gold mb-2">
             {dictionary.home.highlightsEyebrow}
           </p>
-          <h2 className="font-display text-3xl leading-tight text-foreground">
+          <h2 className="font-display text-3xl text-foreground leading-tight">
             {dictionary.home.highlightsTitleTop}
             <br />
             <span className="text-gradient-gold">{dictionary.home.highlightsTitleBottom}</span>
@@ -89,49 +87,45 @@ function HomePage() {
         </div>
 
         <div className="space-y-3">
-          {cards.map((card) => (
-            <div
-              key={card.title}
-              className="glass-card flex items-center gap-4 rounded-2xl p-4 sm:p-5"
-            >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sea">
-                <card.icon className="h-6 w-6 text-primary-foreground" />
+          {cards.map((c) => (
+            <div key={c.title} className="glass-card rounded-2xl p-5 flex items-center gap-4">
+              <div className="h-12 w-12 rounded-xl bg-sea flex items-center justify-center shrink-0">
+                <c.icon className="h-6 w-6 text-primary-foreground" />
               </div>
               <div className="min-w-0">
-                <h3 className="font-display text-xl text-foreground">{card.title}</h3>
-                <p className="text-xs text-muted-foreground">{card.desc}</p>
+                <h3 className="font-display text-xl text-foreground">{c.title}</h3>
+                <p className="text-xs text-muted-foreground">{c.desc}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="px-4 pb-2 pt-12 sm:px-5">
-        <div className="relative overflow-hidden rounded-3xl shadow-elegant">
+      <section className="px-5 pt-12">
+        <div className="relative rounded-3xl overflow-hidden shadow-elegant">
           <img
             src={turtle}
             alt="Caretta caretta"
-            className="aspect-[4/5] w-full object-cover"
+            className="w-full aspect-[4/5] object-cover"
             loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <p className="mb-1 font-script text-2xl text-gradient-gold">
+            <p className="font-script text-2xl text-gradient-gold mb-1">
               {dictionary.nav.ourStory}
             </p>
-            <h2 className="mb-3 font-display text-3xl text-foreground">
+            <h2 className="font-display text-3xl text-foreground mb-3">
               {dictionary.home.storyTitle}
             </h2>
-            <p className="mb-4 text-sm leading-relaxed text-foreground/85">
+            <p className="text-sm text-foreground/85 leading-relaxed mb-4">
               {dictionary.home.storyBody}
             </p>
             <Link
               to="/$locale/hakkimizda"
               params={{ locale }}
-              className="inline-flex items-center gap-1.5 border-b border-gold/40 pb-1 text-sm text-gold"
+              className="inline-flex items-center gap-1.5 text-gold text-sm border-b border-gold/40 pb-1"
             >
-              {dictionary.home.readMore}
-              <ChevronRight className="h-4 w-4" />
+              {dictionary.home.readMore} <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

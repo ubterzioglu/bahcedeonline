@@ -1,22 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Check, Play, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { Check, Play, Trash2, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$locale/admin/sarkilar")({
-  component: AdminSongsPage,
+  component: AdminSongs,
 });
 
-type RequestRow = Database["public"]["Tables"]["song_requests"]["Row"];
+type Req = Database["public"]["Tables"]["song_requests"]["Row"];
 type Status = Database["public"]["Enums"]["request_status"];
 
-function AdminSongsPage() {
+function AdminSongs() {
   const { dictionary } = useI18n();
   const { isAdmin } = useAuth();
-  const [list, setList] = useState<RequestRow[]>([]);
+  const [list, setList] = useState<Req[]>([]);
   const [filter, setFilter] = useState<Status | "all">("pending");
 
   const load = async () => {
@@ -26,49 +26,43 @@ function AdminSongsPage() {
       .order("created_at", { ascending: false });
     setList(data ?? []);
   };
-
   useEffect(() => {
     load();
-    const channel = supabase
+    const ch = supabase
       .channel("song-requests")
       .on("postgres_changes", { event: "*", schema: "public", table: "song_requests" }, load)
       .subscribe();
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(ch);
     };
   }, []);
 
   const setStatus = async (id: string, status: Status) => {
     await supabase.from("song_requests").update({ status }).eq("id", id);
   };
-
-  const remove = async (id: string) => {
+  const del = async (id: string) => {
     if (!confirm(dictionary.adminSongsPage.confirmDelete)) return;
     await supabase.from("song_requests").delete().eq("id", id);
   };
 
-  const filtered = filter === "all" ? list : list.filter((request) => request.status === filter);
+  const filtered = filter === "all" ? list : list.filter((r) => r.status === filter);
 
   return (
     <div>
-      <h1 className="mb-1 font-display text-3xl text-foreground">
+      <h1 className="font-display text-3xl text-foreground mb-1">
         {dictionary.adminSongsPage.heading}
       </h1>
-      <p className="mb-4 text-xs text-muted-foreground">{dictionary.adminSongsPage.subheading}</p>
+      <p className="text-xs text-muted-foreground mb-4">{dictionary.adminSongsPage.subheading}</p>
 
-      <div className="-mx-4 mb-4 overflow-x-auto px-4 scrollbar-none sm:-mx-5 sm:px-5">
-        <div className="flex min-w-max gap-2 pb-2">
-          {(["pending", "approved", "played", "rejected", "all"] as const).map((status) => (
+      <div className="-mx-5 px-5 overflow-x-auto scrollbar-none mb-4">
+        <div className="flex gap-2 min-w-max pb-2">
+          {(["pending", "approved", "played", "rejected", "all"] as const).map((s) => (
             <button
-              key={status}
-              onClick={() => setFilter(status)}
-              className={`rounded-full border px-4 py-1.5 text-[11px] uppercase tracking-wider whitespace-nowrap ${
-                filter === status
-                  ? "border-transparent bg-gold text-gold-foreground"
-                  : "border-border"
-              }`}
+              key={s}
+              onClick={() => setFilter(s)}
+              className={`px-4 py-1.5 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap border ${filter === s ? "bg-gold text-gold-foreground border-transparent" : "border-border"}`}
             >
-              {status === "all" ? dictionary.common.all : dictionary.statuses[status]}
+              {s === "all" ? dictionary.common.all : dictionary.statuses[s]}
             </button>
           ))}
         </div>
@@ -80,48 +74,41 @@ function AdminSongsPage() {
             {dictionary.adminSongsPage.empty}
           </div>
         )}
-
-        {filtered.map((request) => (
-          <div key={request.id} className="glass-card rounded-2xl p-4">
-            <div className="mb-2 flex items-start gap-2">
+        {filtered.map((r) => (
+          <div key={r.id} className="glass-card rounded-2xl p-4">
+            <div className="flex items-start gap-2 mb-2">
               <div className="min-w-0 flex-1">
-                <h3 className="truncate font-display text-lg text-foreground">
-                  {request.song_title}
-                </h3>
-                {request.artist && (
-                  <p className="text-xs text-muted-foreground">- {request.artist}</p>
-                )}
+                <h3 className="font-display text-lg text-foreground truncate">{r.song_title}</h3>
+                {r.artist && <p className="text-xs text-muted-foreground">— {r.artist}</p>}
               </div>
-              <StatusBadge status={request.status} />
+              <StatusBadge status={r.status} />
             </div>
-            {request.guest_name && <p className="text-[11px] text-gold">{request.guest_name}</p>}
-            {request.message && (
-              <p className="mt-1.5 text-xs italic text-foreground/80">"{request.message}"</p>
-            )}
-            <p className="mt-2 text-[10px] text-muted-foreground">
-              {new Date(request.created_at).toLocaleString()}
+            {r.guest_name && <p className="text-[11px] text-gold">{r.guest_name}</p>}
+            {r.message && <p className="text-xs text-foreground/80 mt-1.5 italic">"{r.message}"</p>}
+            <p className="text-[10px] text-muted-foreground mt-2">
+              {new Date(r.created_at).toLocaleString()}
             </p>
 
-            <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-border/40 pt-3">
-              {request.status !== "approved" && (
-                <ActionButton onClick={() => setStatus(request.id, "approved")} icon={Check}>
+            <div className="flex items-center gap-1.5 flex-wrap mt-3 pt-3 border-t border-border/40">
+              {r.status !== "approved" && (
+                <ActionBtn onClick={() => setStatus(r.id, "approved")} icon={Check}>
                   {dictionary.adminSongsPage.approve}
-                </ActionButton>
+                </ActionBtn>
               )}
-              {request.status !== "played" && (
-                <ActionButton onClick={() => setStatus(request.id, "played")} icon={Play}>
+              {r.status !== "played" && (
+                <ActionBtn onClick={() => setStatus(r.id, "played")} icon={Play}>
                   {dictionary.adminSongsPage.played}
-                </ActionButton>
+                </ActionBtn>
               )}
-              {request.status !== "rejected" && (
-                <ActionButton onClick={() => setStatus(request.id, "rejected")} icon={X}>
+              {r.status !== "rejected" && (
+                <ActionBtn onClick={() => setStatus(r.id, "rejected")} icon={X}>
                   {dictionary.adminSongsPage.reject}
-                </ActionButton>
+                </ActionBtn>
               )}
               {isAdmin && (
-                <ActionButton onClick={() => remove(request.id)} icon={Trash2} danger>
+                <ActionBtn onClick={() => del(r.id)} icon={Trash2} danger>
                   {dictionary.adminSongsPage.delete}
-                </ActionButton>
+                </ActionBtn>
               )}
             </div>
           </div>
@@ -139,17 +126,16 @@ function StatusBadge({ status }: { status: Status }) {
     played: "bg-secondary/30 text-secondary-foreground",
     rejected: "bg-destructive/20 text-destructive",
   };
-
   return (
     <span
-      className={`rounded-full px-2 py-0.5 text-[9px] uppercase tracking-widest whitespace-nowrap ${map[status]}`}
+      className={`text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-full whitespace-nowrap ${map[status]}`}
     >
       {dictionary.statuses[status]}
     </span>
   );
 }
 
-function ActionButton({
+function ActionBtn({
   icon: Icon,
   children,
   onClick,
@@ -163,10 +149,9 @@ function ActionButton({
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[11px] ${danger ? "active:text-destructive" : "active:text-gold"}`}
+      className={`inline-flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full border border-border ${danger ? "active:text-destructive" : "active:text-gold"}`}
     >
-      <Icon className="h-3 w-3" />
-      {children}
+      <Icon className="h-3 w-3" /> {children}
     </button>
   );
 }
