@@ -40,6 +40,11 @@ ENV NODE_ENV=production \
     PORT=3000 \
     HOST=0.0.0.0
 
+# curl is required so Coolify's default healthcheck command can run.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 # oven/bun image already provides a non-root `bun` user.
 COPY --from=prod-deps --chown=bun:bun /app/node_modules ./node_modules
 COPY --from=builder  --chown=bun:bun /app/dist          ./dist
