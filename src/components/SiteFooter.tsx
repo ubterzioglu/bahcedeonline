@@ -14,7 +14,7 @@ const links = {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-12 border-t border-border/40 bg-card/40">
+    <footer className="mt-6 border-t border-border/40 bg-card/40">
       <div className="px-6 py-8 space-y-3">
         <div className="text-center">
           <p className="text-[11px] font-medium tracking-[0.24em] text-foreground/45 uppercase">
@@ -31,8 +31,27 @@ export function SiteFooter() {
           <SocialIcon href={links.maps} label="Harita" icon={MapPin} />
         </div>
       </div>
-      <div className="border-t border-border/30 py-4 text-center text-[10px] text-muted-foreground tracking-wider">
-        © {new Date().getFullYear()} DRAGOMAN BAHÇE
+      <div className="border-t border-border/30 px-6 py-4 text-center text-[10px] leading-relaxed text-muted-foreground">
+        <p>Dragoman Bahçe {new Date().getFullYear()} ©</p>
+        <p>
+          Footer designed by{" "}
+          <a href="https://ubterzioglu.de/" target="_blank" rel="noreferrer" className="text-foreground/80 transition hover:text-gold">
+            UBT
+          </a>{" "}
+          with Love
+        </p>
+        <p>
+          SEO&amp;GEO by{" "}
+          <a href="https://www.spindorai.com/" target="_blank" rel="noreferrer" className="text-foreground/80 transition hover:text-gold">
+            Spindora
+          </a>
+        </p>
+        <p>
+          Powered by{" "}
+          <a href="https://corteqs.net/" target="_blank" rel="noreferrer" className="text-foreground/80 transition hover:text-gold">
+            CorteQS
+          </a>
+        </p>
       </div>
     </footer>
   );

@@ -6,7 +6,7 @@ const items: NavItem[] = [
   { to: "/", label: "Anasayfa", icon: Home, exact: true },
   { to: "/menu", label: "Menü", icon: UtensilsCrossed },
   { to: "/sarki-oner", label: "Şarkı", icon: Music },
-  { to: "/hakkimizda", label: "Hakkımızda", icon: Info },
+  { to: "/hakkimizda", label: "Hikayemiz", icon: Info },
 ];
 
 export function BottomNav() {

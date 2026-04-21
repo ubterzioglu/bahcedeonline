@@ -3,7 +3,7 @@ import hero from "@/assets/hero-bahce.jpg";
 import beachVideo from "@/assets/beach-waves.mp4";
 import turtle from "@/assets/turtle.jpg";
 import { NowPlayingWidget } from "@/components/NowPlayingWidget";
-import { GlassWater, Beer, Sparkles, ChevronRight } from "lucide-react";
+import { Sparkles, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,56 +38,17 @@ function Home() {
           <h1 className="font-display mt-2 text-[44px] font-semibold leading-[0.98] tracking-[-0.02em] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.3)]">
             Kaş'ın kalbinde
             <br />
-            <span className="text-[oklch(0.92_0.07_190)]">bir Akdeniz bahçesi.</span>
+            <span className="text-white">bir Akdeniz bahçesi.</span>
           </h1>
 
           <div className="mt-auto space-y-4">
             <Link
               to="/menu"
-              className="flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 text-sm font-medium text-gold-foreground shadow-gold active:scale-[0.98] transition"
+              className="hero-cta flex items-center justify-center gap-2.5 rounded-full border border-white/18 px-7 py-4.5 text-base font-semibold tracking-[0.01em] text-white active:scale-[0.985] transition duration-300"
             >
-              <Sparkles className="h-4 w-4" /> Menüyü Keşfet
-            </Link>
-            <Link
-              to="/sarki-oner"
-              className="flex items-center justify-center gap-2 rounded-full border border-foreground/25 bg-glass px-6 py-3.5 text-sm text-foreground active:scale-[0.98] transition"
-            >
-              Şarkı Öner
+              <Sparkles className="h-4.5 w-4.5" /> Menüyü Keşfet
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* NOW PLAYING */}
-      <section className="px-5 -mt-8 relative z-10">
-        <NowPlayingWidget />
-      </section>
-
-      {/* HIGHLIGHTS */}
-      <section className="px-5 pt-12">
-        <div className="text-center mb-6">
-          <p className="text-[10px] uppercase tracking-[0.4em] text-gold mb-2">beer · snacks · cocktails</p>
-          <h2 className="font-display text-3xl text-foreground leading-tight">
-            Üç güzel şey,<br /><span className="text-gradient-gold">üç ayrı zevk</span>
-          </h2>
-        </div>
-
-        <div className="space-y-3">
-          {[
-            { icon: GlassWater, title: "Cocktails", desc: "İmza karışımlar; taze otlar ve narenciye." },
-            { icon: Beer, title: "Beer", desc: "Buz gibi yerel ve dünya biraları." },
-            { icon: Sparkles, title: "Snacks", desc: "Hafif tabaklar, mezeler, paylaşımlık lezzetler." },
-          ].map((c) => (
-            <div key={c.title} className="glass-card rounded-2xl p-5 flex items-center gap-4">
-              <div className="h-12 w-12 rounded-xl bg-sea flex items-center justify-center shrink-0">
-                <c.icon className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="font-display text-xl text-foreground">{c.title}</h3>
-                <p className="text-xs text-muted-foreground">{c.desc}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -105,7 +66,7 @@ function Home() {
             </div>
             <div className="min-w-0 flex-1 py-1 pr-1">
               <p className="font-script text-xl text-gradient-gold mb-1">bizim hikâyemiz</p>
-              <h2 className="font-display text-2xl leading-tight text-foreground mb-2">Bahçede bir ömür yaz</h2>
+              <h2 className="font-display text-xl leading-none text-foreground mb-2 whitespace-nowrap">Bahçede bir ömür yaz</h2>
               <p className="text-sm text-foreground/85 leading-relaxed mb-3">
                 Kaş&apos;ın masmavi suyunu içeride değil, dışarıda yaşıyoruz. Palmiyelerin altında,
                 fenerlerin ışığında uzun yaz akşamları kuruyoruz.
@@ -118,6 +79,13 @@ function Home() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* NOW PLAYING */}
+      <section className="px-6 pt-6">
+        <div className="border-t border-border/40 pt-4">
+          <NowPlayingWidget showSuggestionButton variant="section" />
         </div>
       </section>
     </>
