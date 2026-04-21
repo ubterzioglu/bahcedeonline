@@ -58,9 +58,7 @@ function MenuPage() {
   return (
     <div className="px-5 pt-8">
       <div className="text-center mb-6">
-        <p className="font-script text-2xl text-gradient-gold mb-1">la carte</p>
         <h1 className="font-display text-4xl text-foreground">Menü</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Akdeniz esintisinde, özenli bir liste.</p>
       </div>
 
       {/* Category scrollable tabs */}

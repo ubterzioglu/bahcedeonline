@@ -46,19 +46,6 @@ function AboutPage() {
           Müziği siz seçin: aklınızdaki şarkıyı "Şarkı Öner" sayfasından bize gönderin.
         </p>
       </div>
-
-      <div className="grid grid-cols-3 gap-2 mt-8">
-        {[
-          { k: "Konum", v: "Kaş" },
-          { k: "Sezon", v: "Nis–Kas" },
-          { k: "Konsept", v: "Bahçe" },
-        ].map((b) => (
-          <div key={b.k} className="glass-card rounded-2xl p-4 text-center">
-            <p className="text-[9px] uppercase tracking-[0.25em] text-gold">{b.k}</p>
-            <p className="font-display text-base mt-1 text-foreground">{b.v}</p>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

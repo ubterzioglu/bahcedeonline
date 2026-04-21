@@ -69,7 +69,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   return (
-    <div className="min-h-screen flex flex-col max-w-md mx-auto bg-background relative shadow-elegant">
+    <div className="min-h-screen flex flex-col max-w-md mx-auto bg-background relative shadow-[0_0_40px_-30px_rgba(15,23,42,0.2)]">
       <SiteHeader />
       <main className="flex-1 pb-24">
         <Outlet />

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import hero from "@/assets/hero-bahce.jpg";
+import beachVideo from "@/assets/beach-waves.mp4";
 import turtle from "@/assets/turtle.jpg";
 import { NowPlayingWidget } from "@/components/NowPlayingWidget";
 import { GlassWater, Beer, Sparkles, ChevronRight } from "lucide-react";
@@ -21,27 +22,26 @@ function Home() {
     <>
       {/* HERO */}
       <section className="relative h-[78vh] min-h-[560px] overflow-hidden">
-        <img
-          src={hero}
-          alt="Dragoman Bahçe Kaş"
+        <video
           className="absolute inset-0 h-full w-full object-cover"
-          width={1920}
-          height={1280}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/55 to-background" />
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={hero}
+        >
+          <source src={beachVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/35 to-background/90" />
 
         <div className="relative px-6 pt-12 pb-8 h-full flex flex-col">
-          <p className="font-script text-2xl text-gradient-gold">since the sea</p>
-          <h1 className="font-display text-[44px] leading-[1.05] mt-2 text-foreground">
+          <h1 className="font-display text-[44px] leading-[1.05] mt-2 text-white drop-shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
             Kaş'ın kalbinde
             <br />
-            <span className="text-gradient-sea">bir Akdeniz bahçesi.</span>
+            <span className="text-[oklch(0.92_0.07_190)]">bir Akdeniz bahçesi.</span>
           </h1>
 
           <div className="mt-auto space-y-4">
-            <p className="text-[15px] text-foreground/85 leading-relaxed">
-              Mum ışığında, palmiye gölgesinde — özenle hazırlanmış kokteyller ve uzun yaz geceleri.
-            </p>
             <Link
               to="/menu"
               className="flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 text-sm font-medium text-gold-foreground shadow-gold active:scale-[0.98] transition"
@@ -93,22 +93,30 @@ function Home() {
 
       {/* STORY STRIP */}
       <section className="px-5 pt-12">
-        <div className="relative rounded-3xl overflow-hidden shadow-elegant">
-          <img src={turtle} alt="Caretta caretta" className="w-full aspect-[4/5] object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6">
-            <p className="font-script text-2xl text-gradient-gold mb-1">bizim hikâyemiz</p>
-            <h2 className="font-display text-3xl text-foreground mb-3">Bahçede bir ömür yaz</h2>
-            <p className="text-sm text-foreground/85 leading-relaxed mb-4">
-              Kaş'ın masmavi suyunu içeride değil, dışarıda yaşıyoruz —
-              palmiyelerin altında, fenerlerin ışığında.
-            </p>
-            <Link
-              to="/hakkimizda"
-              className="inline-flex items-center gap-1.5 text-gold text-sm border-b border-gold/40 pb-1"
-            >
-              Devamını oku <ChevronRight className="h-4 w-4" />
-            </Link>
+        <div className="glass-card rounded-3xl p-3 shadow-elegant">
+          <div className="flex items-stretch gap-4">
+            <div className="w-[112px] shrink-0 overflow-hidden rounded-2xl sm:w-[132px]">
+              <img
+                src={turtle}
+                alt="Caretta caretta"
+                className="h-full w-full aspect-square object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div className="min-w-0 flex-1 py-1 pr-1">
+              <p className="font-script text-xl text-gradient-gold mb-1">bizim hikâyemiz</p>
+              <h2 className="font-display text-2xl leading-tight text-foreground mb-2">Bahçede bir ömür yaz</h2>
+              <p className="text-sm text-foreground/85 leading-relaxed mb-3">
+                Kaş&apos;ın masmavi suyunu içeride değil, dışarıda yaşıyoruz. Palmiyelerin altında,
+                fenerlerin ışığında uzun yaz akşamları kuruyoruz.
+              </p>
+              <Link
+                to="/hakkimizda"
+                className="inline-flex items-center gap-1.5 text-gold text-sm border-b border-gold/40 pb-1"
+              >
+                Devamını oku <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
