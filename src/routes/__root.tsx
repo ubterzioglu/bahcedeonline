@@ -81,7 +81,9 @@ function RootComponent() {
       <main className="pb-24">
         <Outlet />
       </main>
-      <SiteFooter />
+      <div className="pb-20">
+        <SiteFooter />
+      </div>
       <BottomNav />
     </div>
   );

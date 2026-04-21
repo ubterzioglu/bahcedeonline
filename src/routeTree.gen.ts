@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SarkiOnerRouteImport } from './routes/sarki-oner'
 import { Route as MenuRouteImport } from './routes/menu'
+import { Route as KasguideRouteImport } from './routes/kasguide'
 import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -29,6 +30,11 @@ const SarkiOnerRoute = SarkiOnerRouteImport.update({
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
   path: '/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KasguideRoute = KasguideRouteImport.update({
+  id: '/kasguide',
+  path: '/kasguide',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HakkimizdaRoute = HakkimizdaRouteImport.update({
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/hakkimizda': typeof HakkimizdaRoute
+  '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/hakkimizda': typeof HakkimizdaRoute
+  '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/hakkimizda': typeof HakkimizdaRoute
+  '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/hakkimizda'
+    | '/kasguide'
     | '/menu'
     | '/sarki-oner'
     | '/admin/calan'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/hakkimizda'
+    | '/kasguide'
     | '/menu'
     | '/sarki-oner'
     | '/admin/calan'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/hakkimizda'
+    | '/kasguide'
     | '/menu'
     | '/sarki-oner'
     | '/admin/calan'
@@ -162,6 +174,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   HakkimizdaRoute: typeof HakkimizdaRoute
+  KasguideRoute: typeof KasguideRoute
   MenuRoute: typeof MenuRoute
   SarkiOnerRoute: typeof SarkiOnerRoute
 }
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/menu'
       fullPath: '/menu'
       preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kasguide': {
+      id: '/kasguide'
+      path: '/kasguide'
+      fullPath: '/kasguide'
+      preLoaderRoute: typeof KasguideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hakkimizda': {
@@ -271,6 +291,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   HakkimizdaRoute: HakkimizdaRoute,
+  KasguideRoute: KasguideRoute,
   MenuRoute: MenuRoute,
   SarkiOnerRoute: SarkiOnerRoute,
 }

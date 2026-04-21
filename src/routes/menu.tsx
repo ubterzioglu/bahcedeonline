@@ -1,12 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ChevronDown } from "lucide-react";
-import kokteyllerImage from "@/assets/menu-categories/kokteyller.jpg";
-import biralarImage from "@/assets/menu-categories/biralar.jpg";
-import saraplarImage from "@/assets/menu-categories/saraplar.jpg";
-import sogukIceceklerImage from "@/assets/menu-categories/soguk-icecekler.jpg";
-import sicakIceceklerImage from "@/assets/menu-categories/sicak-icecekler.jpg";
-import atistirmaliklarImage from "@/assets/menu-categories/atistirmaliklar.jpg";
+import { ChevronDown, Beer, Wine, Coffee, CupSoda, UtensilsCrossed, Grape } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -15,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import type { LucideIcon } from "lucide-react";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -38,38 +33,38 @@ const CATEGORY_META: Record<
   Category,
   {
     label: string;
-    image: string;
+    icon: LucideIcon;
     blurb: string;
   }
 > = {
   kokteyller: {
     label: "Kokteyller",
-    image: kokteyllerImage,
+    icon: Wine,
     blurb: "İmza karışımlar, uzun gecelere eşlik eden dengeli tatlar.",
   },
   biralar: {
     label: "Biralar",
-    image: biralarImage,
+    icon: Beer,
     blurb: "Serin, ferah ve bahçede yavaş içmek için seçilen şişeler.",
   },
   saraplar: {
     label: "Şaraplar",
-    image: saraplarImage,
+    icon: Grape,
     blurb: "Akşam masasına yakışan, keyfi uzatan zarif seçimler.",
   },
   soguk_icecekler: {
     label: "Soğuk İçecekler",
-    image: sogukIceceklerImage,
+    icon: CupSoda,
     blurb: "Gün batımına kadar eşlik eden hafif ve canlandırıcı seçenekler.",
   },
   sicak_icecekler: {
     label: "Sıcak İçecekler",
-    image: sicakIceceklerImage,
+    icon: Coffee,
     blurb: "Kahve ve sıcak dokunuşlar için sade ama özenli bir bölüm.",
   },
   atistirmaliklar: {
     label: "Atıştırmalıklar",
-    image: atistirmaliklarImage,
+    icon: UtensilsCrossed,
     blurb: "Paylaşımlık tabaklar ve içkinin yanına iyi giden küçük eşlikçiler.",
   },
 };
@@ -133,39 +128,20 @@ function MenuPage() {
                 className="glass-card overflow-hidden rounded-[28px] border border-white/10 bg-card/95 shadow-[0_24px_60px_rgba(0,0,0,0.22)]"
               >
                 <AccordionTrigger className="group px-0 py-0 hover:no-underline [&>svg]:hidden">
-                  <div className="flex min-h-[96px] w-full items-stretch text-left">
-                    <div className="relative w-[30%] min-w-[86px] overflow-hidden">
-                      <img
-                        src={meta.image}
-                        alt={meta.label}
-                        loading="lazy"
-                        className="h-full w-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-card/35" />
+                  <div className="flex h-[56px] w-full items-center text-left">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold/10 text-gold ml-3">
+                      <meta.icon className="h-5 w-5" />
                     </div>
-                    <div className="flex min-w-0 flex-1 flex-col justify-between gap-2 px-4 py-3">
-                      <div className="space-y-2">
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <span className="inline-flex rounded-full border border-gold/25 bg-gold/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-gold/90">
-                              Kategori
-                            </span>
-                            <h2 className="mt-2 font-display text-[1.45rem] leading-[0.95] text-foreground">
-                              {meta.label}
-                            </h2>
-                          </div>
-                          <span className="mt-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-foreground/65">
-                            {categoryItems.length} ürün
-                          </span>
-                        </div>
-                        <p className="max-w-[24ch] text-[12px] leading-relaxed text-muted-foreground">
+                    <div className="flex min-w-0 flex-1 items-center justify-between gap-2 px-3 py-1">
+                      <div className="min-w-0">
+                        <h2 className="font-display text-base leading-tight text-foreground">
+                          {meta.label}
+                        </h2>
+                        <p className="max-w-[24ch] text-[11px] leading-relaxed text-muted-foreground">
                           {meta.blurb}
                         </p>
                       </div>
-                      <div className="flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.22em] text-foreground/55">
-                        <span>Listeyi aç</span>
-                        <ChevronDown className="h-4 w-4 shrink-0 text-gold/85 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                      </div>
+                      <ChevronDown className="h-3.5 w-3.5 shrink-0 text-gold/85 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </div>
                   </div>
                 </AccordionTrigger>

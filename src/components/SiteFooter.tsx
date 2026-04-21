@@ -14,23 +14,16 @@ const links = {
 export function SiteFooter() {
   return (
     <footer className="mt-6 border-t border-border/40 bg-card/40 pb-8">
-      <div className="px-6 pt-5 pb-1 space-y-2">
-        <div className="text-center">
-          <p className="text-[11px] font-medium tracking-[0.24em] text-foreground/45 uppercase">
-            İletişim & Sosyal Medya
-          </p>
-        </div>
-        <div className="grid grid-cols-4 gap-3 px-1">
-          <SocialIcon href={links.instagram} label="Instagram" icon={Instagram} />
-          <SocialIcon href={links.facebook} label="Facebook" icon={Facebook} />
-          <SocialIcon href={links.whatsapp} label="WhatsApp" icon={MessageCircleMore} />
-          <SocialIcon href={links.phone} label="Telefon" icon={Phone} />
-          <SocialIcon href={links.email} label="E-posta" icon={Mail} />
-          <SocialIcon href={links.tripadvisor} label="Tripadvisor" icon={Star} />
-          <SocialIcon href={links.maps} label="Harita" icon={MapPin} />
-        </div>
+      <div className="flex justify-center gap-3 px-6 pt-5 pb-1">
+        <SocialIcon href={links.instagram} label="Instagram" icon={Instagram} />
+        <SocialIcon href={links.facebook} label="Facebook" icon={Facebook} />
+        <SocialIcon href={links.whatsapp} label="WhatsApp" icon={MessageCircleMore} />
+        <SocialIcon href={links.phone} label="Telefon" icon={Phone} />
+        <SocialIcon href={links.email} label="E-posta" icon={Mail} />
+        <SocialIcon href={links.tripadvisor} label="Tripadvisor" icon={Star} />
+        <SocialIcon href={links.maps} label="Harita" icon={MapPin} />
       </div>
-      <div className="border-t border-border/30 px-6 py-2 text-center text-[9px] leading-tight text-muted-foreground">
+      <div className="border-t border-border/30 px-6 py-2 text-center text-[10px] leading-tight text-muted-foreground">
         <p>
           Dragoman Bahçe {new Date().getFullYear()} © · Footer designed by{" "}
           <a
