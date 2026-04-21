@@ -10,12 +10,20 @@ export function NowPlayingWidget({
   showSuggestionButton?: boolean;
   variant?: "card" | "section";
 }) {
-  const [data, setData] = useState<{ track_title: string | null; artist: string | null; cover_url: string | null } | null>(null);
+  const [data, setData] = useState<{
+    track_title: string | null;
+    artist: string | null;
+    cover_url: string | null;
+  } | null>(null);
 
   useEffect(() => {
     let active = true;
     const load = async () => {
-      const { data } = await supabase.from("now_playing").select("track_title, artist, cover_url").eq("id", 1).maybeSingle();
+      const { data } = await supabase
+        .from("now_playing")
+        .select("track_title, artist, cover_url")
+        .eq("id", 1)
+        .maybeSingle();
       if (active) setData(data ?? null);
     };
     load();
@@ -23,7 +31,10 @@ export function NowPlayingWidget({
       .channel("now-playing")
       .on("postgres_changes", { event: "*", schema: "public", table: "now_playing" }, () => load())
       .subscribe();
-    return () => { active = false; supabase.removeChannel(channel); };
+    return () => {
+      active = false;
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   if (variant === "section") {
@@ -38,7 +49,11 @@ export function NowPlayingWidget({
         <div className="flex items-center gap-3 px-1">
           <div className="relative shrink-0">
             {data?.cover_url ? (
-              <img src={data.cover_url} alt="" className="h-16 w-16 rounded-xl object-cover shadow-glow" />
+              <img
+                src={data.cover_url}
+                alt=""
+                className="h-16 w-16 rounded-xl object-cover shadow-glow"
+              />
             ) : (
               <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-sea shadow-glow">
                 <Music2 className="h-7 w-7 text-primary-foreground" />
@@ -51,15 +66,19 @@ export function NowPlayingWidget({
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="font-display text-lg truncate text-foreground">{data?.track_title || "Sessizliğin müziği"}</p>
-            <p className="text-sm text-muted-foreground truncate">{data?.artist || "Bir şeyler hazırlanıyor…"}</p>
+            <p className="font-display text-lg truncate text-foreground">
+              {data?.track_title || "Sessizliğin müziği"}
+            </p>
+            <p className="text-sm text-muted-foreground truncate">
+              {data?.artist || "Bir şeyler hazırlanıyor…"}
+            </p>
           </div>
         </div>
 
         {showSuggestionButton ? (
           <Link
             to="/sarki-oner"
-            className="inline-flex w-full items-center justify-center rounded-full border border-gold/35 bg-gold/10 px-5 py-2 text-sm font-medium text-gold transition active:scale-[0.98]"
+            className="inline-flex w-full items-center justify-center rounded-full border border-gold/35 bg-gold/10 px-4 py-2 text-sm font-medium text-gold transition active:scale-[0.98]"
           >
             Şarkı Öner
           </Link>
@@ -73,7 +92,11 @@ export function NowPlayingWidget({
       <div className="flex items-center gap-4">
         <div className="relative">
           {data?.cover_url ? (
-            <img src={data.cover_url} alt="" className="h-16 w-16 rounded-xl object-cover shadow-glow" />
+            <img
+              src={data.cover_url}
+              alt=""
+              className="h-16 w-16 rounded-xl object-cover shadow-glow"
+            />
           ) : (
             <div className="h-16 w-16 rounded-xl bg-sea flex items-center justify-center shadow-glow">
               <Music2 className="h-7 w-7 text-primary-foreground" />
@@ -86,15 +109,19 @@ export function NowPlayingWidget({
         </div>
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.25em] text-gold">Şu an çalıyor</p>
-          <p className="font-display text-lg truncate text-foreground">{data?.track_title || "Sessizliğin müziği"}</p>
-          <p className="text-xs text-muted-foreground truncate">{data?.artist || "Bir şeyler hazırlanıyor…"}</p>
+          <p className="font-display text-lg truncate text-foreground">
+            {data?.track_title || "Sessizliğin müziği"}
+          </p>
+          <p className="text-xs text-muted-foreground truncate">
+            {data?.artist || "Bir şeyler hazırlanıyor…"}
+          </p>
         </div>
       </div>
 
       {showSuggestionButton ? (
         <Link
           to="/sarki-oner"
-          className="inline-flex w-full items-center justify-center rounded-full border border-gold/35 bg-gold/10 px-5 py-3 text-sm font-medium text-gold transition active:scale-[0.98]"
+          className="inline-flex w-full items-center justify-center rounded-full border border-gold/35 bg-gold/10 px-4 py-2 text-sm font-medium text-gold transition active:scale-[0.98]"
         >
           Şarkı Öner
         </Link>
