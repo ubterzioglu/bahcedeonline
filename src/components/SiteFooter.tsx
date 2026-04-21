@@ -13,8 +13,8 @@ const links = {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-6 border-t border-border/40 bg-card/40 pb-20">
-      <div className="px-6 pt-8 pb-2 space-y-3">
+    <footer className="mt-6 border-t border-border/40 bg-card/40 pb-8">
+      <div className="px-6 pt-5 pb-1 space-y-2">
         <div className="text-center">
           <p className="text-[11px] font-medium tracking-[0.24em] text-foreground/45 uppercase">
             İletişim & Sosyal Medya
@@ -30,10 +30,9 @@ export function SiteFooter() {
           <SocialIcon href={links.maps} label="Harita" icon={MapPin} />
         </div>
       </div>
-      <div className="border-t border-border/30 px-6 py-4 text-center text-[10px] leading-relaxed text-muted-foreground">
-        <p>Dragoman Bahçe {new Date().getFullYear()} ©</p>
+      <div className="border-t border-border/30 px-6 py-2 text-center text-[9px] leading-tight text-muted-foreground">
         <p>
-          Footer designed by{" "}
+          Dragoman Bahçe {new Date().getFullYear()} © · Footer designed by{" "}
           <a
             href="https://ubterzioglu.de/"
             target="_blank"
@@ -42,10 +41,7 @@ export function SiteFooter() {
           >
             UBT
           </a>{" "}
-          with Love
-        </p>
-        <p>
-          SEO&amp;GEO by{" "}
+          with Love · SEO&amp;GEO by{" "}
           <a
             href="https://www.spindorai.com/"
             target="_blank"
@@ -53,10 +49,8 @@ export function SiteFooter() {
             className="text-foreground/80 transition hover:text-gold"
           >
             Spindora
-          </a>
-        </p>
-        <p>
-          Powered by{" "}
+          </a>{" "}
+          · Powered by{" "}
           <a
             href="https://corteqs.net/"
             target="_blank"

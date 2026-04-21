@@ -9,7 +9,9 @@ export const Route = createFileRoute("/admin/")({
 
 function Dashboard() {
   const [stats, setStats] = useState({ menu: 0, pending: 0 });
-  const [now, setNow] = useState<{ track_title: string | null; artist: string | null } | null>(null);
+  const [now, setNow] = useState<{ track_title: string | null; artist: string | null } | null>(
+    null,
+  );
 
   useEffect(() => {
     (async () => {
@@ -26,16 +28,44 @@ function Dashboard() {
 
       <div className="grid grid-cols-2 gap-3">
         <Card to="/admin/menu" icon={UtensilsCrossed} label="Menü" value={stats.menu} />
-        <Card to="/admin/sarkilar" icon={Music} label="Bekleyen" value={stats.pending} highlight={stats.pending > 0} />
-        <Card to="/admin/calan" icon={Radio} label="Şu an çalan" value={now?.track_title ?? "—"} small className="col-span-2" />
+        <Card
+          to="/admin/sarkilar"
+          icon={Music}
+          label="Bekleyen"
+          value={stats.pending}
+          highlight={stats.pending > 0}
+        />
+        <Card
+          to="/admin/calan"
+          icon={Radio}
+          label="Şu an çalan"
+          value={now?.track_title ?? "—"}
+          small
+          className="col-span-2"
+        />
       </div>
 
       <div className="mt-6 glass-card rounded-2xl p-5">
         <h2 className="font-display text-lg mb-2 text-foreground">Hızlı işlemler</h2>
         <div className="space-y-2 text-sm">
-          <Link to="/admin/menu" className="flex items-center justify-between py-2 border-b border-border/40 text-foreground/85">Menü ekle/düzenle <span className="text-gold">›</span></Link>
-          <Link to="/admin/sarkilar" className="flex items-center justify-between py-2 border-b border-border/40 text-foreground/85">Şarkı isteklerini gör <span className="text-gold">›</span></Link>
-          <Link to="/admin/calan" className="flex items-center justify-between py-2 text-foreground/85">Şu an çalanı güncelle <span className="text-gold">›</span></Link>
+          <Link
+            to="/admin/menu"
+            className="flex items-center justify-between py-2 border-b border-border/40 text-foreground/85"
+          >
+            Menü ekle/düzenle <span className="text-gold">›</span>
+          </Link>
+          <Link
+            to="/admin/sarkilar"
+            className="flex items-center justify-between py-2 border-b border-border/40 text-foreground/85"
+          >
+            Şarkı isteklerini gör <span className="text-gold">›</span>
+          </Link>
+          <Link
+            to="/admin/calan"
+            className="flex items-center justify-between py-2 text-foreground/85"
+          >
+            Şu an çalanı güncelle <span className="text-gold">›</span>
+          </Link>
         </div>
       </div>
     </div>
@@ -43,13 +73,34 @@ function Dashboard() {
 }
 
 function Card({
-  to, icon: Icon, label, value, highlight, small, className = "",
-}: { to: string; icon: React.ComponentType<{ className?: string }>; label: string; value: string | number; highlight?: boolean; small?: boolean; className?: string }) {
+  to,
+  icon: Icon,
+  label,
+  value,
+  highlight,
+  small,
+  className = "",
+}: {
+  to: string;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string | number;
+  highlight?: boolean;
+  small?: boolean;
+  className?: string;
+}) {
   return (
-    <Link to={to} className={`glass-card rounded-2xl p-4 transition block ${highlight ? "ring-1 ring-gold/50" : ""} ${className}`}>
+    <Link
+      to={to}
+      className={`glass-card rounded-2xl p-4 transition block ${highlight ? "ring-1 ring-gold/50" : ""} ${className}`}
+    >
       <Icon className="h-5 w-5 text-gold mb-2" />
       <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{label}</p>
-      <p className={`mt-1 font-display text-foreground ${small ? "text-base truncate" : "text-3xl"}`}>{value}</p>
+      <p
+        className={`mt-1 font-display text-foreground ${small ? "text-base truncate" : "text-3xl"}`}
+      >
+        {value}
+      </p>
     </Link>
   );
 }

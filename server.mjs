@@ -168,13 +168,13 @@ async function handleAdminApi(req, res) {
       { count: pendingCount, error: pendingError },
       { data: now, error: nowError },
     ] = await Promise.all([
-        supabase.from("menu_items").select("*", { count: "exact", head: true }),
-        supabase
-          .from("song_requests")
-          .select("*", { count: "exact", head: true })
-          .eq("status", "pending"),
-        supabase.from("now_playing").select("track_title, artist").eq("id", 1).maybeSingle(),
-      ]);
+      supabase.from("menu_items").select("*", { count: "exact", head: true }),
+      supabase
+        .from("song_requests")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "pending"),
+      supabase.from("now_playing").select("track_title, artist").eq("id", 1).maybeSingle(),
+    ]);
     const error = menuError || pendingError || nowError;
     if (error) return json(res, 500, { error: error.message });
     return json(res, 200, { stats: { menu: menuCount ?? 0, pending: pendingCount ?? 0 }, now });

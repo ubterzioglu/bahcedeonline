@@ -9,7 +9,10 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Dragoman Bahçe — Kaş'ta Akdeniz Bahçesi" },
-      { name: "description", content: "Beer · Snacks · Cocktails. Kaş'ın kalbinde, mum ışığında bir bahçe." },
+      {
+        name: "description",
+        content: "Beer · Snacks · Cocktails. Kaş'ın kalbinde, mum ışığında bir bahçe.",
+      },
       { property: "og:title", content: "Dragoman Bahçe — Kaş" },
       { property: "og:description", content: "Beer · Snacks · Cocktails." },
     ],
@@ -66,7 +69,9 @@ function Home() {
             </div>
             <div className="min-w-0 flex-1 py-1 pr-1">
               <p className="font-script text-xl text-gradient-gold mb-1">bizim hikâyemiz</p>
-              <h2 className="font-display text-xl leading-none text-foreground mb-2 whitespace-nowrap">Bahçede bir ömür yaz</h2>
+              <h2 className="font-display text-xl leading-none text-foreground mb-2 whitespace-nowrap">
+                Bahçede bir ömür yaz
+              </h2>
               <p className="text-sm text-foreground/85 leading-relaxed mb-3">
                 Kaş&apos;ın masmavi suyunu içeride değil, dışarıda yaşıyoruz. Palmiyelerin altında,
                 fenerlerin ışığında uzun yaz akşamları kuruyoruz.

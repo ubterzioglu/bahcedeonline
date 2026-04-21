@@ -32,10 +32,17 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Dragoman Bahçe — Beer · Snacks · Cocktails | Kaş" },
-      { name: "description", content: "Kaş'ın kalbinde, deniz esintisinde bir bahçe. Özenle hazırlanmış kokteyller, soğuk biralar ve atıştırmalıklar." },
+      {
+        name: "description",
+        content:
+          "Kaş'ın kalbinde, deniz esintisinde bir bahçe. Özenle hazırlanmış kokteyller, soğuk biralar ve atıştırmalıklar.",
+      },
       { name: "author", content: "Dragoman Bahçe" },
       { property: "og:title", content: "Dragoman Bahçe — Kaş" },
-      { property: "og:description", content: "Beer · Snacks · Cocktails. Kaş'ta bir Akdeniz bahçesi." },
+      {
+        property: "og:description",
+        content: "Beer · Snacks · Cocktails. Kaş'ta bir Akdeniz bahçesi.",
+      },
       { property: "og:type", content: "website" },
     ],
     links: [

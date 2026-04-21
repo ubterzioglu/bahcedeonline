@@ -7,7 +7,12 @@ import saraplarImage from "@/assets/menu-categories/saraplar.jpg";
 import sogukIceceklerImage from "@/assets/menu-categories/soguk-icecekler.jpg";
 import sicakIceceklerImage from "@/assets/menu-categories/sicak-icecekler.jpg";
 import atistirmaliklarImage from "@/assets/menu-categories/atistirmaliklar.jpg";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -179,7 +184,9 @@ function MenuPage() {
                         >
                           <div className="mb-2 flex items-start justify-between gap-3">
                             <div className="min-w-0">
-                              <h3 className="font-display text-xl leading-tight text-foreground">{item.name}</h3>
+                              <h3 className="font-display text-xl leading-tight text-foreground">
+                                {item.name}
+                              </h3>
                               {item.description && (
                                 <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
                                   {item.description}
@@ -206,14 +213,16 @@ function MenuPage() {
 
                           {item.details && Object.keys(item.details as object).length > 0 && (
                             <dl className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 border-t border-border/40 pt-3 text-xs">
-                              {Object.entries(item.details as Record<string, string>).map(([key, value]) => (
-                                <div key={key}>
-                                  <dt className="inline text-[9px] uppercase tracking-wider text-muted-foreground">
-                                    {key}:
-                                  </dt>{" "}
-                                  <dd className="inline text-foreground/90">{value}</dd>
-                                </div>
-                              ))}
+                              {Object.entries(item.details as Record<string, string>).map(
+                                ([key, value]) => (
+                                  <div key={key}>
+                                    <dt className="inline text-[9px] uppercase tracking-wider text-muted-foreground">
+                                      {key}:
+                                    </dt>{" "}
+                                    <dd className="inline text-foreground/90">{value}</dd>
+                                  </div>
+                                ),
+                              )}
                             </dl>
                           )}
                         </article>

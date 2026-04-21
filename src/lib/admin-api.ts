@@ -85,7 +85,11 @@ export const adminApi = {
     request<{ track_title: string | null; artist: string | null; cover_url: string | null } | null>(
       "/api/admin/now-playing",
     ),
-  updateNowPlaying: (payload: { track_title: string | null; artist: string | null; cover_url: string | null }) =>
+  updateNowPlaying: (payload: {
+    track_title: string | null;
+    artist: string | null;
+    cover_url: string | null;
+  }) =>
     request<{ ok: true }>("/api/admin/now-playing", {
       method: "PUT",
       body: JSON.stringify(payload),

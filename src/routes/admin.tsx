@@ -61,7 +61,11 @@ function AdminLayout() {
   };
 
   if (checking) {
-    return <div className="min-h-[60vh] flex items-center justify-center text-muted-foreground text-sm">Yükleniyor…</div>;
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center text-muted-foreground text-sm">
+        Yükleniyor…
+      </div>
+    );
   }
   if (!authenticated) {
     return (
@@ -69,7 +73,9 @@ function AdminLayout() {
         <div className="text-center mb-8">
           <p className="font-script text-2xl text-gradient-gold mb-1">admin only</p>
           <h1 className="font-display text-3xl text-foreground">Yönetim Girişi</h1>
-          <p className="text-xs text-muted-foreground mt-2">Panele girmek için sadece admin parolasını yaz.</p>
+          <p className="text-xs text-muted-foreground mt-2">
+            Panele girmek için sadece admin parolasını yaz.
+          </p>
         </div>
 
         <form onSubmit={submit} className="glass-card rounded-2xl p-5 space-y-4">
@@ -104,7 +110,9 @@ function AdminLayout() {
       <div className="px-5 pb-3 flex items-center justify-between">
         <div>
           <p className="text-[9px] uppercase tracking-[0.3em] text-gold">Yönetim</p>
-          <p className="text-xs text-muted-foreground truncate max-w-[220px]">Parola ile korumalı admin paneli</p>
+          <p className="text-xs text-muted-foreground truncate max-w-[220px]">
+            Parola ile korumalı admin paneli
+          </p>
         </div>
         <button
           onClick={logout}
@@ -126,9 +134,7 @@ function AdminLayout() {
                   key={it.to}
                   to={it.to}
                   className={`flex flex-col items-center gap-1 px-4 py-3 text-[11px] border-b-2 transition ${
-                    active
-                      ? "border-gold text-gold"
-                      : "border-transparent text-foreground/60"
+                    active ? "border-gold text-gold" : "border-transparent text-foreground/60"
                   }`}
                 >
                   <it.icon className="h-4 w-4" />

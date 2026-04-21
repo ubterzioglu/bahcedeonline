@@ -64,7 +64,9 @@ function AdminSongs() {
 
       <div className="space-y-3">
         {filtered.length === 0 && (
-          <div className="glass-card rounded-2xl p-8 text-center text-sm text-muted-foreground">Hiç istek yok.</div>
+          <div className="glass-card rounded-2xl p-8 text-center text-sm text-muted-foreground">
+            Hiç istek yok.
+          </div>
         )}
         {filtered.map((r) => (
           <div key={r.id} className="glass-card rounded-2xl p-4">
@@ -77,13 +79,29 @@ function AdminSongs() {
             </div>
             {r.guest_name && <p className="text-[11px] text-gold">{r.guest_name}</p>}
             {r.message && <p className="text-xs text-foreground/80 mt-1.5 italic">"{r.message}"</p>}
-            <p className="text-[10px] text-muted-foreground mt-2">{new Date(r.created_at).toLocaleString("tr-TR")}</p>
+            <p className="text-[10px] text-muted-foreground mt-2">
+              {new Date(r.created_at).toLocaleString("tr-TR")}
+            </p>
 
             <div className="flex items-center gap-1.5 flex-wrap mt-3 pt-3 border-t border-border/40">
-              {r.status !== "approved" && <ActionBtn onClick={() => setStatus(r.id, "approved")} icon={Check}>Onayla</ActionBtn>}
-              {r.status !== "played" && <ActionBtn onClick={() => setStatus(r.id, "played")} icon={Play}>Çalındı</ActionBtn>}
-              {r.status !== "rejected" && <ActionBtn onClick={() => setStatus(r.id, "rejected")} icon={X}>Reddet</ActionBtn>}
-              <ActionBtn onClick={() => del(r.id)} icon={Trash2} danger>Sil</ActionBtn>
+              {r.status !== "approved" && (
+                <ActionBtn onClick={() => setStatus(r.id, "approved")} icon={Check}>
+                  Onayla
+                </ActionBtn>
+              )}
+              {r.status !== "played" && (
+                <ActionBtn onClick={() => setStatus(r.id, "played")} icon={Play}>
+                  Çalındı
+                </ActionBtn>
+              )}
+              {r.status !== "rejected" && (
+                <ActionBtn onClick={() => setStatus(r.id, "rejected")} icon={X}>
+                  Reddet
+                </ActionBtn>
+              )}
+              <ActionBtn onClick={() => del(r.id)} icon={Trash2} danger>
+                Sil
+              </ActionBtn>
             </div>
           </div>
         ))}
@@ -99,12 +117,31 @@ function StatusBadge({ status }: { status: Status }) {
     played: "bg-secondary/30 text-secondary-foreground",
     rejected: "bg-destructive/20 text-destructive",
   };
-  return <span className={`text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-full whitespace-nowrap ${map[status]}`}>{STATUS_LABEL[status]}</span>;
+  return (
+    <span
+      className={`text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-full whitespace-nowrap ${map[status]}`}
+    >
+      {STATUS_LABEL[status]}
+    </span>
+  );
 }
 
-function ActionBtn({ icon: Icon, children, onClick, danger }: { icon: React.ComponentType<{ className?: string }>; children: React.ReactNode; onClick: () => void; danger?: boolean }) {
+function ActionBtn({
+  icon: Icon,
+  children,
+  onClick,
+  danger,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  children: React.ReactNode;
+  onClick: () => void;
+  danger?: boolean;
+}) {
   return (
-    <button onClick={onClick} className={`inline-flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full border border-border ${danger ? "active:text-destructive" : "active:text-gold"}`}>
+    <button
+      onClick={onClick}
+      className={`inline-flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full border border-border ${danger ? "active:text-destructive" : "active:text-gold"}`}
+    >
       <Icon className="h-3 w-3" /> {children}
     </button>
   );

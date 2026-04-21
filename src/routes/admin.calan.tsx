@@ -14,11 +14,12 @@ function AdminNowPlaying() {
   useEffect(() => {
     (async () => {
       const data = await adminApi.getNowPlaying();
-      if (data) setForm({
-        track_title: data.track_title ?? "",
-        artist: data.artist ?? "",
-        cover_url: data.cover_url ?? "",
-      });
+      if (data)
+        setForm({
+          track_title: data.track_title ?? "",
+          artist: data.artist ?? "",
+          cover_url: data.cover_url ?? "",
+        });
     })();
   }, []);
 
@@ -45,21 +46,45 @@ function AdminNowPlaying() {
 
       <div className="glass-card rounded-2xl p-5 space-y-4">
         <div>
-          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">Şarkı</label>
-          <input value={form.track_title} onChange={(e) => setForm({ ...form, track_title: e.target.value })} className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none" />
+          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+            Şarkı
+          </label>
+          <input
+            value={form.track_title}
+            onChange={(e) => setForm({ ...form, track_title: e.target.value })}
+            className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
+          />
         </div>
         <div>
-          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">Sanatçı</label>
-          <input value={form.artist} onChange={(e) => setForm({ ...form, artist: e.target.value })} className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none" />
+          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+            Sanatçı
+          </label>
+          <input
+            value={form.artist}
+            onChange={(e) => setForm({ ...form, artist: e.target.value })}
+            className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
+          />
         </div>
         <div>
-          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">Kapak URL (opsiyonel)</label>
-          <input value={form.cover_url} onChange={(e) => setForm({ ...form, cover_url: e.target.value })} placeholder="https://…" className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none" />
+          <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+            Kapak URL (opsiyonel)
+          </label>
+          <input
+            value={form.cover_url}
+            onChange={(e) => setForm({ ...form, cover_url: e.target.value })}
+            placeholder="https://…"
+            className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
+          />
         </div>
-        <button onClick={save} className="w-full inline-flex items-center justify-center gap-2 bg-gold text-gold-foreground rounded-full py-3.5 text-sm shadow-gold">
+        <button
+          onClick={save}
+          className="w-full inline-flex items-center justify-center gap-2 bg-gold text-gold-foreground rounded-full py-3.5 text-sm shadow-gold"
+        >
           <Save className="h-4 w-4" /> Kaydet
         </button>
-        <button onClick={clear} className="w-full text-xs text-muted-foreground">Temizle</button>
+        <button onClick={clear} className="w-full text-xs text-muted-foreground">
+          Temizle
+        </button>
         {saved && <p className="text-center text-sm text-primary">Kaydedildi ✓</p>}
       </div>
     </div>
