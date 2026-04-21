@@ -23,9 +23,9 @@ export function SiteFooter() {
         <SocialIcon href={links.tripadvisor} label="Tripadvisor" icon={Star} />
         <SocialIcon href={links.maps} label="Harita" icon={MapPin} />
       </div>
-      <div className="border-t border-border/30 px-6 py-2 text-center text-[10px] leading-tight text-muted-foreground">
+      <div className="border-t border-border/30 px-6 py-2 text-center text-[10px] leading-relaxed text-muted-foreground">
         <p>
-          Dragoman Bahçe {new Date().getFullYear()} © · Footer designed by{" "}
+          Dragoman Bahçe {new Date().getFullYear()} © · designed by{" "}
           <a
             href="https://ubterzioglu.de/"
             target="_blank"
@@ -34,7 +34,10 @@ export function SiteFooter() {
           >
             UBT
           </a>{" "}
-          with Love · SEO&amp;GEO by{" "}
+          with Love ·
+        </p>
+        <p>
+          SEO&amp;GEO by{" "}
           <a
             href="https://www.spindorai.com/"
             target="_blank"
