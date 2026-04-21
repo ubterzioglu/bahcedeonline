@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { Check, Play, Trash2, X } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+import { adminApi } from "@/lib/admin-api";
 
 export const Route = createFileRoute("/admin/sarkilar")({
   component: AdminSongs,
@@ -20,26 +19,26 @@ const STATUS_LABEL: Record<Status, string> = {
 };
 
 function AdminSongs() {
-  const { isAdmin } = useAuth();
   const [list, setList] = useState<Req[]>([]);
   const [filter, setFilter] = useState<Status | "all">("pending");
 
   const load = async () => {
-    const { data } = await supabase.from("song_requests").select("*").order("created_at", { ascending: false });
-    setList(data ?? []);
+    setList(await adminApi.listSongRequests());
   };
   useEffect(() => {
     load();
-    const ch = supabase.channel("song-requests").on("postgres_changes", { event: "*", schema: "public", table: "song_requests" }, load).subscribe();
-    return () => { supabase.removeChannel(ch); };
+    const timer = window.setInterval(load, 15000);
+    return () => window.clearInterval(timer);
   }, []);
 
   const setStatus = async (id: string, status: Status) => {
-    await supabase.from("song_requests").update({ status }).eq("id", id);
+    await adminApi.updateSongRequestStatus(id, status);
+    load();
   };
   const del = async (id: string) => {
     if (!confirm("Silinsin mi?")) return;
-    await supabase.from("song_requests").delete().eq("id", id);
+    await adminApi.deleteSongRequest(id);
+    load();
   };
 
   const filtered = filter === "all" ? list : list.filter((r) => r.status === filter);
@@ -84,7 +83,7 @@ function AdminSongs() {
               {r.status !== "approved" && <ActionBtn onClick={() => setStatus(r.id, "approved")} icon={Check}>Onayla</ActionBtn>}
               {r.status !== "played" && <ActionBtn onClick={() => setStatus(r.id, "played")} icon={Play}>Çalındı</ActionBtn>}
               {r.status !== "rejected" && <ActionBtn onClick={() => setStatus(r.id, "rejected")} icon={X}>Reddet</ActionBtn>}
-              {isAdmin && <ActionBtn onClick={() => del(r.id)} icon={Trash2} danger>Sil</ActionBtn>}
+              <ActionBtn onClick={() => del(r.id)} icon={Trash2} danger>Sil</ActionBtn>
             </div>
           </div>
         ))}

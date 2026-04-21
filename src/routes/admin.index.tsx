@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { UtensilsCrossed, Music, Radio } from "lucide-react";
+import { adminApi } from "@/lib/admin-api";
 
 export const Route = createFileRoute("/admin/")({
   component: Dashboard,
@@ -13,13 +13,9 @@ function Dashboard() {
 
   useEffect(() => {
     (async () => {
-      const [{ count: menuCount }, { count: pendingCount }, { data: np }] = await Promise.all([
-        supabase.from("menu_items").select("*", { count: "exact", head: true }),
-        supabase.from("song_requests").select("*", { count: "exact", head: true }).eq("status", "pending"),
-        supabase.from("now_playing").select("track_title, artist").eq("id", 1).maybeSingle(),
-      ]);
-      setStats({ menu: menuCount ?? 0, pending: pendingCount ?? 0 });
-      setNow(np);
+      const { stats, now } = await adminApi.getDashboard();
+      setStats(stats);
+      setNow(now);
     })();
   }, []);
 

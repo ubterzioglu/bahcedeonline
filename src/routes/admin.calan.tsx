@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Save } from "lucide-react";
+import { adminApi } from "@/lib/admin-api";
 
 export const Route = createFileRoute("/admin/calan")({
   component: AdminNowPlaying,
@@ -13,7 +13,7 @@ function AdminNowPlaying() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("now_playing").select("*").eq("id", 1).maybeSingle();
+      const data = await adminApi.getNowPlaying();
       if (data) setForm({
         track_title: data.track_title ?? "",
         artist: data.artist ?? "",
@@ -24,18 +24,18 @@ function AdminNowPlaying() {
 
   const save = async () => {
     setSaved(false);
-    await supabase.from("now_playing").update({
+    await adminApi.updateNowPlaying({
       track_title: form.track_title || null,
       artist: form.artist || null,
       cover_url: form.cover_url || null,
-    }).eq("id", 1);
+    });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
   const clear = async () => {
     setForm({ track_title: "", artist: "", cover_url: "" });
-    await supabase.from("now_playing").update({ track_title: null, artist: null, cover_url: null }).eq("id", 1);
+    await adminApi.updateNowPlaying({ track_title: null, artist: null, cover_url: null });
   };
 
   return (

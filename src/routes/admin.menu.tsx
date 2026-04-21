@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+import { adminApi, type MenuItem } from "@/lib/admin-api";
 
 export const Route = createFileRoute("/admin/menu")({
   component: AdminMenu,
@@ -34,15 +33,13 @@ const empty = {
 };
 
 function AdminMenu() {
-  const { isAdmin } = useAuth();
   const [items, setItems] = useState<Item[]>([]);
   const [editing, setEditing] = useState<(typeof empty & { id?: string }) | null>(null);
   const [filter, setFilter] = useState<Category | "all">("all");
   const [uploading, setUploading] = useState(false);
 
   const load = async () => {
-    const { data } = await supabase.from("menu_items").select("*").order("category").order("sort_order");
-    setItems(data ?? []);
+    setItems(await adminApi.listMenu());
   };
   useEffect(() => { load(); }, []);
 
@@ -62,9 +59,9 @@ function AdminMenu() {
       sort_order: editing.sort_order,
     };
     if (editing.id) {
-      await supabase.from("menu_items").update(payload).eq("id", editing.id);
+      await adminApi.updateMenuItem(editing.id, payload as Partial<MenuItem>);
     } else {
-      await supabase.from("menu_items").insert(payload);
+      await adminApi.createMenuItem(payload as Partial<MenuItem>);
     }
     setEditing(null);
     load();
@@ -72,21 +69,18 @@ function AdminMenu() {
 
   const del = async (id: string) => {
     if (!confirm("Bu ürünü silmek istediğinden emin misin?")) return;
-    await supabase.from("menu_items").delete().eq("id", id);
+    await adminApi.deleteMenuItem(id);
     load();
   };
 
   const onUpload = async (file: File) => {
     if (!editing) return;
     setUploading(true);
-    const ext = file.name.split(".").pop();
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error } = await supabase.storage.from("menu-images").upload(path, file, { upsert: false });
-    if (!error) {
-      const { data } = supabase.storage.from("menu-images").getPublicUrl(path);
-      setEditing({ ...editing, image_url: data.publicUrl });
-    } else {
-      alert("Yükleme başarısız: " + error.message);
+    try {
+      const { publicUrl } = await adminApi.uploadMenuImage(file);
+      setEditing({ ...editing, image_url: publicUrl });
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Yükleme başarısız.");
     }
     setUploading(false);
   };
@@ -135,11 +129,9 @@ function AdminMenu() {
             <button onClick={() => setEditing({ ...empty, ...it, description: it.description ?? "", image_url: it.image_url, tags: it.tags ?? [], details: (it.details as Record<string, string>) ?? {} })} className="p-2 text-foreground/70 active:text-gold">
               <Pencil className="h-4 w-4" />
             </button>
-            {isAdmin && (
-              <button onClick={() => del(it.id)} className="p-2 text-foreground/70 active:text-destructive">
-                <Trash2 className="h-4 w-4" />
-              </button>
-            )}
+            <button onClick={() => del(it.id)} className="p-2 text-foreground/70 active:text-destructive">
+              <Trash2 className="h-4 w-4" />
+            </button>
           </div>
         ))}
       </div>
