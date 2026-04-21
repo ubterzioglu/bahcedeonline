@@ -8,20 +8,19 @@ const links = {
   email: "mailto:dragoman@bahcede.online",
   tripadvisor:
     "https://www.tripadvisor.com/Restaurant_Review-g297965-d14584671-Reviews-Dragoman_Bahce-Kas_Turkish_Mediterranean_Coast.html",
-  maps:
-    "https://www.google.com/maps/place/Dragoman+Bah%C3%A7e/@36.1997208,29.6393923,17z/data=!3m1!4b1!4m6!3m5!1s0x14c1db5e26b95e2d:0xa14572d48954193!8m2!3d36.1997208!4d29.6419672!16s%2Fg%2F11f62s05yd?entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D",
+  maps: "https://www.google.com/maps/place/Dragoman+Bah%C3%A7e/@36.1997208,29.6393923,17z/data=!3m1!4b1!4m6!3m5!1s0x14c1db5e26b95e2d:0xa14572d48954193!8m2!3d36.1997208!4d29.6419672!16s%2Fg%2F11f62s05yd?entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D",
 };
 
 export function SiteFooter() {
   return (
-    <footer className="mt-6 border-t border-border/40 bg-card/40">
-      <div className="px-6 py-8 space-y-3">
+    <footer className="mt-6 border-t border-border/40 bg-card/40 pb-20">
+      <div className="px-6 pt-8 pb-2 space-y-3">
         <div className="text-center">
           <p className="text-[11px] font-medium tracking-[0.24em] text-foreground/45 uppercase">
             İletişim & Sosyal Medya
           </p>
         </div>
-        <div className="flex items-center justify-between gap-2 px-1">
+        <div className="grid grid-cols-4 gap-3 px-1">
           <SocialIcon href={links.instagram} label="Instagram" icon={Instagram} />
           <SocialIcon href={links.facebook} label="Facebook" icon={Facebook} />
           <SocialIcon href={links.whatsapp} label="WhatsApp" icon={MessageCircleMore} />
@@ -35,20 +34,35 @@ export function SiteFooter() {
         <p>Dragoman Bahçe {new Date().getFullYear()} ©</p>
         <p>
           Footer designed by{" "}
-          <a href="https://ubterzioglu.de/" target="_blank" rel="noreferrer" className="text-foreground/80 transition hover:text-gold">
+          <a
+            href="https://ubterzioglu.de/"
+            target="_blank"
+            rel="noreferrer"
+            className="text-foreground/80 transition hover:text-gold"
+          >
             UBT
           </a>{" "}
           with Love
         </p>
         <p>
           SEO&amp;GEO by{" "}
-          <a href="https://www.spindorai.com/" target="_blank" rel="noreferrer" className="text-foreground/80 transition hover:text-gold">
+          <a
+            href="https://www.spindorai.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="text-foreground/80 transition hover:text-gold"
+          >
             Spindora
           </a>
         </p>
         <p>
           Powered by{" "}
-          <a href="https://corteqs.net/" target="_blank" rel="noreferrer" className="text-foreground/80 transition hover:text-gold">
+          <a
+            href="https://corteqs.net/"
+            target="_blank"
+            rel="noreferrer"
+            className="text-foreground/80 transition hover:text-gold"
+          >
             CorteQS
           </a>
         </p>

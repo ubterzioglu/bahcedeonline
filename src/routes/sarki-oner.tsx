@@ -59,9 +59,7 @@ function SongRequest() {
       <div className="text-center">
         <p className="font-script text-2xl text-gradient-gold mb-1">next song</p>
         <h1 className="font-display text-4xl text-foreground">Sıradaki parça?</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          DJ'imize gönder, bahçede çalsın.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">DJ'imize gönder, bahçede çalsın.</p>
       </div>
 
       <NowPlayingWidget />
@@ -82,11 +80,29 @@ function SongRequest() {
           </div>
         ) : (
           <>
-            <Field label="Adın (opsiyonel)" value={form.guest_name} onChange={(v) => setForm({ ...form, guest_name: v })} placeholder="Misafir" />
-            <Field label="Şarkı *" value={form.song_title} onChange={(v) => setForm({ ...form, song_title: v })} placeholder="Örn: Kaptan" required />
-            <Field label="Sanatçı" value={form.artist} onChange={(v) => setForm({ ...form, artist: v })} placeholder="Örn: Mor ve Ötesi" />
+            <Field
+              label="Adın (opsiyonel)"
+              value={form.guest_name}
+              onChange={(v) => setForm({ ...form, guest_name: v })}
+              placeholder="Misafir"
+            />
+            <Field
+              label="Şarkı *"
+              value={form.song_title}
+              onChange={(v) => setForm({ ...form, song_title: v })}
+              placeholder="Örn: Kaptan"
+              required
+            />
+            <Field
+              label="Sanatçı"
+              value={form.artist}
+              onChange={(v) => setForm({ ...form, artist: v })}
+              placeholder="Örn: Mor ve Ötesi"
+            />
             <div>
-              <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">Bir not (opsiyonel)</label>
+              <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+                Bir not (opsiyonel)
+              </label>
               <textarea
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
@@ -111,19 +127,37 @@ function SongRequest() {
 
       <div className="glass-card rounded-2xl p-5 flex gap-3">
         <Music2 className="h-6 w-6 text-gold shrink-0 mt-0.5" />
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Tüm istekler ekibimize iletilir. Çalma sırası ve uygunluk DJ'imizin
-          değerlendirmesindedir — sabırla bekleyin.
-        </p>
+        <div className="text-xs text-muted-foreground leading-relaxed space-y-1.5">
+          <p className="text-foreground/70 font-medium">Yabancı parçalar çalınmaktadır.</p>
+          <p>
+            Repertuarımız <span className="text-gold/80">rock, soul ve blues</span> ağırlıklıdır.
+            Tüm istekler ekibimize iletilir; çalma sırası ve uygunluk DJ'imizin
+            değerlendirmesindedir — sabırla bekleyin.
+          </p>
+        </div>
       </div>
     </div>
   );
 }
 
-function Field({ label, value, onChange, placeholder, required }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string; required?: boolean }) {
+function Field({
+  label,
+  value,
+  onChange,
+  placeholder,
+  required,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  required?: boolean;
+}) {
   return (
     <div>
-      <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">{label}</label>
+      <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+        {label}
+      </label>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
