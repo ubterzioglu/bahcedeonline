@@ -14,7 +14,10 @@ const links = {
 export function SiteFooter() {
   return (
     <footer className="mt-6 border-t border-border/40 bg-card/40 pb-8">
-      <div className="flex justify-center gap-3 px-6 pt-5 pb-1">
+      <p className="text-center text-[11px] font-medium tracking-[0.15em] text-foreground/50 px-6 pt-5 pb-2">
+        İletişim & Sosyal Medya
+      </p>
+      <div className="flex justify-center gap-3 px-6 pb-1">
         <SocialIcon href={links.instagram} label="Instagram" icon={Instagram} />
         <SocialIcon href={links.facebook} label="Facebook" icon={Facebook} />
         <SocialIcon href={links.whatsapp} label="WhatsApp" icon={MessageCircleMore} />

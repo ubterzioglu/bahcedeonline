@@ -128,58 +128,55 @@ function MenuPage() {
                 className="glass-card overflow-hidden rounded-[28px] border border-white/10 bg-card/95 shadow-[0_24px_60px_rgba(0,0,0,0.22)]"
               >
                 <AccordionTrigger className="group px-0 py-0 hover:no-underline [&>svg]:hidden">
-                  <div className="flex h-[56px] w-full items-center text-left">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold/10 text-gold ml-3">
-                      <meta.icon className="h-5 w-5" />
+                  <div className="flex h-[84px] w-full items-center text-left">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gold/10 text-gold ml-3">
+                      <meta.icon className="h-6 w-6" />
                     </div>
-                    <div className="flex min-w-0 flex-1 items-center justify-between gap-2 px-3 py-1">
+                    <div className="flex min-w-0 flex-1 items-center justify-between gap-2 px-4 py-1">
                       <div className="min-w-0">
-                        <h2 className="font-display text-base leading-tight text-foreground">
+                        <h2 className="font-display text-lg leading-tight text-foreground">
                           {meta.label}
                         </h2>
-                        <p className="max-w-[24ch] text-[11px] leading-relaxed text-muted-foreground">
+                        <p className="max-w-[28ch] text-[12px] leading-relaxed text-muted-foreground">
                           {meta.blurb}
                         </p>
                       </div>
-                      <ChevronDown className="h-3.5 w-3.5 shrink-0 text-gold/85 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                      <ChevronDown className="h-4 w-4 shrink-0 text-gold/85 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </div>
                   </div>
                 </AccordionTrigger>
 
                 <AccordionContent className="px-4 pb-4 pt-0">
                   {categoryItems.length === 0 ? (
-                    <div className="rounded-[24px] border border-dashed border-white/10 bg-black/10 px-5 py-6 text-center text-sm text-muted-foreground">
+                    <p className="py-4 text-center text-sm text-muted-foreground">
                       Bu kategoride henüz ürün yok.
-                    </div>
+                    </p>
                   ) : (
-                    <div className="space-y-3 rounded-[24px] border border-white/8 bg-black/10 p-3">
+                    <div className="space-y-0 divide-y divide-white/8">
                       {categoryItems.map((item) => (
-                        <article
-                          key={item.id}
-                          className="rounded-[22px] border border-white/8 bg-card/80 px-4 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.14)]"
-                        >
-                          <div className="mb-2 flex items-start justify-between gap-3">
+                        <div key={item.id} className="px-1 py-3.5">
+                          <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0">
-                              <h3 className="font-display text-xl leading-tight text-foreground">
+                              <h3 className="font-display text-base leading-tight text-foreground">
                                 {item.name}
                               </h3>
                               {item.description && (
-                                <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
+                                <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
                                   {item.description}
                                 </p>
                               )}
                             </div>
-                            <span className="whitespace-nowrap font-display text-xl text-gold">
+                            <span className="whitespace-nowrap font-display text-base text-gold">
                               ₺{Number(item.price).toFixed(0)}
                             </span>
                           </div>
 
                           {item.tags && item.tags.length > 0 && (
-                            <div className="mt-3 flex flex-wrap gap-1.5">
+                            <div className="mt-2 flex flex-wrap gap-1.5">
                               {item.tags.map((tag) => (
                                 <span
                                   key={tag}
-                                  className="rounded-full bg-gold/15 px-2 py-1 text-[9px] uppercase tracking-[0.2em] text-gold"
+                                  className="rounded-full bg-gold/15 px-2 py-0.5 text-[9px] uppercase tracking-[0.2em] text-gold"
                                 >
                                   {tag}
                                 </span>
@@ -188,7 +185,7 @@ function MenuPage() {
                           )}
 
                           {item.details && Object.keys(item.details as object).length > 0 && (
-                            <dl className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 border-t border-border/40 pt-3 text-xs">
+                            <dl className="mt-2 flex flex-wrap gap-x-5 gap-y-1 border-t border-border/40 pt-2 text-xs">
                               {Object.entries(item.details as Record<string, string>).map(
                                 ([key, value]) => (
                                   <div key={key}>
@@ -201,7 +198,7 @@ function MenuPage() {
                               )}
                             </dl>
                           )}
-                        </article>
+                        </div>
                       ))}
                     </div>
                   )}
