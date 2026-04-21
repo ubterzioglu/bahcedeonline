@@ -60,6 +60,11 @@ export const Route = createRootRoute({
         content: "Beer · Snacks · Cocktails. Kaş'ta bir Akdeniz bahçesi.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/og.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/og.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
