@@ -35,7 +35,7 @@ function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/35 to-background/90" />
 
         <div className="relative px-6 pt-12 pb-8 h-full flex flex-col">
-          <h1 className="font-display text-[44px] leading-[1.05] mt-2 text-white drop-shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
+          <h1 className="font-display mt-2 text-[44px] font-semibold leading-[0.98] tracking-[-0.02em] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.3)]">
             Kaş'ın kalbinde
             <br />
             <span className="text-[oklch(0.92_0.07_190)]">bir Akdeniz bahçesi.</span>

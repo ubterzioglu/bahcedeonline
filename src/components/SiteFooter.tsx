@@ -1,4 +1,3 @@
-import logo from "@/assets/logo.png";
 import { Facebook, Instagram, Mail, MapPin, MessageCircleMore, Phone, Star } from "lucide-react";
 
 const links = {
@@ -16,11 +15,13 @@ const links = {
 export function SiteFooter() {
   return (
     <footer className="mt-12 border-t border-border/40 bg-card/40">
-      <div className="px-6 py-10 space-y-6">
+      <div className="px-6 py-8 space-y-3">
         <div className="text-center">
-          <img src={logo} alt="Dragoman Bahçe" className="h-14 w-auto mx-auto" />
+          <p className="text-[11px] font-medium tracking-[0.24em] text-foreground/45 uppercase">
+            İletişim & Sosyal Medya
+          </p>
         </div>
-        <div className="flex items-center justify-center gap-3 flex-wrap">
+        <div className="flex items-center justify-between gap-2 px-1">
           <SocialIcon href={links.instagram} label="Instagram" icon={Instagram} />
           <SocialIcon href={links.facebook} label="Facebook" icon={Facebook} />
           <SocialIcon href={links.whatsapp} label="WhatsApp" icon={MessageCircleMore} />
@@ -54,7 +55,7 @@ function SocialIcon({
       aria-label={label}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/70 text-foreground/75 transition hover:border-gold/50 hover:text-gold"
+      className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/12 bg-background/72 text-foreground/80 shadow-[0_0_24px_rgba(255,255,255,0.16)] transition hover:border-gold/50 hover:text-gold hover:shadow-[0_0_30px_rgba(255,255,255,0.22)]"
     >
       <Icon className="h-4.5 w-4.5" />
     </a>
