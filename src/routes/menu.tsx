@@ -183,21 +183,6 @@ function MenuPage() {
                               ))}
                             </div>
                           )}
-
-                          {item.details && Object.keys(item.details as object).length > 0 && (
-                            <dl className="mt-2 flex flex-wrap gap-x-5 gap-y-1 border-t border-border/40 pt-2 text-xs">
-                              {Object.entries(item.details as Record<string, string>).map(
-                                ([key, value]) => (
-                                  <div key={key}>
-                                    <dt className="inline text-[9px] uppercase tracking-wider text-muted-foreground">
-                                      {key}:
-                                    </dt>{" "}
-                                    <dd className="inline text-foreground/90">{value}</dd>
-                                  </div>
-                                ),
-                              )}
-                            </dl>
-                          )}
                         </div>
                       ))}
                     </div>

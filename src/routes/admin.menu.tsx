@@ -27,7 +27,6 @@ const empty = {
   category: "kokteyller" as Category,
   image_url: "" as string | null,
   tags: [] as string[],
-  details: {} as Record<string, string>,
   is_available: true,
   sort_order: 0,
 };
@@ -56,7 +55,6 @@ function AdminMenu() {
       category: editing.category,
       image_url: editing.image_url || null,
       tags: editing.tags,
-      details: editing.details,
       is_available: editing.is_available,
       sort_order: editing.sort_order,
     };
@@ -102,8 +100,8 @@ function AdminMenu() {
         </button>
       </div>
 
-      <div className="-mx-5 px-5 overflow-x-auto scrollbar-none mb-4">
-        <div className="flex gap-2 min-w-max pb-2">
+      <div className="overflow-x-auto scrollbar-none mb-4">
+        <div className="flex gap-2 pb-2">
           <FilterBtn active={filter === "all"} onClick={() => setFilter("all")}>
             Tümü
           </FilterBtn>
@@ -115,9 +113,9 @@ function AdminMenu() {
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
         {filtered.length === 0 && (
-          <div className="glass-card rounded-2xl p-8 text-center text-sm text-muted-foreground">
+          <div className="col-span-full glass-card rounded-2xl p-8 text-center text-sm text-muted-foreground">
             Henüz ürün yok.
           </div>
         )}
@@ -154,7 +152,6 @@ function AdminMenu() {
                   description: it.description ?? "",
                   image_url: it.image_url,
                   tags: it.tags ?? [],
-                  details: (it.details as Record<string, string>) ?? {},
                 })
               }
               className="p-2 text-foreground/70 active:text-gold"
@@ -173,7 +170,7 @@ function AdminMenu() {
 
       {editing && (
         <div className="fixed inset-0 z-50 bg-background/95 overflow-y-auto">
-          <div className="max-w-md mx-auto p-5 pb-32">
+          <div className="max-w-lg mx-auto p-5 pb-32">
             <div className="flex items-center justify-between mb-5 sticky top-0 bg-background/90 backdrop-blur py-3 -mx-5 px-5 border-b border-border/40">
               <h2 className="font-display text-xl">{editing.id ? "Düzenle" : "Yeni Ürün"}</h2>
               <button onClick={() => setEditing(null)} className="p-2">
@@ -241,20 +238,6 @@ function AdminMenu() {
                   })
                 }
               />
-              <Input
-                label="Detaylar (anahtar:değer, virgülle)"
-                value={Object.entries(editing.details)
-                  .map(([k, v]) => `${k}:${v}`)
-                  .join(", ")}
-                onChange={(v) => {
-                  const obj: Record<string, string> = {};
-                  v.split(",").forEach((p) => {
-                    const [k, val] = p.split(":").map((s) => s?.trim());
-                    if (k && val) obj[k] = val;
-                  });
-                  setEditing({ ...editing, details: obj });
-                }}
-              />
 
               <div>
                 <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
@@ -300,8 +283,8 @@ function AdminMenu() {
               </label>
             </div>
 
-            <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur border-t border-border/40">
-              <div className="max-w-md mx-auto flex gap-3">
+            <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur border-t border-border/40 lg:left-64">
+              <div className="max-w-lg mx-auto flex gap-3">
                 <button
                   onClick={() => setEditing(null)}
                   className="flex-1 px-5 py-3 rounded-full border border-border text-sm"

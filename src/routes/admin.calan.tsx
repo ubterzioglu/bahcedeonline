@@ -40,7 +40,7 @@ function AdminNowPlaying() {
   };
 
   return (
-    <div>
+    <div className="max-w-lg">
       <h1 className="font-display text-3xl text-foreground mb-1">Şu An Çalan</h1>
       <p className="text-xs text-muted-foreground mb-5">Misafirlere görünen widget'ı güncelle.</p>
 
@@ -76,15 +76,17 @@ function AdminNowPlaying() {
             className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
           />
         </div>
-        <button
-          onClick={save}
-          className="w-full inline-flex items-center justify-center gap-2 bg-gold text-gold-foreground rounded-full py-3.5 text-sm shadow-gold"
-        >
-          <Save className="h-4 w-4" /> Kaydet
-        </button>
-        <button onClick={clear} className="w-full text-xs text-muted-foreground">
-          Temizle
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={save}
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-gold text-gold-foreground rounded-full py-3.5 text-sm shadow-gold"
+          >
+            <Save className="h-4 w-4" /> Kaydet
+          </button>
+          <button onClick={clear} className="px-5 rounded-full border border-border text-xs">
+            Temizle
+          </button>
+        </div>
         {saved && <p className="text-center text-sm text-primary">Kaydedildi ✓</p>}
       </div>
     </div>

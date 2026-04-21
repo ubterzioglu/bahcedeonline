@@ -48,13 +48,13 @@ function AdminSongs() {
       <h1 className="font-display text-3xl text-foreground mb-1">Şarkı İstekleri</h1>
       <p className="text-xs text-muted-foreground mb-4">Önerileri yönet.</p>
 
-      <div className="-mx-5 px-5 overflow-x-auto scrollbar-none mb-4">
-        <div className="flex gap-2 min-w-max pb-2">
+      <div className="overflow-x-auto scrollbar-none mb-4">
+        <div className="flex gap-2 pb-2">
           {(["pending", "approved", "played", "rejected", "all"] as const).map((s) => (
             <button
               key={s}
               onClick={() => setFilter(s)}
-              className={`px-4 py-1.5 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap border ${filter === s ? "bg-gold text-gold-foreground border-transparent" : "border-border"}`}
+              className={`px-4 py-1.5 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap border ${filter === s ? "bg-gold text-gold-foreground border-transparent" : "border-border hover:border-gold/30 transition"}`}
             >
               {s === "all" ? "Tümü" : STATUS_LABEL[s]}
             </button>
@@ -62,9 +62,9 @@ function AdminSongs() {
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
         {filtered.length === 0 && (
-          <div className="glass-card rounded-2xl p-8 text-center text-sm text-muted-foreground">
+          <div className="col-span-full glass-card rounded-2xl p-8 text-center text-sm text-muted-foreground">
             Hiç istek yok.
           </div>
         )}
@@ -140,7 +140,7 @@ function ActionBtn({
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full border border-border ${danger ? "active:text-destructive" : "active:text-gold"}`}
+      className={`inline-flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full border border-border hover:border-gold/30 transition ${danger ? "hover:text-destructive" : "hover:text-gold"}`}
     >
       <Icon className="h-3 w-3" /> {children}
     </button>

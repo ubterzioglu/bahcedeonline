@@ -26,7 +26,7 @@ function Dashboard() {
       <h1 className="font-display text-3xl text-foreground mb-1">Pano</h1>
       <p className="text-xs text-muted-foreground mb-5">Bugünün özeti.</p>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
         <Card to="/admin/menu" icon={UtensilsCrossed} label="Menü" value={stats.menu} />
         <Card
           to="/admin/sarkilar"
@@ -41,7 +41,7 @@ function Dashboard() {
           label="Şu an çalan"
           value={now?.track_title ?? "—"}
           small
-          className="col-span-2"
+          className="col-span-2 lg:col-span-1"
         />
       </div>
 
@@ -50,19 +50,19 @@ function Dashboard() {
         <div className="space-y-2 text-sm">
           <Link
             to="/admin/menu"
-            className="flex items-center justify-between py-2 border-b border-border/40 text-foreground/85"
+            className="flex items-center justify-between py-2 border-b border-border/40 text-foreground/85 hover:text-gold transition"
           >
             Menü ekle/düzenle <span className="text-gold">›</span>
           </Link>
           <Link
             to="/admin/sarkilar"
-            className="flex items-center justify-between py-2 border-b border-border/40 text-foreground/85"
+            className="flex items-center justify-between py-2 border-b border-border/40 text-foreground/85 hover:text-gold transition"
           >
             Şarkı isteklerini gör <span className="text-gold">›</span>
           </Link>
           <Link
             to="/admin/calan"
-            className="flex items-center justify-between py-2 text-foreground/85"
+            className="flex items-center justify-between py-2 text-foreground/85 hover:text-gold transition"
           >
             Şu an çalanı güncelle <span className="text-gold">›</span>
           </Link>
@@ -92,7 +92,7 @@ function Card({
   return (
     <Link
       to={to}
-      className={`glass-card rounded-2xl p-4 transition block ${highlight ? "ring-1 ring-gold/50" : ""} ${className}`}
+      className={`glass-card rounded-2xl p-4 transition block hover:ring-1 hover:ring-gold/30 ${highlight ? "ring-1 ring-gold/50" : ""} ${className}`}
     >
       <Icon className="h-5 w-5 text-gold mb-2" />
       <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{label}</p>

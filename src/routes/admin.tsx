@@ -1,5 +1,14 @@
 import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
-import { LayoutDashboard, UtensilsCrossed, Music, Radio, LogOut, LockKeyhole } from "lucide-react";
+import {
+  LayoutDashboard,
+  UtensilsCrossed,
+  Music,
+  Radio,
+  LogOut,
+  LockKeyhole,
+  Menu,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { adminApi } from "@/lib/admin-api";
 
@@ -29,6 +38,7 @@ function AdminLayout() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     adminApi
@@ -62,92 +72,152 @@ function AdminLayout() {
 
   if (checking) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center text-muted-foreground text-sm">
+      <div className="min-h-screen flex items-center justify-center text-muted-foreground text-sm">
         Yükleniyor…
       </div>
     );
   }
+
   if (!authenticated) {
     return (
-      <div className="px-5 pt-12">
-        <div className="text-center mb-8">
-          <p className="font-script text-2xl text-gradient-gold mb-1">admin only</p>
-          <h1 className="font-display text-3xl text-foreground">Yönetim Girişi</h1>
-          <p className="text-xs text-muted-foreground mt-2">
-            Panele girmek için sadece admin parolasını yaz.
-          </p>
-        </div>
-
-        <form onSubmit={submit} className="glass-card rounded-2xl p-5 space-y-4">
-          <div className="flex justify-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/30 bg-gold/10 text-gold">
-              <LockKeyhole className="h-5 w-5" />
-            </div>
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="w-full max-w-sm">
+          <div className="text-center mb-8">
+            <p className="font-script text-2xl text-gradient-gold mb-1">admin only</p>
+            <h1 className="font-display text-3xl text-foreground">Yönetim Girişi</h1>
+            <p className="text-xs text-muted-foreground mt-2">
+              Panele girmek için sadece admin parolasını yaz.
+            </p>
           </div>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Admin parolası"
-            className="w-full bg-input/60 border border-border rounded-full px-5 py-3 text-sm focus:border-gold focus:outline-none"
-          />
-          {error && <p className="text-sm text-destructive">{error}</p>}
-          <button
-            type="submit"
-            disabled={submitting || !password}
-            className="w-full bg-gold text-gold-foreground rounded-full py-3.5 text-sm font-medium shadow-gold disabled:opacity-50 active:scale-[0.98] transition"
-          >
-            {submitting ? "..." : "Panele Gir"}
-          </button>
-        </form>
+
+          <form onSubmit={submit} className="glass-card rounded-2xl p-5 space-y-4">
+            <div className="flex justify-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/30 bg-gold/10 text-gold">
+                <LockKeyhole className="h-5 w-5" />
+              </div>
+            </div>
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Admin parolası"
+              className="w-full bg-input/60 border border-border rounded-full px-5 py-3 text-sm focus:border-gold focus:outline-none"
+            />
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <button
+              type="submit"
+              disabled={submitting || !password}
+              className="w-full bg-gold text-gold-foreground rounded-full py-3.5 text-sm font-medium shadow-gold disabled:opacity-50 active:scale-[0.98] transition"
+            >
+              {submitting ? "..." : "Panele Gir"}
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="pt-2">
-      <div className="px-5 pb-3 flex items-center justify-between">
-        <div>
-          <p className="text-[9px] uppercase tracking-[0.3em] text-gold">Yönetim</p>
-          <p className="text-xs text-muted-foreground truncate max-w-[220px]">
-            Parola ile korumalı admin paneli
-          </p>
-        </div>
-        <button
-          onClick={logout}
-          className="inline-flex items-center gap-1.5 text-xs text-foreground/70 px-3 py-1.5 rounded-full border border-border"
-        >
-          <LogOut className="h-3.5 w-3.5" /> Çıkış
-        </button>
-      </div>
+    <div className="min-h-screen flex">
+      <aside className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 bg-card border-r border-border/40">
+        <SidebarContent location={location} logout={logout} />
+      </aside>
 
-      <div className="sticky top-16 z-30 bg-background/85 backdrop-blur-xl border-y border-border/40">
-        <div className="overflow-x-auto scrollbar-none">
-          <div className="flex min-w-max px-3">
-            {navItems.map((it) => {
-              const active = it.exact
-                ? location.pathname === it.to
-                : location.pathname.startsWith(it.to) && it.to !== "/admin";
-              return (
-                <Link
-                  key={it.to}
-                  to={it.to}
-                  className={`flex flex-col items-center gap-1 px-4 py-3 text-[11px] border-b-2 transition ${
-                    active ? "border-gold text-gold" : "border-transparent text-foreground/60"
-                  }`}
-                >
-                  <it.icon className="h-4 w-4" />
-                  {it.label}
-                </Link>
-              );
-            })}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <div className="fixed inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
+          <aside className="fixed inset-y-0 left-0 w-64 z-50 bg-card border-r border-border/40">
+            <SidebarContent
+              location={location}
+              logout={logout}
+              onClose={() => setSidebarOpen(false)}
+            />
+          </aside>
+        </div>
+      )}
+
+      <div className="flex-1 lg:ml-64">
+        <header className="sticky top-0 z-30 bg-background/90 backdrop-blur-xl border-b border-border/40 px-6 h-14 flex items-center justify-between">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden p-2 -ml-2 text-foreground/70"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          <div className="hidden lg:block">
+            <p className="text-xs text-muted-foreground">
+              {navItems.find((it) =>
+                it.exact ? location.pathname === it.to : location.pathname.startsWith(it.to),
+              )?.label ?? "Pano"}
+            </p>
           </div>
-        </div>
+          <button
+            onClick={logout}
+            className="inline-flex items-center gap-1.5 text-xs text-foreground/70 px-3 py-1.5 rounded-full border border-border hover:text-foreground transition"
+          >
+            <LogOut className="h-3.5 w-3.5" /> Çıkış
+          </button>
+        </header>
+
+        <main className="p-6 max-w-6xl">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+}
+
+function SidebarContent({
+  location,
+  logout,
+  onClose,
+}: {
+  location: { pathname: string };
+  logout: () => Promise<void>;
+  onClose?: () => void;
+}) {
+  return (
+    <div className="flex flex-col h-full">
+      <div className="px-5 py-5 border-b border-border/40">
+        <Link to="/admin" onClick={onClose}>
+          <p className="text-[9px] uppercase tracking-[0.3em] text-gold">Yönetim</p>
+          <p className="font-display text-lg text-foreground">Dragoman Bahçe</p>
+        </Link>
       </div>
 
-      <div className="px-5 pt-6">
-        <Outlet />
+      <nav className="flex-1 px-3 py-4 space-y-1">
+        {navItems.map((it) => {
+          const active = it.exact
+            ? location.pathname === it.to
+            : location.pathname.startsWith(it.to) && it.to !== "/admin";
+          return (
+            <Link
+              key={it.to}
+              to={it.to}
+              onClick={onClose}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition ${
+                active
+                  ? "bg-gold/15 text-gold font-medium"
+                  : "text-foreground/60 hover:text-foreground hover:bg-white/5"
+              }`}
+            >
+              <it.icon className="h-4.5 w-4.5" />
+              {it.label}
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className="px-3 pb-4">
+        <Link
+          to="/"
+          onClick={onClose}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-foreground/50 hover:text-foreground hover:bg-white/5 transition"
+        >
+          <X className="h-4 w-4" />
+          Siteye Dön
+        </Link>
       </div>
     </div>
   );
