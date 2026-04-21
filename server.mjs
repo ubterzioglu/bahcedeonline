@@ -206,14 +206,14 @@ async function handleAdminApi(req, res) {
     }
 
     const ext = file.name.includes(".") ? file.name.split(".").pop() : "bin";
-    const objectPath = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
+    const objectPath = `menu/${Date.now()}-${crypto.randomUUID()}.${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());
-    const { error } = await supabase.storage.from("menu-images").upload(objectPath, buffer, {
+    const { error } = await supabase.storage.from("dbahce").upload(objectPath, buffer, {
       contentType: file.type || "application/octet-stream",
       upsert: false,
     });
     if (error) return json(res, 500, { error: error.message });
-    const { data } = supabase.storage.from("menu-images").getPublicUrl(objectPath);
+    const { data } = supabase.storage.from("dbahce").getPublicUrl(objectPath);
     return json(res, 200, { publicUrl: data.publicUrl });
   }
 
@@ -281,6 +281,62 @@ async function handleAdminApi(req, res) {
     const { error } = await supabase.from("now_playing").update(payload).eq("id", 1);
     if (error) return json(res, 500, { error: error.message });
     return json(res, 200, { ok: true });
+  }
+
+  if (pathname === "/api/admin/home-cards" && req.method === "GET") {
+    const { data, error } = await supabase
+      .from("home_cards")
+      .select("*")
+      .order("sort_order", { ascending: true });
+    if (error) return json(res, 500, { error: error.message });
+    return json(res, 200, data ?? []);
+  }
+
+  if (pathname === "/api/admin/home-cards" && req.method === "POST") {
+    const payload = await readJsonBody(req);
+    const { data, error } = await supabase.from("home_cards").insert(payload).select("*").single();
+    if (error) return json(res, 500, { error: error.message });
+    return json(res, 200, data);
+  }
+
+  if (pathname === "/api/admin/home-cards/upload" && req.method === "POST") {
+    const request = toWebRequest(req);
+    const formData = await request.formData();
+    const file = formData.get("file");
+    if (!(file instanceof File)) {
+      return json(res, 400, { error: "Yüklenecek dosya bulunamadı." });
+    }
+
+    const ext = file.name.includes(".") ? file.name.split(".").pop() : "bin";
+    const objectPath = `home-cards/${Date.now()}-${crypto.randomUUID()}.${ext}`;
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const { error } = await supabase.storage.from("dbahce").upload(objectPath, buffer, {
+      contentType: file.type || "application/octet-stream",
+      upsert: false,
+    });
+    if (error) return json(res, 500, { error: error.message });
+    const { data } = supabase.storage.from("dbahce").getPublicUrl(objectPath);
+    return json(res, 200, { publicUrl: data.publicUrl });
+  }
+
+  if (pathname.startsWith("/api/admin/home-cards/")) {
+    const id = pathname.slice("/api/admin/home-cards/".length);
+    if (req.method === "PUT") {
+      const payload = await readJsonBody(req);
+      const { data, error } = await supabase
+        .from("home_cards")
+        .update(payload)
+        .eq("id", id)
+        .select("*")
+        .single();
+      if (error) return json(res, 500, { error: error.message });
+      return json(res, 200, data);
+    }
+    if (req.method === "DELETE") {
+      const { error } = await supabase.from("home_cards").delete().eq("id", id);
+      if (error) return json(res, 500, { error: error.message });
+      return json(res, 200, { ok: true });
+    }
   }
 
   return json(res, 404, { error: "Admin API yolu bulunamadı." });

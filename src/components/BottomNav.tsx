@@ -1,37 +1,44 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { Home, UtensilsCrossed, Music, Info } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 
 type NavItem = {
   to: string;
-  label: string;
+  labelKey: "nav.home" | "nav.menu" | "nav.song" | "nav.about";
   icon: React.ComponentType<{ className?: string }>;
   exact?: boolean;
 };
+
 const items: NavItem[] = [
-  { to: "/", label: "Anasayfa", icon: Home, exact: true },
-  { to: "/menu", label: "Menü", icon: UtensilsCrossed },
-  { to: "/sarki-oner", label: "Şarkı", icon: Music },
-  { to: "/hakkimizda", label: "Hikayemiz", icon: Info },
+  { to: "/", labelKey: "nav.home", icon: Home, exact: true },
+  { to: "/menu", labelKey: "nav.menu", icon: UtensilsCrossed },
+  { to: "/sarki-oner", labelKey: "nav.song", icon: Music },
+  { to: "/hakkimizda", labelKey: "nav.about", icon: Info },
 ];
 
 export function BottomNav() {
+  const { t, localize, stripLocale } = useTranslation();
+  const location = useLocation();
+  const currentBase = stripLocale(location.pathname);
+
   return (
     <nav className="pointer-events-none fixed bottom-0 left-0 right-0 z-40">
       <div className="mx-auto max-w-md px-0">
         <div className="pointer-events-auto border-t border-border/50 bg-card/90 backdrop-blur-xl pb-[env(safe-area-inset-bottom)] shadow-[0_-12px_30px_-24px_rgba(0,0,0,0.18)]">
           <div className="grid grid-cols-4">
-            {items.map((it) => (
-              <Link
-                key={it.to}
-                to={it.to}
-                activeOptions={{ exact: it.exact }}
-                className="flex flex-col items-center justify-center gap-1 py-2.5 text-foreground/60 transition active:scale-95"
-                activeProps={{ className: "text-gold" }}
-              >
-                <it.icon className="h-5 w-5" />
-                <span className="text-[10px] tracking-wide">{it.label}</span>
-              </Link>
-            ))}
+            {items.map((it) => {
+              const active = it.exact ? currentBase === it.to : currentBase.startsWith(it.to);
+              return (
+                <Link
+                  key={it.to}
+                  to={localize(it.to)}
+                  className={`flex flex-col items-center justify-center gap-1 py-2.5 transition active:scale-95 ${active ? "text-gold" : "text-foreground/60"}`}
+                >
+                  <it.icon className="h-5 w-5" />
+                  <span className="text-[10px] tracking-wide">{t(it.labelKey)}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

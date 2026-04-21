@@ -10,6 +10,8 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import type { LucideIcon } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/useTranslation";
+import { pick, pickArray } from "@/lib/i18n/resolveContent";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -32,40 +34,54 @@ type Category = Database["public"]["Enums"]["menu_category"];
 const CATEGORY_META: Record<
   Category,
   {
-    label: string;
+    labelTr: string;
+    labelEn: string;
     icon: LucideIcon;
-    blurb: string;
+    blurbTr: string;
+    blurbEn: string;
   }
 > = {
   kokteyller: {
-    label: "Kokteyller",
+    labelTr: "Kokteyller",
+    labelEn: "Cocktails",
     icon: Wine,
-    blurb: "İmza karışımlar, uzun gecelere eşlik eden dengeli tatlar.",
+    blurbTr: "İmza karışımlar, uzun gecelere eşlik eden dengeli tatlar.",
+    blurbEn: "Signature mixes with balanced flavors for long nights.",
   },
   biralar: {
-    label: "Biralar",
+    labelTr: "Biralar",
+    labelEn: "Beers",
     icon: Beer,
-    blurb: "Serin, ferah ve bahçede yavaş içmek için seçilen şişeler.",
+    blurbTr: "Serin, ferah ve bahçede yavaş içmek için seçilen şişeler.",
+    blurbEn: "Cool, refreshing bottles picked for slow garden drinking.",
   },
   saraplar: {
-    label: "Şaraplar",
+    labelTr: "Şaraplar",
+    labelEn: "Wines",
     icon: Grape,
-    blurb: "Akşam masasına yakışan, keyfi uzatan zarif seçimler.",
+    blurbTr: "Akşam masasına yakışan, keyfi uzatan zarif seçimler.",
+    blurbEn: "Elegant picks that suit the evening table and stretch the pleasure.",
   },
   soguk_icecekler: {
-    label: "Soğuk İçecekler",
+    labelTr: "Soğuk İçecekler",
+    labelEn: "Cold Drinks",
     icon: CupSoda,
-    blurb: "Gün batımına kadar eşlik eden hafif ve canlandırıcı seçenekler.",
+    blurbTr: "Gün batımına kadar eşlik eden hafif ve canlandırıcı seçenekler.",
+    blurbEn: "Light, refreshing options that see you through to sunset.",
   },
   sicak_icecekler: {
-    label: "Sıcak İçecekler",
+    labelTr: "Sıcak İçecekler",
+    labelEn: "Hot Drinks",
     icon: Coffee,
-    blurb: "Kahve ve sıcak dokunuşlar için sade ama özenli bir bölüm.",
+    blurbTr: "Kahve ve sıcak dokunuşlar için sade ama özenli bir bölüm.",
+    blurbEn: "A simple but careful section for coffee and warm touches.",
   },
   atistirmaliklar: {
-    label: "Atıştırmalıklar",
+    labelTr: "Atıştırmalıklar",
+    labelEn: "Bites",
     icon: UtensilsCrossed,
-    blurb: "Paylaşımlık tabaklar ve içkinin yanına iyi giden küçük eşlikçiler.",
+    blurbTr: "Paylaşımlık tabaklar ve içkinin yanına iyi giden küçük eşlikçiler.",
+    blurbEn: "Sharing plates and small companions that go well with drinks.",
   },
 };
 
@@ -78,9 +94,11 @@ const CATEGORY_ORDER: Category[] = [
   "atistirmaliklar",
 ];
 
-function MenuPage() {
+export function MenuPage() {
+  const { t, locale } = useTranslation();
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openCategory, setOpenCategory] = useState<string>("");
 
   useEffect(() => {
     (async () => {
@@ -110,16 +128,24 @@ function MenuPage() {
   return (
     <div className="px-5 pt-8">
       <div className="mb-6 text-center">
-        <h1 className="font-display text-4xl text-foreground">Menü</h1>
+        <h1 className="font-display text-4xl text-foreground">{t("menu.title")}</h1>
       </div>
 
       {loading ? (
-        <p className="py-12 text-center text-sm text-muted-foreground">Yükleniyor…</p>
+        <p className="py-12 text-center text-sm text-muted-foreground">{t("menu.loading")}</p>
       ) : (
-        <Accordion type="single" collapsible defaultValue="kokteyller" className="space-y-4">
+        <Accordion
+          type="single"
+          collapsible
+          value={openCategory}
+          onValueChange={setOpenCategory}
+          className="space-y-4"
+        >
           {CATEGORY_ORDER.map((category) => {
             const meta = CATEGORY_META[category];
             const categoryItems = itemsByCategory[category];
+            const label = locale === "en" ? meta.labelEn : meta.labelTr;
+            const blurb = locale === "en" ? meta.blurbEn : meta.blurbTr;
 
             return (
               <AccordionItem
@@ -135,10 +161,10 @@ function MenuPage() {
                     <div className="flex min-w-0 flex-1 items-center justify-between gap-2 px-4 py-1">
                       <div className="min-w-0">
                         <h2 className="font-display text-lg leading-tight text-foreground">
-                          {meta.label}
+                          {label}
                         </h2>
                         <p className="max-w-[28ch] text-[12px] leading-relaxed text-muted-foreground">
-                          {meta.blurb}
+                          {blurb}
                         </p>
                       </div>
                       <ChevronDown className="h-4 w-4 shrink-0 text-gold/85 transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -149,42 +175,48 @@ function MenuPage() {
                 <AccordionContent className="px-4 pb-4 pt-0">
                   {categoryItems.length === 0 ? (
                     <p className="py-4 text-center text-sm text-muted-foreground">
-                      Bu kategoride henüz ürün yok.
+                      {t("menu.empty")}
                     </p>
                   ) : (
                     <div className="space-y-0 divide-y divide-white/8">
-                      {categoryItems.map((item) => (
-                        <div key={item.id} className="px-1 py-3.5">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="min-w-0">
-                              <h3 className="font-display text-base leading-tight text-foreground">
-                                {item.name}
-                              </h3>
-                              {item.description && (
-                                <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
-                                  {item.description}
-                                </p>
-                              )}
-                            </div>
-                            <span className="whitespace-nowrap font-display text-base text-gold">
-                              ₺{Number(item.price).toFixed(0)}
-                            </span>
-                          </div>
-
-                          {item.tags && item.tags.length > 0 && (
-                            <div className="mt-2 flex flex-wrap gap-1.5">
-                              {item.tags.map((tag) => (
-                                <span
-                                  key={tag}
-                                  className="rounded-full bg-gold/15 px-2 py-0.5 text-[9px] uppercase tracking-[0.2em] text-gold"
-                                >
-                                  {tag}
+                      {categoryItems.map((item) => {
+                        const name = pick(item, "name", locale);
+                        const description = pick(item, "description", locale);
+                        const tags = pickArray(item, "tags", locale);
+                        return (
+                          <div key={item.id} className="px-1 py-3.5">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0 flex-1">
+                                <h3 className="font-display text-base leading-tight text-foreground">
+                                  {name}
+                                </h3>
+                                {description && (
+                                  <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+                                    {description}
+                                  </p>
+                                )}
+                              </div>
+                              <div className="flex shrink-0 flex-col items-end gap-1.5">
+                                <span className="whitespace-nowrap font-display text-base text-gold">
+                                  ₺{Number(item.price).toFixed(0)}
                                 </span>
-                              ))}
+                                {tags.length > 0 && (
+                                  <div className="flex flex-col items-end gap-1">
+                                    {tags.slice(0, 2).map((tag) => (
+                                      <span
+                                        key={tag}
+                                        className="inline-flex w-[14ch] items-center justify-center rounded-full bg-gold/15 px-2 py-0.5 text-[9px] uppercase tracking-[0.1em] text-gold"
+                                      >
+                                        {tag}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          )}
-                        </div>
-                      ))}
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </AccordionContent>

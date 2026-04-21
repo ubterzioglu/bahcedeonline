@@ -13,13 +13,21 @@ import { Route as SarkiOnerRouteImport } from './routes/sarki-oner'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as KasguideRouteImport } from './routes/kasguide'
 import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
+import { Route as DragomandoRouteImport } from './routes/dragomando'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EnIndexRouteImport } from './routes/en.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as EnSarkiOnerRouteImport } from './routes/en.sarki-oner'
+import { Route as EnMenuRouteImport } from './routes/en.menu'
+import { Route as EnKasguideRouteImport } from './routes/en.kasguide'
+import { Route as EnHakkimizdaRouteImport } from './routes/en.hakkimizda'
+import { Route as EnDragomandoRouteImport } from './routes/en.dragomando'
 import { Route as AdminSarkilarRouteImport } from './routes/admin.sarkilar'
 import { Route as AdminMenuRouteImport } from './routes/admin.menu'
 import { Route as AdminKullanicilarRouteImport } from './routes/admin.kullanicilar'
+import { Route as AdminKartlarRouteImport } from './routes/admin.kartlar'
 import { Route as AdminCalanRouteImport } from './routes/admin.calan'
 
 const SarkiOnerRoute = SarkiOnerRouteImport.update({
@@ -42,6 +50,11 @@ const HakkimizdaRoute = HakkimizdaRouteImport.update({
   path: '/hakkimizda',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DragomandoRoute = DragomandoRouteImport.update({
+  id: '/dragomando',
+  path: '/dragomando',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -57,10 +70,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnIndexRoute = EnIndexRouteImport.update({
+  id: '/en/',
+  path: '/en/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const EnSarkiOnerRoute = EnSarkiOnerRouteImport.update({
+  id: '/en/sarki-oner',
+  path: '/en/sarki-oner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnMenuRoute = EnMenuRouteImport.update({
+  id: '/en/menu',
+  path: '/en/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnKasguideRoute = EnKasguideRouteImport.update({
+  id: '/en/kasguide',
+  path: '/en/kasguide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnHakkimizdaRoute = EnHakkimizdaRouteImport.update({
+  id: '/en/hakkimizda',
+  path: '/en/hakkimizda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnDragomandoRoute = EnDragomandoRouteImport.update({
+  id: '/en/dragomando',
+  path: '/en/dragomando',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminSarkilarRoute = AdminSarkilarRouteImport.update({
   id: '/sarkilar',
@@ -77,6 +120,11 @@ const AdminKullanicilarRoute = AdminKullanicilarRouteImport.update({
   path: '/kullanicilar',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminKartlarRoute = AdminKartlarRouteImport.update({
+  id: '/kartlar',
+  path: '/kartlar',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCalanRoute = AdminCalanRouteImport.update({
   id: '/calan',
   path: '/calan',
@@ -87,43 +135,67 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/dragomando': typeof DragomandoRoute
   '/hakkimizda': typeof HakkimizdaRoute
   '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
+  '/admin/kartlar': typeof AdminKartlarRoute
   '/admin/kullanicilar': typeof AdminKullanicilarRoute
   '/admin/menu': typeof AdminMenuRoute
   '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/en/dragomando': typeof EnDragomandoRoute
+  '/en/hakkimizda': typeof EnHakkimizdaRoute
+  '/en/kasguide': typeof EnKasguideRoute
+  '/en/menu': typeof EnMenuRoute
+  '/en/sarki-oner': typeof EnSarkiOnerRoute
   '/admin/': typeof AdminIndexRoute
+  '/en/': typeof EnIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dragomando': typeof DragomandoRoute
   '/hakkimizda': typeof HakkimizdaRoute
   '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
+  '/admin/kartlar': typeof AdminKartlarRoute
   '/admin/kullanicilar': typeof AdminKullanicilarRoute
   '/admin/menu': typeof AdminMenuRoute
   '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/en/dragomando': typeof EnDragomandoRoute
+  '/en/hakkimizda': typeof EnHakkimizdaRoute
+  '/en/kasguide': typeof EnKasguideRoute
+  '/en/menu': typeof EnMenuRoute
+  '/en/sarki-oner': typeof EnSarkiOnerRoute
   '/admin': typeof AdminIndexRoute
+  '/en': typeof EnIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/dragomando': typeof DragomandoRoute
   '/hakkimizda': typeof HakkimizdaRoute
   '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
+  '/admin/kartlar': typeof AdminKartlarRoute
   '/admin/kullanicilar': typeof AdminKullanicilarRoute
   '/admin/menu': typeof AdminMenuRoute
   '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/en/dragomando': typeof EnDragomandoRoute
+  '/en/hakkimizda': typeof EnHakkimizdaRoute
+  '/en/kasguide': typeof EnKasguideRoute
+  '/en/menu': typeof EnMenuRoute
+  '/en/sarki-oner': typeof EnSarkiOnerRoute
   '/admin/': typeof AdminIndexRoute
+  '/en/': typeof EnIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,52 +203,83 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/dragomando'
     | '/hakkimizda'
     | '/kasguide'
     | '/menu'
     | '/sarki-oner'
     | '/admin/calan'
+    | '/admin/kartlar'
     | '/admin/kullanicilar'
     | '/admin/menu'
     | '/admin/sarkilar'
+    | '/en/dragomando'
+    | '/en/hakkimizda'
+    | '/en/kasguide'
+    | '/en/menu'
+    | '/en/sarki-oner'
     | '/admin/'
+    | '/en/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/dragomando'
     | '/hakkimizda'
     | '/kasguide'
     | '/menu'
     | '/sarki-oner'
     | '/admin/calan'
+    | '/admin/kartlar'
     | '/admin/kullanicilar'
     | '/admin/menu'
     | '/admin/sarkilar'
+    | '/en/dragomando'
+    | '/en/hakkimizda'
+    | '/en/kasguide'
+    | '/en/menu'
+    | '/en/sarki-oner'
     | '/admin'
+    | '/en'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/auth'
+    | '/dragomando'
     | '/hakkimizda'
     | '/kasguide'
     | '/menu'
     | '/sarki-oner'
     | '/admin/calan'
+    | '/admin/kartlar'
     | '/admin/kullanicilar'
     | '/admin/menu'
     | '/admin/sarkilar'
+    | '/en/dragomando'
+    | '/en/hakkimizda'
+    | '/en/kasguide'
+    | '/en/menu'
+    | '/en/sarki-oner'
     | '/admin/'
+    | '/en/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
+  DragomandoRoute: typeof DragomandoRoute
   HakkimizdaRoute: typeof HakkimizdaRoute
   KasguideRoute: typeof KasguideRoute
   MenuRoute: typeof MenuRoute
   SarkiOnerRoute: typeof SarkiOnerRoute
+  EnDragomandoRoute: typeof EnDragomandoRoute
+  EnHakkimizdaRoute: typeof EnHakkimizdaRoute
+  EnKasguideRoute: typeof EnKasguideRoute
+  EnMenuRoute: typeof EnMenuRoute
+  EnSarkiOnerRoute: typeof EnSarkiOnerRoute
+  EnIndexRoute: typeof EnIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -209,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HakkimizdaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dragomando': {
+      id: '/dragomando'
+      path: '/dragomando'
+      fullPath: '/dragomando'
+      preLoaderRoute: typeof DragomandoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -230,12 +340,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/en/': {
+      id: '/en/'
+      path: '/en'
+      fullPath: '/en/'
+      preLoaderRoute: typeof EnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/en/sarki-oner': {
+      id: '/en/sarki-oner'
+      path: '/en/sarki-oner'
+      fullPath: '/en/sarki-oner'
+      preLoaderRoute: typeof EnSarkiOnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/menu': {
+      id: '/en/menu'
+      path: '/en/menu'
+      fullPath: '/en/menu'
+      preLoaderRoute: typeof EnMenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/kasguide': {
+      id: '/en/kasguide'
+      path: '/en/kasguide'
+      fullPath: '/en/kasguide'
+      preLoaderRoute: typeof EnKasguideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/hakkimizda': {
+      id: '/en/hakkimizda'
+      path: '/en/hakkimizda'
+      fullPath: '/en/hakkimizda'
+      preLoaderRoute: typeof EnHakkimizdaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/dragomando': {
+      id: '/en/dragomando'
+      path: '/en/dragomando'
+      fullPath: '/en/dragomando'
+      preLoaderRoute: typeof EnDragomandoRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/sarkilar': {
       id: '/admin/sarkilar'
@@ -258,6 +410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminKullanicilarRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/kartlar': {
+      id: '/admin/kartlar'
+      path: '/kartlar'
+      fullPath: '/admin/kartlar'
+      preLoaderRoute: typeof AdminKartlarRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/calan': {
       id: '/admin/calan'
       path: '/calan'
@@ -270,6 +429,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminCalanRoute: typeof AdminCalanRoute
+  AdminKartlarRoute: typeof AdminKartlarRoute
   AdminKullanicilarRoute: typeof AdminKullanicilarRoute
   AdminMenuRoute: typeof AdminMenuRoute
   AdminSarkilarRoute: typeof AdminSarkilarRoute
@@ -278,6 +438,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCalanRoute: AdminCalanRoute,
+  AdminKartlarRoute: AdminKartlarRoute,
   AdminKullanicilarRoute: AdminKullanicilarRoute,
   AdminMenuRoute: AdminMenuRoute,
   AdminSarkilarRoute: AdminSarkilarRoute,
@@ -290,10 +451,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
+  DragomandoRoute: DragomandoRoute,
   HakkimizdaRoute: HakkimizdaRoute,
   KasguideRoute: KasguideRoute,
   MenuRoute: MenuRoute,
   SarkiOnerRoute: SarkiOnerRoute,
+  EnDragomandoRoute: EnDragomandoRoute,
+  EnHakkimizdaRoute: EnHakkimizdaRoute,
+  EnKasguideRoute: EnKasguideRoute,
+  EnMenuRoute: EnMenuRoute,
+  EnSarkiOnerRoute: EnSarkiOnerRoute,
+  EnIndexRoute: EnIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

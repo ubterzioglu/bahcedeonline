@@ -8,6 +8,7 @@ import {
   LockKeyhole,
   Menu,
   X,
+  LayoutGrid,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { adminApi } from "@/lib/admin-api";
@@ -27,6 +28,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { to: "/admin", label: "Pano", icon: LayoutDashboard, exact: true },
   { to: "/admin/menu", label: "Menü", icon: UtensilsCrossed },
+  { to: "/admin/kartlar", label: "Kartlar", icon: LayoutGrid },
   { to: "/admin/sarkilar", label: "Şarkılar", icon: Music },
   { to: "/admin/calan", label: "Çalan", icon: Radio },
 ];

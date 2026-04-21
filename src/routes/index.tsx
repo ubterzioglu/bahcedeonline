@@ -1,8 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import hero from "@/assets/hero-bahce.jpg";
 import beachVideo from "@/assets/beach-waves.mp4";
-import turtle from "@/assets/turtle.jpg";
 import { Sparkles, ChevronRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
+import { useTranslation } from "@/lib/i18n/useTranslation";
+import { pick } from "@/lib/i18n/resolveContent";
+import { LanguageToggle } from "@/components/LanguageToggle";
+
+type HomeCard = Database["public"]["Tables"]["home_cards"]["Row"];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,7 +26,21 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-function Home() {
+export function Home() {
+  const { t, locale, localize } = useTranslation();
+  const [cards, setCards] = useState<HomeCard[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("home_cards")
+        .select("*")
+        .eq("is_published", true)
+        .order("sort_order", { ascending: true });
+      setCards(data ?? []);
+    })();
+  }, []);
+
   return (
     <>
       {/* HERO */}
@@ -38,86 +59,90 @@ function Home() {
 
         <div className="relative px-6 pt-12 pb-8 h-full flex flex-col">
           <p className="font-script text-2xl text-white/80 drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]">
-            Hoş geldiniz!
+            {t("home.welcome")}
           </p>
           <h1 className="font-display mt-2 text-[44px] font-semibold leading-[0.98] tracking-[-0.02em] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.3)]">
-            Kaş'ın kalbinde
+            {t("home.hero.line1")}
             <br />
-            <span className="text-white">bir Akdeniz bahçesi.</span>
+            <span className="text-white">{t("home.hero.line2")}</span>
           </h1>
 
           <div className="mt-auto space-y-4">
+            <LanguageToggle variant="hero" />
             <Link
-              to="/menu"
+              to={localize("/menu")}
               className="hero-cta flex items-center justify-center gap-2.5 rounded-full border border-white/18 px-8 py-5 text-lg font-semibold tracking-[0.01em] text-white active:scale-[0.985] transition duration-300"
             >
-              <Sparkles className="h-5 w-5" /> Menüyü Keşfet
+              <Sparkles className="h-5 w-5" /> {t("home.cta.menu")}
             </Link>
           </div>
         </div>
       </section>
 
-      {/* STORY STRIP */}
-      <section className="px-5 pt-12">
-        <div className="glass-card rounded-3xl p-3 shadow-elegant">
-          <div className="flex items-stretch gap-4">
-            <div className="w-[112px] shrink-0 overflow-hidden rounded-2xl sm:w-[132px]">
-              <img
-                src={turtle}
-                alt="Caretta caretta"
-                className="h-full w-full aspect-square object-cover"
-                loading="lazy"
-              />
-            </div>
-            <div className="min-w-0 flex-1 py-1 pr-1">
-              <p className="font-script text-xl text-gradient-gold mb-1">bizim hikâyemiz</p>
-              <h2 className="font-display text-xl leading-none text-foreground mb-2 whitespace-nowrap">
-                Bahçede bir ömür yaz
-              </h2>
-              <p className="text-sm text-foreground/85 leading-relaxed mb-3">
-                Kaş&apos;ın masmavi suyunu içeride değil, dışarıda yaşıyoruz. Palmiyelerin altında,
-                fenerlerin ışığında uzun yaz akşamları kuruyoruz.
-              </p>
-              <Link
-                to="/hakkimizda"
-                className="inline-flex items-center gap-1.5 text-gold text-sm border-b border-gold/40 pb-1"
-              >
-                Devamını oku <ChevronRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-6">
-          <Link to="/kasguide">
-            <div className="glass-card rounded-3xl p-3 shadow-elegant">
-              <div className="flex items-stretch gap-4">
-                <div className="w-[112px] shrink-0 overflow-hidden rounded-2xl sm:w-[132px]">
-                  <img
-                    src="https://placehold.co/400x400?text=Kasguide"
-                    alt="Kasguide.de"
-                    className="h-full w-full aspect-square object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="min-w-0 flex-1 py-1 pr-1">
-                  <p className="font-script text-xl text-gradient-gold mb-1">kaş rehberi</p>
-                  <h2 className="font-display text-xl leading-none text-foreground mb-2 whitespace-nowrap">
-                    Kasguide.de
-                  </h2>
-                  <p className="text-sm text-foreground/85 leading-relaxed mb-3">
-                    Kaş&apos;ın en kapsamlı rehberi. Restoranlar, plajlar, aktiviteler ve daha
-                    fazlası.
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-gold text-sm border-b border-gold/40 pb-1">
-                    Keşfet <ChevronRight className="h-4 w-4" />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Link>
-        </div>
+      {/* CARDS */}
+      <section className="px-5 pt-12 space-y-6">
+        {cards.map((card) => (
+          <HomeCardTile key={card.id} card={card} locale={locale} localize={localize} />
+        ))}
       </section>
     </>
+  );
+}
+
+function HomeCardTile({
+  card,
+  locale,
+  localize,
+}: {
+  card: HomeCard;
+  locale: "tr" | "en";
+  localize: (path: string) => string;
+}) {
+  const title = pick(card, "title", locale);
+  const body = pick(card, "body", locale);
+  const script = pick(card, "script_label", locale);
+  const cta = pick(card, "cta_label", locale);
+
+  const content = (
+    <div className="glass-card rounded-3xl p-3 shadow-elegant">
+      <div className="flex items-stretch gap-4">
+        <div className="w-[112px] shrink-0 overflow-hidden rounded-2xl sm:w-[132px]">
+          {card.image_url ? (
+            <img
+              src={card.image_url}
+              alt={title}
+              className="h-full w-full aspect-square object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="h-full w-full aspect-square bg-sea" />
+          )}
+        </div>
+        <div className="min-w-0 flex-1 py-1 pr-1">
+          {script && <p className="font-script text-xl text-gradient-gold mb-1">{script}</p>}
+          <h2 className="font-display text-xl leading-none text-foreground mb-2 whitespace-nowrap">
+            {title}
+          </h2>
+          <p className="text-sm text-foreground/85 leading-relaxed mb-3">{body}</p>
+          <span className="inline-flex items-center gap-1.5 text-gold text-sm border-b border-gold/40 pb-1">
+            {cta} <ChevronRight className="h-4 w-4" />
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (card.link_type === "external") {
+    return (
+      <a href={card.link_to} target="_blank" rel="noopener noreferrer" className="block">
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={localize(card.link_to)} className="block">
+      {content}
+    </Link>
   );
 }

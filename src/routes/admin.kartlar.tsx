@@ -1,81 +1,86 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import type { Database } from "@/integrations/supabase/types";
 import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
-import { adminApi, type MenuItem } from "@/lib/admin-api";
+import { adminApi, type HomeCard } from "@/lib/admin-api";
 
-export const Route = createFileRoute("/admin/menu")({
-  component: AdminMenu,
+export const Route = createFileRoute("/admin/kartlar")({
+  component: AdminKartlar,
 });
 
-type Item = Database["public"]["Tables"]["menu_items"]["Row"];
-type Category = Database["public"]["Enums"]["menu_category"];
-
-const CATEGORIES: { value: Category; label: string }[] = [
-  { value: "kokteyller", label: "Kokteyller" },
-  { value: "biralar", label: "Biralar" },
-  { value: "saraplar", label: "Şaraplar" },
-  { value: "soguk_icecekler", label: "Soğuk" },
-  { value: "sicak_icecekler", label: "Sıcak" },
-  { value: "atistirmaliklar", label: "Atıştırmalık" },
-];
-
-const empty = {
-  name: "",
-  name_en: "",
-  description: "",
-  description_en: "",
-  price: 0,
-  category: "kokteyller" as Category,
-  image_url: "" as string | null,
-  tags: [] as string[],
-  tags_en: [] as string[],
-  is_available: true,
-  sort_order: 0,
+type EditState = {
+  id?: string;
+  script_label: string;
+  script_label_en: string;
+  title: string;
+  title_en: string;
+  body: string;
+  body_en: string;
+  image_url: string;
+  cta_label: string;
+  cta_label_en: string;
+  link_to: string;
+  link_type: "internal" | "external";
+  sort_order: number;
+  is_published: boolean;
 };
 
-function AdminMenu() {
-  const [items, setItems] = useState<Item[]>([]);
-  const [editing, setEditing] = useState<(typeof empty & { id?: string }) | null>(null);
-  const [filter, setFilter] = useState<Category | "all">("all");
+const empty: EditState = {
+  script_label: "",
+  script_label_en: "",
+  title: "",
+  title_en: "",
+  body: "",
+  body_en: "",
+  image_url: "",
+  cta_label: "Keşfet",
+  cta_label_en: "Discover",
+  link_to: "/",
+  link_type: "internal",
+  sort_order: 0,
+  is_published: true,
+};
+
+function AdminKartlar() {
+  const [cards, setCards] = useState<HomeCard[]>([]);
+  const [editing, setEditing] = useState<EditState | null>(null);
   const [uploading, setUploading] = useState(false);
 
   const load = async () => {
-    setItems(await adminApi.listMenu());
+    setCards(await adminApi.listHomeCards());
   };
   useEffect(() => {
     load();
   }, []);
 
-  const filtered = filter === "all" ? items : items.filter((i) => i.category === filter);
-
   const save = async () => {
     if (!editing) return;
     const payload = {
-      name: editing.name,
-      name_en: editing.name_en || null,
-      description: editing.description || null,
-      description_en: editing.description_en || null,
-      price: Number(editing.price),
-      category: editing.category,
+      script_label: editing.script_label,
+      script_label_en: editing.script_label_en || null,
+      title: editing.title,
+      title_en: editing.title_en || null,
+      body: editing.body,
+      body_en: editing.body_en || null,
       image_url: editing.image_url || null,
-      tags: editing.tags,
-      tags_en: editing.tags_en,
-      is_available: editing.is_available,
+      cta_label: editing.cta_label,
+      cta_label_en: editing.cta_label_en || null,
+      link_to: editing.link_to,
+      link_type: editing.link_type,
       sort_order: editing.sort_order,
+      is_published: editing.is_published,
     };
     if (editing.id) {
-      await adminApi.updateMenuItem(editing.id, payload as Partial<MenuItem>);
+      await adminApi.updateHomeCard(editing.id, payload as Partial<HomeCard>);
     } else {
-      await adminApi.createMenuItem(payload as Partial<MenuItem>);
+      await adminApi.createHomeCard(payload as Partial<HomeCard>);
     }
     setEditing(null);
     load();
   };
 
   const del = async (id: string) => {
-    if (!confirm("Bu ürünü silmek istediğinden emin misin?")) return;
-    await adminApi.deleteMenuItem(id);
+    if (!confirm("Bu kartı silmek istediğinden emin misin?")) return;
+    await adminApi.deleteHomeCard(id);
     load();
   };
 
@@ -83,7 +88,7 @@ function AdminMenu() {
     if (!editing) return;
     setUploading(true);
     try {
-      const { publicUrl } = await adminApi.uploadMenuImage(file);
+      const { publicUrl } = await adminApi.uploadHomeCardImage(file);
       setEditing({ ...editing, image_url: publicUrl });
     } catch (err) {
       alert(err instanceof Error ? err.message : "Yükleme başarısız.");
@@ -95,8 +100,8 @@ function AdminMenu() {
     <div className="pb-4">
       <div className="flex items-center justify-between mb-4 gap-3">
         <div>
-          <h1 className="font-display text-3xl text-foreground">Menü</h1>
-          <p className="text-xs text-muted-foreground">Ürünleri yönet.</p>
+          <h1 className="font-display text-3xl text-foreground">Kartlar</h1>
+          <p className="text-xs text-muted-foreground">Ana sayfa kartlarını yönet.</p>
         </div>
         <button
           onClick={() => setEditing({ ...empty })}
@@ -106,30 +111,17 @@ function AdminMenu() {
         </button>
       </div>
 
-      <div className="overflow-x-auto scrollbar-none mb-4">
-        <div className="flex gap-2 pb-2">
-          <FilterBtn active={filter === "all"} onClick={() => setFilter("all")}>
-            Tümü
-          </FilterBtn>
-          {CATEGORIES.map((c) => (
-            <FilterBtn key={c.value} active={filter === c.value} onClick={() => setFilter(c.value)}>
-              {c.label}
-            </FilterBtn>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-        {filtered.length === 0 && (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {cards.length === 0 && (
           <div className="col-span-full glass-card rounded-2xl p-8 text-center text-sm text-muted-foreground">
-            Henüz ürün yok.
+            Henüz kart yok.
           </div>
         )}
-        {filtered.map((it) => (
-          <div key={it.id} className="glass-card rounded-2xl p-3 flex items-center gap-3">
-            {it.image_url ? (
+        {cards.map((c) => (
+          <div key={c.id} className="glass-card rounded-2xl p-3 flex items-center gap-3">
+            {c.image_url ? (
               <img
-                src={it.image_url}
+                src={c.image_url}
                 alt=""
                 className="h-14 w-14 rounded-xl object-cover shrink-0"
               />
@@ -138,29 +130,34 @@ function AdminMenu() {
             )}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="font-display text-base text-foreground truncate">{it.name}</h3>
-                {!it.is_available && (
+                <h3 className="font-display text-base text-foreground truncate">{c.title}</h3>
+                {!c.is_published && (
                   <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-destructive/20 text-destructive">
                     Pasif
                   </span>
                 )}
               </div>
               <p className="text-[11px] text-muted-foreground truncate">
-                {CATEGORIES.find((c) => c.value === it.category)?.label} · ₺
-                {Number(it.price).toFixed(0)}
+                #{c.sort_order} · {c.link_type === "internal" ? "iç" : "dış"} → {c.link_to}
               </p>
             </div>
             <button
               onClick={() =>
                 setEditing({
-                  ...empty,
-                  ...it,
-                  name_en: it.name_en ?? "",
-                  description: it.description ?? "",
-                  description_en: it.description_en ?? "",
-                  image_url: it.image_url,
-                  tags: it.tags ?? [],
-                  tags_en: it.tags_en ?? [],
+                  id: c.id,
+                  script_label: c.script_label,
+                  script_label_en: c.script_label_en ?? "",
+                  title: c.title,
+                  title_en: c.title_en ?? "",
+                  body: c.body,
+                  body_en: c.body_en ?? "",
+                  image_url: c.image_url ?? "",
+                  cta_label: c.cta_label,
+                  cta_label_en: c.cta_label_en ?? "",
+                  link_to: c.link_to,
+                  link_type: (c.link_type as "internal" | "external") ?? "internal",
+                  sort_order: c.sort_order,
+                  is_published: c.is_published,
                 })
               }
               className="p-2 text-foreground/70 active:text-gold"
@@ -168,7 +165,7 @@ function AdminMenu() {
               <Pencil className="h-4 w-4" />
             </button>
             <button
-              onClick={() => del(it.id)}
+              onClick={() => del(c.id)}
               className="p-2 text-foreground/70 active:text-destructive"
             >
               <Trash2 className="h-4 w-4" />
@@ -181,7 +178,7 @@ function AdminMenu() {
         <div className="fixed inset-0 z-50 bg-background/95 overflow-y-auto">
           <div className="max-w-lg mx-auto p-5 pb-32">
             <div className="flex items-center justify-between mb-5 sticky top-0 bg-background/90 backdrop-blur py-3 -mx-5 px-5 border-b border-border/40">
-              <h2 className="font-display text-xl">{editing.id ? "Düzenle" : "Yeni Ürün"}</h2>
+              <h2 className="font-display text-xl">{editing.id ? "Düzenle" : "Yeni Kart"}</h2>
               <button onClick={() => setEditing(null)} className="p-2">
                 <X className="h-5 w-5" />
               </button>
@@ -190,100 +187,90 @@ function AdminMenu() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <Input
-                  label="Ad (TR) *"
-                  value={editing.name}
-                  onChange={(v) => setEditing({ ...editing, name: v })}
+                  label="Üst etiket (TR)"
+                  value={editing.script_label}
+                  onChange={(v) => setEditing({ ...editing, script_label: v })}
                 />
                 <Input
-                  label="Ad (EN)"
-                  value={editing.name_en}
-                  onChange={(v) => setEditing({ ...editing, name_en: v })}
+                  label="Top label (EN)"
+                  value={editing.script_label_en}
+                  onChange={(v) => setEditing({ ...editing, script_label_en: v })}
                 />
-              </div>
-              <div>
-                <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
-                  Kategori
-                </label>
-                <select
-                  value={editing.category}
-                  onChange={(e) => setEditing({ ...editing, category: e.target.value as Category })}
-                  className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
-                >
-                  {CATEGORIES.map((c) => (
-                    <option key={c.value} value={c.value}>
-                      {c.label}
-                    </option>
-                  ))}
-                </select>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <Input
-                  label="Fiyat (₺)"
-                  type="number"
-                  value={String(editing.price)}
-                  onChange={(v) => setEditing({ ...editing, price: Number(v) })}
+                  label="Başlık (TR) *"
+                  value={editing.title}
+                  onChange={(v) => setEditing({ ...editing, title: v })}
                 />
                 <Input
-                  label="Sıra"
-                  type="number"
-                  value={String(editing.sort_order)}
-                  onChange={(v) => setEditing({ ...editing, sort_order: Number(v) })}
+                  label="Title (EN)"
+                  value={editing.title_en}
+                  onChange={(v) => setEditing({ ...editing, title_en: v })}
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
-                    Açıklama (TR)
+                    Metin (TR)
                   </label>
                   <textarea
-                    value={editing.description}
-                    onChange={(e) => setEditing({ ...editing, description: e.target.value })}
-                    rows={3}
+                    value={editing.body}
+                    onChange={(e) => setEditing({ ...editing, body: e.target.value })}
+                    rows={4}
                     className="w-full bg-input/60 border border-border rounded-2xl px-4 py-3 text-sm focus:border-gold focus:outline-none"
                   />
                 </div>
                 <div>
                   <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
-                    Description (EN)
+                    Body (EN)
                   </label>
                   <textarea
-                    value={editing.description_en}
-                    onChange={(e) => setEditing({ ...editing, description_en: e.target.value })}
-                    rows={3}
+                    value={editing.body_en}
+                    onChange={(e) => setEditing({ ...editing, body_en: e.target.value })}
+                    rows={4}
                     className="w-full bg-input/60 border border-border rounded-2xl px-4 py-3 text-sm focus:border-gold focus:outline-none"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <Input
-                  label="Etiketler (TR, virgülle, max 2)"
-                  value={editing.tags.join(", ")}
-                  onChange={(v) =>
-                    setEditing({
-                      ...editing,
-                      tags: v
-                        .split(",")
-                        .map((t) => t.trim())
-                        .filter(Boolean)
-                        .slice(0, 2),
-                    })
-                  }
+                  label="CTA (TR)"
+                  value={editing.cta_label}
+                  onChange={(v) => setEditing({ ...editing, cta_label: v })}
                 />
                 <Input
-                  label="Tags (EN, comma, max 2)"
-                  value={editing.tags_en.join(", ")}
-                  onChange={(v) =>
-                    setEditing({
-                      ...editing,
-                      tags_en: v
-                        .split(",")
-                        .map((t) => t.trim())
-                        .filter(Boolean)
-                        .slice(0, 2),
-                    })
-                  }
+                  label="CTA (EN)"
+                  value={editing.cta_label_en}
+                  onChange={(v) => setEditing({ ...editing, cta_label_en: v })}
                 />
               </div>
+              <Input
+                label="Sıra"
+                type="number"
+                value={String(editing.sort_order)}
+                onChange={(v) => setEditing({ ...editing, sort_order: Number(v) })}
+              />
+              <div>
+                <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+                  Bağlantı tipi
+                </label>
+                <select
+                  value={editing.link_type}
+                  onChange={(e) =>
+                    setEditing({ ...editing, link_type: e.target.value as "internal" | "external" })
+                  }
+                  className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
+                >
+                  <option value="internal">İç sayfa (/route)</option>
+                  <option value="external">Dış URL (https://...)</option>
+                </select>
+              </div>
+              <Input
+                label={editing.link_type === "internal" ? "Rota (ör. /dragomando)" : "URL"}
+                value={editing.link_to}
+                onChange={(v) => setEditing({ ...editing, link_to: v })}
+              />
 
               <div>
                 <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
@@ -316,16 +303,26 @@ function AdminMenu() {
                     </button>
                   )}
                 </div>
+                <p className="text-[10px] text-muted-foreground mt-1.5">
+                  Veya URL gir:
+                </p>
+                <input
+                  type="text"
+                  value={editing.image_url}
+                  onChange={(e) => setEditing({ ...editing, image_url: e.target.value })}
+                  placeholder="/turtle.jpg veya https://..."
+                  className="mt-1 w-full bg-input/60 border border-border rounded-full px-4 py-2.5 text-xs focus:border-gold focus:outline-none"
+                />
               </div>
 
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
-                  checked={editing.is_available}
-                  onChange={(e) => setEditing({ ...editing, is_available: e.target.checked })}
+                  checked={editing.is_published}
+                  onChange={(e) => setEditing({ ...editing, is_published: e.target.checked })}
                   className="h-4 w-4 accent-[oklch(0.82_0.13_85)]"
                 />
-                Menüde aktif
+                Yayında
               </label>
             </div>
 
@@ -339,7 +336,7 @@ function AdminMenu() {
                 </button>
                 <button
                   onClick={save}
-                  disabled={!editing.name}
+                  disabled={!editing.title}
                   className="flex-1 px-5 py-3 rounded-full bg-gold text-gold-foreground text-sm shadow-gold disabled:opacity-50"
                 >
                   Kaydet
@@ -350,25 +347,6 @@ function AdminMenu() {
         </div>
       )}
     </div>
-  );
-}
-
-function FilterBtn({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`px-4 py-1.5 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap border ${active ? "bg-gold text-gold-foreground border-transparent" : "border-border"}`}
-    >
-      {children}
-    </button>
   );
 }
 

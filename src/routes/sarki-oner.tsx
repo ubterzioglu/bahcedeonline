@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Music2, Send } from "lucide-react";
 import { z } from "zod";
 import { NowPlayingWidget } from "@/components/NowPlayingWidget";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 
 export const Route = createFileRoute("/sarki-oner")({
   head: () => ({
@@ -17,14 +18,15 @@ export const Route = createFileRoute("/sarki-oner")({
   component: SongRequest,
 });
 
-const schema = z.object({
-  guest_name: z.string().trim().max(50).optional(),
-  song_title: z.string().trim().min(1, "Şarkı adı gerekli").max(120),
-  artist: z.string().trim().max(80).optional(),
-  message: z.string().trim().max(280).optional(),
-});
+export function SongRequest() {
+  const { t } = useTranslation();
+  const schema = z.object({
+    guest_name: z.string().trim().max(50).optional(),
+    song_title: z.string().trim().min(1, t("song.form.required")).max(120),
+    artist: z.string().trim().max(80).optional(),
+    message: z.string().trim().max(280).optional(),
+  });
 
-function SongRequest() {
   const [form, setForm] = useState({ guest_name: "", song_title: "", artist: "", message: "" });
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
@@ -47,7 +49,7 @@ function SongRequest() {
     });
     setSending(false);
     if (error) {
-      setError("Bir şeyler ters gitti, tekrar dener misin?");
+      setError(t("song.form.error"));
       return;
     }
     setDone(true);
@@ -57,9 +59,9 @@ function SongRequest() {
   return (
     <div className="px-5 pt-8 space-y-5">
       <div className="text-center">
-        <p className="font-script text-2xl text-gradient-gold mb-1">next song</p>
-        <h1 className="font-display text-4xl text-foreground">Sıradaki parça?</h1>
-        <p className="mt-2 text-sm text-muted-foreground">DJ'imize gönder, bahçede çalsın.</p>
+        <p className="font-script text-2xl text-gradient-gold mb-1">{t("song.script")}</p>
+        <h1 className="font-display text-4xl text-foreground">{t("song.title")}</h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t("song.sub")}</p>
       </div>
 
       <NowPlayingWidget />
@@ -68,47 +70,47 @@ function SongRequest() {
         {done ? (
           <div className="text-center py-6">
             <div className="text-5xl mb-3">🎶</div>
-            <h2 className="font-display text-2xl text-gold mb-1">Aldık, teşekkürler!</h2>
-            <p className="text-muted-foreground text-sm">Bahçede çalmasını umuyoruz.</p>
+            <h2 className="font-display text-2xl text-gold mb-1">{t("song.success.title")}</h2>
+            <p className="text-muted-foreground text-sm">{t("song.success.sub")}</p>
             <button
               type="button"
               onClick={() => setDone(false)}
               className="mt-5 text-sm text-gold border-b border-gold/40"
             >
-              Bir tane daha öner
+              {t("song.success.again")}
             </button>
           </div>
         ) : (
           <>
             <Field
-              label="Adın (opsiyonel)"
+              label={t("song.form.name")}
               value={form.guest_name}
               onChange={(v) => setForm({ ...form, guest_name: v })}
-              placeholder="Misafir"
+              placeholder={t("song.form.name.ph")}
             />
             <Field
-              label="Şarkı *"
+              label={t("song.form.title")}
               value={form.song_title}
               onChange={(v) => setForm({ ...form, song_title: v })}
-              placeholder="Örn: Kaptan"
+              placeholder={t("song.form.title.ph")}
               required
             />
             <Field
-              label="Sanatçı"
+              label={t("song.form.artist")}
               value={form.artist}
               onChange={(v) => setForm({ ...form, artist: v })}
-              placeholder="Örn: Mor ve Ötesi"
+              placeholder={t("song.form.artist.ph")}
             />
             <div>
               <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
-                Bir not (opsiyonel)
+                {t("song.form.message")}
               </label>
               <textarea
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 rows={3}
                 maxLength={280}
-                placeholder="Bu şarkıyı neden duymak istiyorsun?"
+                placeholder={t("song.form.message.ph")}
                 className="w-full bg-input/60 border border-border rounded-2xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-gold focus:outline-none transition"
               />
             </div>
@@ -119,7 +121,7 @@ function SongRequest() {
               className="w-full inline-flex items-center justify-center gap-2 bg-gold text-gold-foreground rounded-full py-4 text-sm font-medium shadow-gold disabled:opacity-50 active:scale-[0.98] transition"
             >
               <Send className="h-4 w-4" />
-              {sending ? "Gönderiliyor…" : "Öneriyi Gönder"}
+              {sending ? t("song.form.sending") : t("song.form.submit")}
             </button>
           </>
         )}
@@ -128,12 +130,8 @@ function SongRequest() {
       <div className="glass-card rounded-2xl p-5 flex gap-3">
         <Music2 className="h-6 w-6 text-gold shrink-0 mt-0.5" />
         <div className="text-xs text-muted-foreground leading-relaxed space-y-1.5">
-          <p className="text-foreground/70 font-medium">Yabancı parçalar çalınmaktadır.</p>
-          <p>
-            Repertuarımız <span className="text-gold/80">rock, soul ve blues</span> ağırlıklıdır.
-            Tüm istekler ekibimize iletilir; çalma sırası ve uygunluk DJ'imizin
-            değerlendirmesindedir — sabırla bekleyin.
-          </p>
+          <p className="text-foreground/70 font-medium">{t("song.notice.title")}</p>
+          <p>{t("song.notice.body")}</p>
         </div>
       </div>
     </div>

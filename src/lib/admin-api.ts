@@ -3,6 +3,7 @@ import type { Database } from "@/integrations/supabase/types";
 type MenuItem = Database["public"]["Tables"]["menu_items"]["Row"];
 type SongRequest = Database["public"]["Tables"]["song_requests"]["Row"];
 type SongRequestStatus = Database["public"]["Enums"]["request_status"];
+type HomeCard = Database["public"]["Tables"]["home_cards"]["Row"];
 
 async function request<T>(input: string, init?: RequestInit): Promise<T> {
   const response = await fetch(input, {
@@ -94,6 +95,29 @@ export const adminApi = {
       method: "PUT",
       body: JSON.stringify(payload),
     }),
+  listHomeCards: () => request<HomeCard[]>("/api/admin/home-cards"),
+  createHomeCard: (payload: Partial<HomeCard>) =>
+    request<HomeCard>("/api/admin/home-cards", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  updateHomeCard: (id: string, payload: Partial<HomeCard>) =>
+    request<HomeCard>(`/api/admin/home-cards/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  deleteHomeCard: (id: string) =>
+    request<{ ok: true }>(`/api/admin/home-cards/${id}`, {
+      method: "DELETE",
+    }),
+  uploadHomeCardImage: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return request<{ publicUrl: string }>("/api/admin/home-cards/upload", {
+      method: "POST",
+      body: formData,
+    });
+  },
 };
 
-export type { MenuItem, SongRequest, SongRequestStatus };
+export type { MenuItem, SongRequest, SongRequestStatus, HomeCard };

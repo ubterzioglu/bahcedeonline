@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { UtensilsCrossed, Music, Radio } from "lucide-react";
+import { UtensilsCrossed, Music, Radio, LayoutGrid } from "lucide-react";
 import { adminApi } from "@/lib/admin-api";
 
 export const Route = createFileRoute("/admin/")({
@@ -28,6 +28,7 @@ function Dashboard() {
 
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
         <Card to="/admin/menu" icon={UtensilsCrossed} label="Menü" value={stats.menu} />
+        <Card to="/admin/kartlar" icon={LayoutGrid} label="Kartlar" value="Yönet" small />
         <Card
           to="/admin/sarkilar"
           icon={Music}

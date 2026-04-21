@@ -8,47 +8,113 @@ export type Database = {
   };
   public: {
     Tables: {
+      home_cards: {
+        Row: {
+          body: string;
+          body_en: string | null;
+          created_at: string;
+          cta_label: string;
+          cta_label_en: string | null;
+          id: string;
+          image_url: string | null;
+          is_published: boolean;
+          link_to: string;
+          link_type: string;
+          script_label: string;
+          script_label_en: string | null;
+          sort_order: number;
+          title: string;
+          title_en: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          body?: string;
+          body_en?: string | null;
+          created_at?: string;
+          cta_label?: string;
+          cta_label_en?: string | null;
+          id?: string;
+          image_url?: string | null;
+          is_published?: boolean;
+          link_to?: string;
+          link_type?: string;
+          script_label?: string;
+          script_label_en?: string | null;
+          sort_order?: number;
+          title: string;
+          title_en?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          body?: string;
+          body_en?: string | null;
+          created_at?: string;
+          cta_label?: string;
+          cta_label_en?: string | null;
+          id?: string;
+          image_url?: string | null;
+          is_published?: boolean;
+          link_to?: string;
+          link_type?: string;
+          script_label?: string;
+          script_label_en?: string | null;
+          sort_order?: number;
+          title?: string;
+          title_en?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       menu_items: {
         Row: {
           category: Database["public"]["Enums"]["menu_category"];
           created_at: string;
           description: string | null;
+          description_en: string | null;
           details: Json | null;
           id: string;
           image_url: string | null;
           is_available: boolean;
           name: string;
+          name_en: string | null;
           price: number;
           sort_order: number;
           tags: string[] | null;
+          tags_en: string[] | null;
           updated_at: string;
         };
         Insert: {
           category: Database["public"]["Enums"]["menu_category"];
           created_at?: string;
           description?: string | null;
+          description_en?: string | null;
           details?: Json | null;
           id?: string;
           image_url?: string | null;
           is_available?: boolean;
           name: string;
+          name_en?: string | null;
           price?: number;
           sort_order?: number;
           tags?: string[] | null;
+          tags_en?: string[] | null;
           updated_at?: string;
         };
         Update: {
           category?: Database["public"]["Enums"]["menu_category"];
           created_at?: string;
           description?: string | null;
+          description_en?: string | null;
           details?: Json | null;
           id?: string;
           image_url?: string | null;
           is_available?: boolean;
           name?: string;
+          name_en?: string | null;
           price?: number;
           sort_order?: number;
           tags?: string[] | null;
+          tags_en?: string[] | null;
           updated_at?: string;
         };
         Relationships: [];

@@ -10,22 +10,31 @@ import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { BottomNav } from "@/components/BottomNav";
+import { LocaleProvider } from "@/lib/i18n/LocaleProvider";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 
 function NotFoundComponent() {
+  return (
+    <LocaleProvider>
+      <NotFoundInner />
+    </LocaleProvider>
+  );
+}
+
+function NotFoundInner() {
+  const { t, localize } = useTranslation();
   return (
     <div className="flex min-h-screen items-center justify-center bg-hero px-4">
       <div className="max-w-md text-center glass-card rounded-3xl p-10">
         <h1 className="text-7xl font-display text-gradient-gold">404</h1>
-        <h2 className="mt-4 text-xl font-display text-foreground">Bu sayfa kayıp</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Aradığın sayfa mevcut değil ya da taşınmış olabilir.
-        </p>
+        <h2 className="mt-4 text-xl font-display text-foreground">{t("notfound.title")}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{t("notfound.desc")}</p>
         <div className="mt-6">
           <Link
-            to="/"
+            to={localize("/")}
             className="inline-flex items-center justify-center rounded-full bg-gold px-6 py-2.5 text-sm font-medium text-gold-foreground hover:opacity-90 transition"
           >
-            Anasayfaya dön
+            {t("notfound.cta")}
           </Link>
         </div>
       </div>
@@ -82,6 +91,14 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  return (
+    <LocaleProvider>
+      <RootLayout />
+    </LocaleProvider>
+  );
+}
+
+function RootLayout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
 
