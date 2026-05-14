@@ -3,22 +3,13 @@ import { useEffect, useState } from "react";
 import type { Database } from "@/integrations/supabase/types";
 import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 import { adminApi, type MenuItem } from "@/lib/admin-api";
+import { isMenuCategory, MENU_CATEGORIES, type MenuCategory } from "@/lib/menu-categories";
 
 export const Route = createFileRoute("/admin/menu")({
   component: AdminMenu,
 });
 
 type Item = Database["public"]["Tables"]["menu_items"]["Row"];
-type Category = Database["public"]["Enums"]["menu_category"];
-
-const CATEGORIES: { value: Category; label: string }[] = [
-  { value: "kokteyller", label: "Kokteyller" },
-  { value: "biralar", label: "Biralar" },
-  { value: "saraplar", label: "Şaraplar" },
-  { value: "soguk_icecekler", label: "Soğuk" },
-  { value: "sicak_icecekler", label: "Sıcak" },
-  { value: "atistirmaliklar", label: "Atıştırmalık" },
-];
 
 const empty = {
   name: "",
@@ -26,7 +17,7 @@ const empty = {
   description: "",
   description_en: "",
   price: 0,
-  category: "kokteyller" as Category,
+  category: "cocktails" as MenuCategory,
   image_url: "" as string | null,
   tags: [] as string[],
   tags_en: [] as string[],
@@ -37,7 +28,7 @@ const empty = {
 function AdminMenu() {
   const [items, setItems] = useState<Item[]>([]);
   const [editing, setEditing] = useState<(typeof empty & { id?: string }) | null>(null);
-  const [filter, setFilter] = useState<Category | "all">("all");
+  const [filter, setFilter] = useState<MenuCategory | "all">("all");
   const [uploading, setUploading] = useState(false);
 
   const load = async () => {
@@ -111,9 +102,9 @@ function AdminMenu() {
           <FilterBtn active={filter === "all"} onClick={() => setFilter("all")}>
             Tümü
           </FilterBtn>
-          {CATEGORIES.map((c) => (
+          {MENU_CATEGORIES.map((c) => (
             <FilterBtn key={c.value} active={filter === c.value} onClick={() => setFilter(c.value)}>
-              {c.label}
+              {c.labelTr}
             </FilterBtn>
           ))}
         </div>
@@ -146,7 +137,7 @@ function AdminMenu() {
                 )}
               </div>
               <p className="text-[11px] text-muted-foreground truncate">
-                {CATEGORIES.find((c) => c.value === it.category)?.label} · ₺
+                {MENU_CATEGORIES.find((c) => c.value === it.category)?.labelTr ?? it.category} · ₺
                 {Number(it.price).toFixed(0)}
               </p>
             </div>
@@ -155,6 +146,7 @@ function AdminMenu() {
                 setEditing({
                   ...empty,
                   ...it,
+                  category: isMenuCategory(it.category) ? it.category : empty.category,
                   name_en: it.name_en ?? "",
                   description: it.description ?? "",
                   description_en: it.description_en ?? "",
@@ -206,12 +198,14 @@ function AdminMenu() {
                 </label>
                 <select
                   value={editing.category}
-                  onChange={(e) => setEditing({ ...editing, category: e.target.value as Category })}
+                  onChange={(e) =>
+                    setEditing({ ...editing, category: e.target.value as MenuCategory })
+                  }
                   className="w-full bg-input/60 border border-border rounded-full px-4 py-3 text-sm focus:border-gold focus:outline-none"
                 >
-                  {CATEGORIES.map((c) => (
+                  {MENU_CATEGORIES.map((c) => (
                     <option key={c.value} value={c.value}>
-                      {c.label}
+                      {c.labelTr}
                     </option>
                   ))}
                 </select>

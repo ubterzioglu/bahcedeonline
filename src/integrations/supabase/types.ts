@@ -67,7 +67,7 @@ export type Database = {
       };
       menu_items: {
         Row: {
-          category: Database["public"]["Enums"]["menu_category"];
+          category: string;
           created_at: string;
           description: string | null;
           description_en: string | null;
@@ -84,7 +84,7 @@ export type Database = {
           updated_at: string;
         };
         Insert: {
-          category: Database["public"]["Enums"]["menu_category"];
+          category: string;
           created_at?: string;
           description?: string | null;
           description_en?: string | null;
@@ -101,7 +101,7 @@ export type Database = {
           updated_at?: string;
         };
         Update: {
-          category?: Database["public"]["Enums"]["menu_category"];
+          category?: string;
           created_at?: string;
           description?: string | null;
           description_en?: string | null;
@@ -209,13 +209,6 @@ export type Database = {
     };
     Enums: {
       app_role: "admin" | "staff";
-      menu_category:
-        | "biralar"
-        | "sicak_icecekler"
-        | "soguk_icecekler"
-        | "saraplar"
-        | "atistirmaliklar"
-        | "kokteyller";
       request_status: "pending" | "approved" | "played" | "rejected";
     };
     CompositeTypes: {
@@ -343,14 +336,6 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "staff"],
-      menu_category: [
-        "biralar",
-        "sicak_icecekler",
-        "soguk_icecekler",
-        "saraplar",
-        "atistirmaliklar",
-        "kokteyller",
-      ],
       request_status: ["pending", "approved", "played", "rejected"],
     },
   },
