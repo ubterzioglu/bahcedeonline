@@ -16,6 +16,7 @@ import {
   MENU_CATEGORY_VALUES,
   type MenuCategory,
 } from "@/lib/menu-categories";
+import { resolveMenuCategory } from "@/lib/menu-item-category";
 import { pick, pickArray } from "@/lib/i18n/resolveContent";
 
 export const Route = createFileRoute("/menu")({
@@ -78,7 +79,7 @@ export function MenuPage() {
     () =>
       MENU_CATEGORY_VALUES.reduce(
         (acc, category) => {
-          acc[category] = items.filter((item) => item.category === category);
+          acc[category] = items.filter((item) => resolveMenuCategory(item) === category);
           return acc;
         },
         {} as Record<MenuCategory, Item[]>,
