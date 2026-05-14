@@ -104,27 +104,31 @@ function HomeCardTile({
   const cta = pick(card, "cta_label", locale);
 
   const content = (
-    <div className="glass-card rounded-3xl p-3 shadow-elegant">
-      <div className="flex items-stretch gap-4">
-        <div className="w-[112px] shrink-0 overflow-hidden rounded-2xl sm:w-[132px]">
+    <div className="glass-card rounded-3xl p-3 shadow-elegant sm:p-3.5">
+      <div className="flex items-start gap-3 sm:items-stretch sm:gap-4">
+        <div className="w-[98px] shrink-0 overflow-hidden rounded-2xl sm:w-[132px]">
           {card.image_url ? (
             <img
               src={card.image_url}
               alt={title}
-              className="h-full w-full aspect-square object-cover"
+              className="aspect-square h-auto w-full object-cover"
               loading="lazy"
             />
           ) : (
-            <div className="h-full w-full aspect-square bg-sea" />
+            <div className="aspect-square h-auto w-full bg-sea" />
           )}
         </div>
-        <div className="min-w-0 flex-1 py-1 pr-1">
-          {script && <p className="font-script text-xl text-gradient-gold mb-1">{script}</p>}
-          <h2 className="font-display text-xl leading-none text-foreground mb-2 whitespace-nowrap">
+        <div className="min-w-0 flex-1 py-0.5 pr-0.5 sm:py-1 sm:pr-1">
+          {script && (
+            <p className="mb-1 text-lg font-script leading-none text-gradient-gold sm:text-xl">
+              {script}
+            </p>
+          )}
+          <h2 className="mb-2 font-display text-[1.05rem] leading-tight text-foreground sm:text-xl">
             {title}
           </h2>
-          <p className="text-sm text-foreground/85 leading-relaxed mb-3">{body}</p>
-          <span className="inline-flex items-center gap-1.5 text-gold text-sm border-b border-gold/40 pb-1">
+          <p className="mb-3 text-[13px] leading-relaxed text-foreground/85 sm:text-sm">{body}</p>
+          <span className="inline-flex items-center gap-1.5 border-b border-gold/40 pb-1 text-sm text-gold">
             {cta} <ChevronRight className="h-4 w-4" />
           </span>
         </div>
