@@ -105,8 +105,8 @@ function HomeCardTile({
 
   const content = (
     <div className="glass-card rounded-3xl p-3 shadow-elegant sm:p-3.5">
-      <div className="flex items-start gap-3 sm:items-stretch sm:gap-4">
-        <div className="w-[98px] shrink-0 overflow-hidden rounded-2xl sm:w-[132px]">
+      <div className="grid grid-cols-[92px_minmax(0,1fr)] items-start gap-3 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-4">
+        <div className="min-w-0 overflow-hidden rounded-2xl">
           {card.image_url ? (
             <img
               src={card.image_url}
@@ -118,17 +118,19 @@ function HomeCardTile({
             <div className="aspect-square h-auto w-full bg-sea" />
           )}
         </div>
-        <div className="min-w-0 flex-1 py-0.5 pr-0.5 sm:py-1 sm:pr-1">
+        <div className="min-w-0 overflow-hidden py-0.5 pr-0.5 sm:py-1 sm:pr-1">
           {script && (
-            <p className="mb-1 text-lg font-script leading-none text-gradient-gold sm:text-xl">
+            <p className="mb-1 truncate text-base font-script leading-none text-gradient-gold sm:text-xl">
               {script}
             </p>
           )}
-          <h2 className="mb-2 font-display text-[1.05rem] leading-tight text-foreground sm:text-xl">
+          <h2 className="mb-2 break-words font-display text-[0.98rem] leading-snug text-foreground sm:text-xl">
             {title}
           </h2>
-          <p className="mb-3 text-[13px] leading-relaxed text-foreground/85 sm:text-sm">{body}</p>
-          <span className="inline-flex items-center gap-1.5 border-b border-gold/40 pb-1 text-sm text-gold">
+          <p className="mb-3 break-words text-[12px] leading-relaxed text-foreground/85 sm:text-sm">
+            {body}
+          </p>
+          <span className="inline-flex max-w-full items-center gap-1.5 border-b border-gold/40 pb-1 text-sm text-gold">
             {cta} <ChevronRight className="h-4 w-4" />
           </span>
         </div>
