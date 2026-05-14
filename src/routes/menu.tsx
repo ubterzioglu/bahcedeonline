@@ -35,6 +35,26 @@ export const Route = createFileRoute("/menu")({
 
 type Item = Database["public"]["Tables"]["menu_items"]["Row"];
 
+function getPricePresentation(item: Item) {
+  const details =
+    item.details && typeof item.details === "object" && !Array.isArray(item.details)
+      ? item.details
+      : null;
+  const priceLabel = typeof details?.priceLabel === "string" ? details.priceLabel : null;
+
+  if (priceLabel) {
+    return {
+      label: priceLabel,
+      multiline: true,
+    };
+  }
+
+  return {
+    label: `₺${Number(item.price).toFixed(0)}`,
+    multiline: false,
+  };
+}
+
 export function MenuPage() {
   const { t, locale } = useTranslation();
   const [items, setItems] = useState<Item[]>([]);
@@ -124,6 +144,7 @@ export function MenuPage() {
                         const name = pick(item, "name", locale);
                         const description = pick(item, "description", locale);
                         const tags = pickArray(item, "tags", locale);
+                        const price = getPricePresentation(item);
                         return (
                           <div key={item.id} className="px-1 py-3">
                             <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
@@ -138,8 +159,14 @@ export function MenuPage() {
                                 )}
                               </div>
                               <div className="flex shrink-0 items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-start sm:gap-1.5">
-                                <span className="whitespace-nowrap font-display text-[15px] text-gold sm:text-base">
-                                  ₺{Number(item.price).toFixed(0)}
+                                <span
+                                  className={
+                                    price.multiline
+                                      ? "max-w-[18ch] text-right font-display text-[11px] leading-tight text-gold sm:max-w-[16ch] sm:text-[12px]"
+                                      : "whitespace-nowrap font-display text-[15px] text-gold sm:text-base"
+                                  }
+                                >
+                                  {price.label}
                                 </span>
                                 {tags.length > 0 && (
                                   <div className="flex flex-wrap justify-end gap-1 sm:max-w-[14ch]">
