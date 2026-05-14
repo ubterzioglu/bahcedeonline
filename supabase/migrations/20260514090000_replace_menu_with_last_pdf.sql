@@ -1,3 +1,88 @@
+create extension if not exists pgcrypto;
+
+create table if not exists public.menu_items (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  name_en text,
+  description text,
+  description_en text,
+  price numeric(10,2) not null default 0,
+  category text not null,
+  image_url text,
+  tags text[] default '{}'::text[],
+  tags_en text[] default '{}'::text[],
+  details jsonb default '{}'::jsonb,
+  is_available boolean not null default true,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.menu_items
+  add column if not exists name_en text,
+  add column if not exists description_en text,
+  add column if not exists tags_en text[] default '{}'::text[];
+
+do $$
+begin
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'menu_items'
+      and column_name = 'category'
+      and udt_name = 'menu_category'
+  ) then
+    alter table public.menu_items
+      alter column category type text using category::text;
+  end if;
+exception
+  when undefined_object then
+    null;
+end $$;
+
+update public.menu_items
+set category = case category
+  when 'biralar' then 'beers'
+  when 'soguk_icecekler' then 'non_alcoholics'
+  when 'sicak_icecekler' then 'coffee'
+  when 'saraplar' then 'wines'
+  when 'kokteyller' then 'cocktails'
+  when 'atistirmaliklar' then 'bar_bites'
+  else category
+end;
+
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists menu_items_updated_at on public.menu_items;
+create trigger menu_items_updated_at
+before update on public.menu_items
+for each row execute function public.set_updated_at();
+
+alter table public.menu_items enable row level security;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_policies
+    where schemaname = 'public'
+      and tablename = 'menu_items'
+      and policyname = 'Public can view available items'
+  ) then
+    create policy "Public can view available items"
+      on public.menu_items for select using (true);
+  end if;
+end $$;
+
 delete from public.menu_items;
 
 insert into public.menu_items (

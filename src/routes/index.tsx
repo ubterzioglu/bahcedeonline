@@ -118,7 +118,7 @@ function HomeCardTile({
             <div className="aspect-square h-auto w-full bg-sea" />
           )}
         </div>
-        <div className="min-w-0 overflow-hidden py-0.5 pr-0.5 sm:py-1 sm:pr-1">
+        <div className="min-w-0 py-0.5 pr-0.5 sm:py-1 sm:pr-1">
           {script && (
             <p className="mb-1 truncate text-base font-script leading-none text-gradient-gold sm:text-xl">
               {script}
