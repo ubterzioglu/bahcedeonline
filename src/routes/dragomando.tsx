@@ -35,6 +35,14 @@ export function DragomandoPage() {
 
       <div className="glass-card rounded-3xl p-5 shadow-elegant">
         <p className="text-sm leading-relaxed text-foreground/85">{t("dragomando.body")}</p>
+        <a
+          href="https://dragoman-turkey.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-block text-gold text-sm border-b border-gold/40 pb-0.5"
+        >
+          Dragoman Diving and Outdoors
+        </a>
       </div>
     </div>
   );
