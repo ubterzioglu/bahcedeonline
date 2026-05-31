@@ -91,6 +91,25 @@ export function SiteFooter() {
             CorteQS
           </a>
         </p>
+        <p className="site-footer-credit">
+          <a
+            href="https://www.spindorai.com/seo/seo-calismasi"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            SEO Çalışması
+          </a>{" "}
+          Spindora Tarafından Yapılmıştır.
+        </p>
+        <p className="site-footer-credit">
+          <a
+            href="https://aryateknoloji.com"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            Arya Teknoloji
+          </a>
+        </p>
       </div>
     </footer>
   );
