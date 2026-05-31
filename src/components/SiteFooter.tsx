@@ -72,16 +72,7 @@ export function SiteFooter() {
           {t("footer.credit.withLove")} ·
         </p>
         <p>
-          {t("footer.credit.seoGeo")}{" "}
-          <a
-            href="https://www.spindorai.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="text-foreground/80 transition hover:text-gold"
-          >
-            Spindora
-          </a>{" "}
-          · {t("footer.credit.poweredBy")}{" "}
+          {t("footer.credit.poweredBy")}{" "}
           <a
             href="https://corteqs.net/"
             target="_blank"
