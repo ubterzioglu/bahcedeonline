@@ -70,6 +70,36 @@ export const Route = createRootRoute({
       {
         children: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","x3emfiml3b");`,
       },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BarOrPub",
+          name: "Dragoman Bahçe",
+          description:
+            "Kaş'ın kalbinde, deniz esintisinde bir bahçe. Özenle hazırlanmış kokteyller, soğuk biralar ve atıştırmalıklar.",
+          image: "https://bahcede.online/og.jpg",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Kaş",
+            addressRegion: "Antalya",
+            addressCountry: "TR",
+          },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: 36.1997208,
+            longitude: 29.6419672,
+          },
+          telephone: "+905344325334",
+          email: "dragoman@bahcede.online",
+          url: "https://bahcede.online",
+          sameAs: [
+            "https://www.instagram.com/dragomanbahce",
+            "https://www.facebook.com/dragomanbahce",
+            "https://www.tripadvisor.com/Restaurant_Review-g297965-d14584671-Reviews-Dragoman_Bahce-Kas_Turkish_Mediterranean_Coast.html",
+          ],
+        }),
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

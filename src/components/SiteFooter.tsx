@@ -101,6 +101,16 @@ export function SiteFooter() {
             Arya Teknoloji
           </a>
         </p>
+        <p className="site-footer-credit">
+          <a
+            href="https://ufuksoynakliyat.com.tr"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            Evden Eve Nakliyat
+          </a>{" "}
+          Şirketi Ufuksoy Nakliyat A.Ş
+        </p>
       </div>
     </footer>
   );

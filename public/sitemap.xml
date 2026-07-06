@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://bahcede.online/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/" />
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/menu</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/menu" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/menu" />
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/hakkimizda</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/hakkimizda" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/hakkimizda" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/kasguide</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/kasguide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/kasguide" />
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/dragomando</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/dragomando" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/dragomando" />
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/sarki-oner</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/sarki-oner" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/sarki-oner" />
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/en/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/" />
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/en/menu</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/menu" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/menu" />
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/en/hakkimizda</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/hakkimizda" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/hakkimizda" />
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/en/kasguide</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/kasguide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/kasguide" />
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/en/dragomando</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/dragomando" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/dragomando" />
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/en/sarki-oner</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/sarki-oner" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/sarki-oner" />
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>
