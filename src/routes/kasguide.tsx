@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import kasguideMenu from "@/assets/kasguidemenugorsel.jpg";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import { seoLinks, seoLocaleMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/kasguide")({
   head: () => ({
@@ -11,7 +12,9 @@ export const Route = createFileRoute("/kasguide")({
         name: "description",
         content: "Kaş'ın en kapsamlı rehberi. Yakında Kasguide.de'da.",
       },
+      ...seoLocaleMeta("tr"),
     ],
+    links: seoLinks("/kasguide", "tr"),
   }),
   component: KasguidePage,
 });

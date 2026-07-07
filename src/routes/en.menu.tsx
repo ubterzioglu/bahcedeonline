@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MenuPage } from "./menu";
+import { seoLinks, seoLocaleMeta, menuSchema } from "@/lib/seo";
+import { MENU_CATEGORIES } from "@/lib/menu-categories";
 
 export const Route = createFileRoute("/en/menu")({
   head: () => ({
@@ -11,6 +13,14 @@ export const Route = createFileRoute("/en/menu")({
       },
       { property: "og:title", content: "Menu — Dragoman Bahçe" },
       { property: "og:description", content: "Cocktails, beers, wines and more." },
+      ...seoLocaleMeta("en"),
+    ],
+    links: seoLinks("/menu", "en"),
+    scripts: [
+      menuSchema(
+        "en",
+        MENU_CATEGORIES.map((c) => ({ name: c.labelEn, description: c.blurbEn })),
+      ),
     ],
   }),
   component: MenuPage,

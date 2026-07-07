@@ -5,6 +5,7 @@ import { Music2, Send } from "lucide-react";
 import { z } from "zod";
 import { NowPlayingWidget } from "@/components/NowPlayingWidget";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import { seoLinks, seoLocaleMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/sarki-oner")({
   head: () => ({
@@ -13,7 +14,9 @@ export const Route = createFileRoute("/sarki-oner")({
       { name: "description", content: "Bahçede çalmasını istediğiniz şarkıyı bize gönderin." },
       { property: "og:title", content: "Şarkı Öner — Dragoman Bahçe" },
       { property: "og:description", content: "Sıradaki parça sizden gelsin." },
+      ...seoLocaleMeta("tr"),
     ],
+    links: seoLinks("/sarki-oner", "tr"),
   }),
   component: SongRequest,
 });

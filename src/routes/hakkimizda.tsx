@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import turtle from "@/assets/turtle.jpg";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import { seoLinks, seoLocaleMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/hakkimizda")({
   head: () => ({
@@ -9,7 +10,9 @@ export const Route = createFileRoute("/hakkimizda")({
       { name: "description", content: "Kaş'ta küçük bir Akdeniz bahçesi." },
       { property: "og:title", content: "Hikayemiz — Dragoman Bahçe" },
       { property: "og:description", content: "Kaş'ta küçük bir Akdeniz bahçesi." },
+      ...seoLocaleMeta("tr"),
     ],
+    links: seoLinks("/hakkimizda", "tr"),
   }),
   component: AboutPage,
 });

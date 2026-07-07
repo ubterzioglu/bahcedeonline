@@ -18,6 +18,7 @@ import {
 } from "@/lib/menu-categories";
 import { resolveMenuCategory } from "@/lib/menu-item-category";
 import { pick, pickArray } from "@/lib/i18n/resolveContent";
+import { seoLinks, seoLocaleMeta, menuSchema } from "@/lib/seo";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -29,6 +30,14 @@ export const Route = createFileRoute("/menu")({
       },
       { property: "og:title", content: "Menü — Dragoman Bahçe" },
       { property: "og:description", content: "Kokteyller, biralar, şaraplar ve daha fazlası." },
+      ...seoLocaleMeta("tr"),
+    ],
+    links: seoLinks("/menu", "tr"),
+    scripts: [
+      menuSchema(
+        "tr",
+        MENU_CATEGORIES.map((c) => ({ name: c.labelTr, description: c.blurbTr })),
+      ),
     ],
   }),
   component: MenuPage,

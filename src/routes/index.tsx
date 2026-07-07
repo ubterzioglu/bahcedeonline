@@ -8,6 +8,7 @@ import type { Database } from "@/integrations/supabase/types";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { pick } from "@/lib/i18n/resolveContent";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { seoLinks, seoLocaleMeta } from "@/lib/seo";
 
 type HomeCard = Database["public"]["Tables"]["home_cards"]["Row"];
 
@@ -21,7 +22,9 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:title", content: "Dragoman Bahçe — Kaş" },
       { property: "og:description", content: "Beer · Snacks · Cocktails." },
+      ...seoLocaleMeta("tr"),
     ],
+    links: seoLinks("/", "tr"),
   }),
   component: Home,
 });

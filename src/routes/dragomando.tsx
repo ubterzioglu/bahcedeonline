@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import { seoLinks, seoLocaleMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/dragomando")({
   head: () => ({
@@ -12,7 +13,9 @@ export const Route = createFileRoute("/dragomando")({
       },
       { property: "og:title", content: "Dragoman Diving & Outdoor" },
       { property: "og:description", content: "Kaş'ta dalış ve açık hava deneyimleri." },
+      ...seoLocaleMeta("tr"),
     ],
+    links: seoLinks("/dragomando", "tr"),
   }),
   component: DragomandoPage,
 });
