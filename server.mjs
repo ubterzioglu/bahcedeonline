@@ -283,6 +283,28 @@ async function handleAdminApi(req, res) {
     return json(res, 200, { ok: true });
   }
 
+  if (pathname === "/api/admin/site-ratings" && req.method === "GET") {
+    const { data, error } = await supabase
+      .from("site_ratings")
+      .select("*")
+      .eq("id", 1)
+      .maybeSingle();
+    if (error) return json(res, 500, { error: error.message });
+    return json(res, 200, data);
+  }
+
+  if (pathname === "/api/admin/site-ratings" && req.method === "PUT") {
+    const payload = await readJsonBody(req);
+    const { data, error } = await supabase
+      .from("site_ratings")
+      .update(payload)
+      .eq("id", 1)
+      .select("*")
+      .single();
+    if (error) return json(res, 500, { error: error.message });
+    return json(res, 200, data);
+  }
+
   if (pathname === "/api/admin/home-cards" && req.method === "GET") {
     const { data, error } = await supabase
       .from("home_cards")
@@ -375,6 +397,86 @@ async function handleAdminApi(req, res) {
     if (req.method === "DELETE") {
       const { error } = await supabase.from("weekly_schedule").delete().eq("id", id);
       if (error) return json(res, 500, { error: error.message });
+      return json(res, 200, { ok: true });
+    }
+  }
+
+  if (pathname === "/api/admin/social-archive" && req.method === "GET") {
+    const { data, error } = await supabase
+      .from("social_media_archive")
+      .select("*")
+      .order("sort_order", { ascending: true });
+    if (error) return json(res, 500, { error: error.message });
+
+    const withUrls = await Promise.all(
+      (data ?? []).map(async (entry) => {
+        const { data: signed } = await supabase.storage
+          .from("social-archive")
+          .createSignedUrl(entry.media_path, 60 * 60);
+        return { ...entry, media_url: signed?.signedUrl ?? null };
+      }),
+    );
+    return json(res, 200, withUrls);
+  }
+
+  if (pathname === "/api/admin/social-archive/upload" && req.method === "POST") {
+    const request = toWebRequest(req);
+    const formData = await request.formData();
+    const file = formData.get("file");
+    if (!(file instanceof File)) {
+      return json(res, 400, { error: "Yüklenecek dosya bulunamadı." });
+    }
+
+    const ext = file.name.includes(".") ? file.name.split(".").pop() : "bin";
+    const mediaType = file.type.startsWith("video/") ? "video" : "image";
+    const objectPath = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const { error } = await supabase.storage.from("social-archive").upload(objectPath, buffer, {
+      contentType: file.type || "application/octet-stream",
+      upsert: false,
+    });
+    if (error) return json(res, 500, { error: error.message });
+    return json(res, 200, { mediaPath: objectPath, mediaType });
+  }
+
+  if (pathname === "/api/admin/social-archive" && req.method === "POST") {
+    const payload = await readJsonBody(req);
+    const { data, error } = await supabase
+      .from("social_media_archive")
+      .insert(payload)
+      .select("*")
+      .single();
+    if (error) return json(res, 500, { error: error.message });
+    return json(res, 200, data);
+  }
+
+  if (pathname.startsWith("/api/admin/social-archive/")) {
+    const id = pathname.slice("/api/admin/social-archive/".length);
+    if (req.method === "PUT") {
+      const payload = await readJsonBody(req);
+      const { data, error } = await supabase
+        .from("social_media_archive")
+        .update(payload)
+        .eq("id", id)
+        .select("*")
+        .single();
+      if (error) return json(res, 500, { error: error.message });
+      return json(res, 200, data);
+    }
+    if (req.method === "DELETE") {
+      const { data: entry, error: fetchError } = await supabase
+        .from("social_media_archive")
+        .select("media_path")
+        .eq("id", id)
+        .maybeSingle();
+      if (fetchError) return json(res, 500, { error: fetchError.message });
+
+      const { error } = await supabase.from("social_media_archive").delete().eq("id", id);
+      if (error) return json(res, 500, { error: error.message });
+
+      if (entry?.media_path) {
+        await supabase.storage.from("social-archive").remove([entry.media_path]);
+      }
       return json(res, 200, { ok: true });
     }
   }

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SarkiOnerRouteImport } from './routes/sarki-oner'
+import { Route as ProgramRouteImport } from './routes/program'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as KasguideRouteImport } from './routes/kasguide'
 import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
@@ -20,19 +21,28 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as EnIndexRouteImport } from './routes/en.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as EnSarkiOnerRouteImport } from './routes/en.sarki-oner'
+import { Route as EnProgramRouteImport } from './routes/en.program'
 import { Route as EnMenuRouteImport } from './routes/en.menu'
 import { Route as EnKasguideRouteImport } from './routes/en.kasguide'
 import { Route as EnHakkimizdaRouteImport } from './routes/en.hakkimizda'
 import { Route as EnDragomandoRouteImport } from './routes/en.dragomando'
+import { Route as AdminSosyalMedyaRouteImport } from './routes/admin.sosyal-medya'
 import { Route as AdminSarkilarRouteImport } from './routes/admin.sarkilar'
+import { Route as AdminProgramRouteImport } from './routes/admin.program'
 import { Route as AdminMenuRouteImport } from './routes/admin.menu'
 import { Route as AdminKullanicilarRouteImport } from './routes/admin.kullanicilar'
 import { Route as AdminKartlarRouteImport } from './routes/admin.kartlar'
+import { Route as AdminDegerlendirmelerRouteImport } from './routes/admin.degerlendirmeler'
 import { Route as AdminCalanRouteImport } from './routes/admin.calan'
 
 const SarkiOnerRoute = SarkiOnerRouteImport.update({
   id: '/sarki-oner',
   path: '/sarki-oner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramRoute = ProgramRouteImport.update({
+  id: '/program',
+  path: '/program',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuRoute = MenuRouteImport.update({
@@ -85,6 +95,11 @@ const EnSarkiOnerRoute = EnSarkiOnerRouteImport.update({
   path: '/en/sarki-oner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnProgramRoute = EnProgramRouteImport.update({
+  id: '/en/program',
+  path: '/en/program',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnMenuRoute = EnMenuRouteImport.update({
   id: '/en/menu',
   path: '/en/menu',
@@ -105,9 +120,19 @@ const EnDragomandoRoute = EnDragomandoRouteImport.update({
   path: '/en/dragomando',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSosyalMedyaRoute = AdminSosyalMedyaRouteImport.update({
+  id: '/sosyal-medya',
+  path: '/sosyal-medya',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSarkilarRoute = AdminSarkilarRouteImport.update({
   id: '/sarkilar',
   path: '/sarkilar',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProgramRoute = AdminProgramRouteImport.update({
+  id: '/program',
+  path: '/program',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminMenuRoute = AdminMenuRouteImport.update({
@@ -125,6 +150,11 @@ const AdminKartlarRoute = AdminKartlarRouteImport.update({
   path: '/kartlar',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDegerlendirmelerRoute = AdminDegerlendirmelerRouteImport.update({
+  id: '/degerlendirmeler',
+  path: '/degerlendirmeler',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCalanRoute = AdminCalanRouteImport.update({
   id: '/calan',
   path: '/calan',
@@ -139,16 +169,21 @@ export interface FileRoutesByFullPath {
   '/hakkimizda': typeof HakkimizdaRoute
   '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
+  '/program': typeof ProgramRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
+  '/admin/degerlendirmeler': typeof AdminDegerlendirmelerRoute
   '/admin/kartlar': typeof AdminKartlarRoute
   '/admin/kullanicilar': typeof AdminKullanicilarRoute
   '/admin/menu': typeof AdminMenuRoute
+  '/admin/program': typeof AdminProgramRoute
   '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/admin/sosyal-medya': typeof AdminSosyalMedyaRoute
   '/en/dragomando': typeof EnDragomandoRoute
   '/en/hakkimizda': typeof EnHakkimizdaRoute
   '/en/kasguide': typeof EnKasguideRoute
   '/en/menu': typeof EnMenuRoute
+  '/en/program': typeof EnProgramRoute
   '/en/sarki-oner': typeof EnSarkiOnerRoute
   '/admin/': typeof AdminIndexRoute
   '/en/': typeof EnIndexRoute
@@ -160,16 +195,21 @@ export interface FileRoutesByTo {
   '/hakkimizda': typeof HakkimizdaRoute
   '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
+  '/program': typeof ProgramRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
+  '/admin/degerlendirmeler': typeof AdminDegerlendirmelerRoute
   '/admin/kartlar': typeof AdminKartlarRoute
   '/admin/kullanicilar': typeof AdminKullanicilarRoute
   '/admin/menu': typeof AdminMenuRoute
+  '/admin/program': typeof AdminProgramRoute
   '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/admin/sosyal-medya': typeof AdminSosyalMedyaRoute
   '/en/dragomando': typeof EnDragomandoRoute
   '/en/hakkimizda': typeof EnHakkimizdaRoute
   '/en/kasguide': typeof EnKasguideRoute
   '/en/menu': typeof EnMenuRoute
+  '/en/program': typeof EnProgramRoute
   '/en/sarki-oner': typeof EnSarkiOnerRoute
   '/admin': typeof AdminIndexRoute
   '/en': typeof EnIndexRoute
@@ -183,16 +223,21 @@ export interface FileRoutesById {
   '/hakkimizda': typeof HakkimizdaRoute
   '/kasguide': typeof KasguideRoute
   '/menu': typeof MenuRoute
+  '/program': typeof ProgramRoute
   '/sarki-oner': typeof SarkiOnerRoute
   '/admin/calan': typeof AdminCalanRoute
+  '/admin/degerlendirmeler': typeof AdminDegerlendirmelerRoute
   '/admin/kartlar': typeof AdminKartlarRoute
   '/admin/kullanicilar': typeof AdminKullanicilarRoute
   '/admin/menu': typeof AdminMenuRoute
+  '/admin/program': typeof AdminProgramRoute
   '/admin/sarkilar': typeof AdminSarkilarRoute
+  '/admin/sosyal-medya': typeof AdminSosyalMedyaRoute
   '/en/dragomando': typeof EnDragomandoRoute
   '/en/hakkimizda': typeof EnHakkimizdaRoute
   '/en/kasguide': typeof EnKasguideRoute
   '/en/menu': typeof EnMenuRoute
+  '/en/program': typeof EnProgramRoute
   '/en/sarki-oner': typeof EnSarkiOnerRoute
   '/admin/': typeof AdminIndexRoute
   '/en/': typeof EnIndexRoute
@@ -207,16 +252,21 @@ export interface FileRouteTypes {
     | '/hakkimizda'
     | '/kasguide'
     | '/menu'
+    | '/program'
     | '/sarki-oner'
     | '/admin/calan'
+    | '/admin/degerlendirmeler'
     | '/admin/kartlar'
     | '/admin/kullanicilar'
     | '/admin/menu'
+    | '/admin/program'
     | '/admin/sarkilar'
+    | '/admin/sosyal-medya'
     | '/en/dragomando'
     | '/en/hakkimizda'
     | '/en/kasguide'
     | '/en/menu'
+    | '/en/program'
     | '/en/sarki-oner'
     | '/admin/'
     | '/en/'
@@ -228,16 +278,21 @@ export interface FileRouteTypes {
     | '/hakkimizda'
     | '/kasguide'
     | '/menu'
+    | '/program'
     | '/sarki-oner'
     | '/admin/calan'
+    | '/admin/degerlendirmeler'
     | '/admin/kartlar'
     | '/admin/kullanicilar'
     | '/admin/menu'
+    | '/admin/program'
     | '/admin/sarkilar'
+    | '/admin/sosyal-medya'
     | '/en/dragomando'
     | '/en/hakkimizda'
     | '/en/kasguide'
     | '/en/menu'
+    | '/en/program'
     | '/en/sarki-oner'
     | '/admin'
     | '/en'
@@ -250,16 +305,21 @@ export interface FileRouteTypes {
     | '/hakkimizda'
     | '/kasguide'
     | '/menu'
+    | '/program'
     | '/sarki-oner'
     | '/admin/calan'
+    | '/admin/degerlendirmeler'
     | '/admin/kartlar'
     | '/admin/kullanicilar'
     | '/admin/menu'
+    | '/admin/program'
     | '/admin/sarkilar'
+    | '/admin/sosyal-medya'
     | '/en/dragomando'
     | '/en/hakkimizda'
     | '/en/kasguide'
     | '/en/menu'
+    | '/en/program'
     | '/en/sarki-oner'
     | '/admin/'
     | '/en/'
@@ -273,11 +333,13 @@ export interface RootRouteChildren {
   HakkimizdaRoute: typeof HakkimizdaRoute
   KasguideRoute: typeof KasguideRoute
   MenuRoute: typeof MenuRoute
+  ProgramRoute: typeof ProgramRoute
   SarkiOnerRoute: typeof SarkiOnerRoute
   EnDragomandoRoute: typeof EnDragomandoRoute
   EnHakkimizdaRoute: typeof EnHakkimizdaRoute
   EnKasguideRoute: typeof EnKasguideRoute
   EnMenuRoute: typeof EnMenuRoute
+  EnProgramRoute: typeof EnProgramRoute
   EnSarkiOnerRoute: typeof EnSarkiOnerRoute
   EnIndexRoute: typeof EnIndexRoute
 }
@@ -289,6 +351,13 @@ declare module '@tanstack/react-router' {
       path: '/sarki-oner'
       fullPath: '/sarki-oner'
       preLoaderRoute: typeof SarkiOnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/program': {
+      id: '/program'
+      path: '/program'
+      fullPath: '/program'
+      preLoaderRoute: typeof ProgramRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu': {
@@ -361,6 +430,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnSarkiOnerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/en/program': {
+      id: '/en/program'
+      path: '/en/program'
+      fullPath: '/en/program'
+      preLoaderRoute: typeof EnProgramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en/menu': {
       id: '/en/menu'
       path: '/en/menu'
@@ -389,11 +465,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnDragomandoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/sosyal-medya': {
+      id: '/admin/sosyal-medya'
+      path: '/sosyal-medya'
+      fullPath: '/admin/sosyal-medya'
+      preLoaderRoute: typeof AdminSosyalMedyaRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/sarkilar': {
       id: '/admin/sarkilar'
       path: '/sarkilar'
       fullPath: '/admin/sarkilar'
       preLoaderRoute: typeof AdminSarkilarRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/program': {
+      id: '/admin/program'
+      path: '/program'
+      fullPath: '/admin/program'
+      preLoaderRoute: typeof AdminProgramRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/menu': {
@@ -417,6 +507,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminKartlarRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/degerlendirmeler': {
+      id: '/admin/degerlendirmeler'
+      path: '/degerlendirmeler'
+      fullPath: '/admin/degerlendirmeler'
+      preLoaderRoute: typeof AdminDegerlendirmelerRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/calan': {
       id: '/admin/calan'
       path: '/calan'
@@ -429,19 +526,25 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminCalanRoute: typeof AdminCalanRoute
+  AdminDegerlendirmelerRoute: typeof AdminDegerlendirmelerRoute
   AdminKartlarRoute: typeof AdminKartlarRoute
   AdminKullanicilarRoute: typeof AdminKullanicilarRoute
   AdminMenuRoute: typeof AdminMenuRoute
+  AdminProgramRoute: typeof AdminProgramRoute
   AdminSarkilarRoute: typeof AdminSarkilarRoute
+  AdminSosyalMedyaRoute: typeof AdminSosyalMedyaRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCalanRoute: AdminCalanRoute,
+  AdminDegerlendirmelerRoute: AdminDegerlendirmelerRoute,
   AdminKartlarRoute: AdminKartlarRoute,
   AdminKullanicilarRoute: AdminKullanicilarRoute,
   AdminMenuRoute: AdminMenuRoute,
+  AdminProgramRoute: AdminProgramRoute,
   AdminSarkilarRoute: AdminSarkilarRoute,
+  AdminSosyalMedyaRoute: AdminSosyalMedyaRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -455,11 +558,13 @@ const rootRouteChildren: RootRouteChildren = {
   HakkimizdaRoute: HakkimizdaRoute,
   KasguideRoute: KasguideRoute,
   MenuRoute: MenuRoute,
+  ProgramRoute: ProgramRoute,
   SarkiOnerRoute: SarkiOnerRoute,
   EnDragomandoRoute: EnDragomandoRoute,
   EnHakkimizdaRoute: EnHakkimizdaRoute,
   EnKasguideRoute: EnKasguideRoute,
   EnMenuRoute: EnMenuRoute,
+  EnProgramRoute: EnProgramRoute,
   EnSarkiOnerRoute: EnSarkiOnerRoute,
   EnIndexRoute: EnIndexRoute,
 }

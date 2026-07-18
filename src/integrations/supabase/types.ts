@@ -143,6 +143,69 @@ export type Database = {
         };
         Relationships: [];
       };
+      site_ratings: {
+        Row: {
+          google_rating: number | null;
+          google_review_count: number | null;
+          id: number;
+          tripadvisor_rating: number | null;
+          tripadvisor_review_count: number | null;
+          updated_at: string;
+        };
+        Insert: {
+          google_rating?: number | null;
+          google_review_count?: number | null;
+          id?: number;
+          tripadvisor_rating?: number | null;
+          tripadvisor_review_count?: number | null;
+          updated_at?: string;
+        };
+        Update: {
+          google_rating?: number | null;
+          google_review_count?: number | null;
+          id?: number;
+          tripadvisor_rating?: number | null;
+          tripadvisor_review_count?: number | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      social_media_archive: {
+        Row: {
+          comment: string | null;
+          created_at: string;
+          id: string;
+          media_path: string;
+          media_type: string;
+          sort_order: number;
+          subtitle: string | null;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          comment?: string | null;
+          created_at?: string;
+          id?: string;
+          media_path: string;
+          media_type?: string;
+          sort_order?: number;
+          subtitle?: string | null;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          comment?: string | null;
+          created_at?: string;
+          id?: string;
+          media_path?: string;
+          media_type?: string;
+          sort_order?: number;
+          subtitle?: string | null;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       song_requests: {
         Row: {
           artist: string | null;

@@ -5,6 +5,10 @@ type SongRequest = Database["public"]["Tables"]["song_requests"]["Row"];
 type SongRequestStatus = Database["public"]["Enums"]["request_status"];
 type HomeCard = Database["public"]["Tables"]["home_cards"]["Row"];
 type WeeklyScheduleEntry = Database["public"]["Tables"]["weekly_schedule"]["Row"];
+type SiteRatings = Database["public"]["Tables"]["site_ratings"]["Row"];
+type SocialArchiveEntry = Database["public"]["Tables"]["social_media_archive"]["Row"] & {
+  media_url: string | null;
+};
 
 async function request<T>(input: string, init?: RequestInit): Promise<T> {
   const response = await fetch(input, {
@@ -134,6 +138,46 @@ export const adminApi = {
     request<{ ok: true }>(`/api/admin/weekly-schedule/${id}`, {
       method: "DELETE",
     }),
+  getSiteRatings: () => request<SiteRatings>("/api/admin/site-ratings"),
+  updateSiteRatings: (payload: Partial<SiteRatings>) =>
+    request<SiteRatings>("/api/admin/site-ratings", {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  listSocialArchive: () => request<SocialArchiveEntry[]>("/api/admin/social-archive"),
+  createSocialArchiveEntry: (payload: Partial<SocialArchiveEntry>) =>
+    request<SocialArchiveEntry>("/api/admin/social-archive", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  updateSocialArchiveEntry: (id: string, payload: Partial<SocialArchiveEntry>) =>
+    request<SocialArchiveEntry>(`/api/admin/social-archive/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  deleteSocialArchiveEntry: (id: string) =>
+    request<{ ok: true }>(`/api/admin/social-archive/${id}`, {
+      method: "DELETE",
+    }),
+  uploadSocialArchiveMedia: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return request<{ mediaPath: string; mediaType: "image" | "video" }>(
+      "/api/admin/social-archive/upload",
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+  },
 };
 
-export type { MenuItem, SongRequest, SongRequestStatus, HomeCard, WeeklyScheduleEntry };
+export type {
+  MenuItem,
+  SongRequest,
+  SongRequestStatus,
+  HomeCard,
+  WeeklyScheduleEntry,
+  SiteRatings,
+  SocialArchiveEntry,
+};

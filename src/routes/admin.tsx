@@ -9,9 +9,20 @@ import {
   Menu,
   X,
   LayoutGrid,
+  CalendarDays,
+  BarChart3,
+  Search,
+  ExternalLink,
+  Star,
+  Images,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { adminApi } from "@/lib/admin-api";
+
+const CLARITY_URL =
+  "https://clarity.microsoft.com/projects/view/x3emfiml3b/dashboard?date=Last%203%20days";
+const SEARCH_CONSOLE_URL =
+  "https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Abahcede.online&hl=de&pageId=none";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Yönetim — Dragoman Bahçe" }] }),
@@ -29,8 +40,22 @@ const navItems: NavItem[] = [
   { to: "/admin", label: "Pano", icon: LayoutDashboard, exact: true },
   { to: "/admin/menu", label: "Menü", icon: UtensilsCrossed },
   { to: "/admin/kartlar", label: "Kartlar", icon: LayoutGrid },
+  { to: "/admin/program", label: "Haftalık Program", icon: CalendarDays },
   { to: "/admin/sarkilar", label: "Şarkılar", icon: Music },
   { to: "/admin/calan", label: "Çalan", icon: Radio },
+  { to: "/admin/degerlendirmeler", label: "Değerlendirmeler", icon: Star },
+  { to: "/admin/sosyal-medya", label: "Sosyal Medya Deposu", icon: Images },
+];
+
+type ExternalNavItem = {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
+
+const externalNavItems: ExternalNavItem[] = [
+  { href: CLARITY_URL, label: "Clarity", icon: BarChart3 },
+  { href: SEARCH_CONSOLE_URL, label: "Search Console", icon: Search },
 ];
 
 function AdminLayout() {
@@ -209,6 +234,23 @@ function SidebarContent({
             </Link>
           );
         })}
+
+        <p className="px-3 pt-4 pb-1 text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+          Raporlar
+        </p>
+        {externalNavItems.map((it) => (
+          <a
+            key={it.href}
+            href={it.href}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-foreground/60 hover:text-foreground hover:bg-white/5 transition"
+          >
+            <it.icon className="h-4.5 w-4.5" />
+            <span className="flex-1">{it.label}</span>
+            <ExternalLink className="h-3.5 w-3.5 opacity-50" />
+          </a>
+        ))}
       </nav>
 
       <div className="px-3 pb-4">

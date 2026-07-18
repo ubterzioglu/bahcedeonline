@@ -2,6 +2,7 @@ export const en: Record<string, string> = {
   "nav.home": "Home",
   "nav.menu": "Menu",
   "nav.song": "Song",
+  "nav.program": "Program",
   "nav.about": "Our Story",
 
   "home.welcome": "Welcome!",
@@ -39,6 +40,19 @@ export const en: Record<string, string> = {
   "about.p9":
     "If your path ever crosses Kaş, you don't need to look for signs. Follow your instinct. Step away from the crowd. Walk through a door — maybe a courtyard, maybe a garden…",
   "about.p10": "Chances are, we'll be there.",
+
+  "program.meta.title": "Live Music Program — Dragoman Bahçe",
+  "program.meta.description": "Who's playing which night? Follow the weekly live music program here.",
+  "program.script": "a story every evening",
+  "program.title": "Live Music Program",
+  "program.empty": "This week's program hasn't been added yet.",
+  "program.day.0": "Sunday",
+  "program.day.1": "Monday",
+  "program.day.2": "Tuesday",
+  "program.day.3": "Wednesday",
+  "program.day.4": "Thursday",
+  "program.day.5": "Friday",
+  "program.day.6": "Saturday",
 
   "kasguide.meta.title": "Kasguide.de — Kaş Guide | Dragoman Bahçe",
   "kasguide.meta.description": "The most comprehensive guide to Kaş. Soon on Kasguide.de.",

@@ -56,6 +56,15 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://bahcede.online/program</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/program" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/program" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bahcede.online/program" />
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://bahcede.online/en/</loc>
     <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/" />
@@ -108,5 +117,14 @@
     <lastmod>2026-07-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://bahcede.online/en/program</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bahcede.online/program" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://bahcede.online/en/program" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bahcede.online/program" />
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>
