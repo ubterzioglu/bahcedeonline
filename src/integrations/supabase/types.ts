@@ -262,6 +262,7 @@ export type Database = {
           created_at: string;
           day_of_week: number;
           id: string;
+          image_url: string | null;
           is_active: boolean;
           title: string;
           title_en: string | null;
@@ -271,6 +272,7 @@ export type Database = {
           created_at?: string;
           day_of_week: number;
           id?: string;
+          image_url?: string | null;
           is_active?: boolean;
           title: string;
           title_en?: string | null;
@@ -280,6 +282,7 @@ export type Database = {
           created_at?: string;
           day_of_week?: number;
           id?: string;
+          image_url?: string | null;
           is_active?: boolean;
           title?: string;
           title_en?: string | null;

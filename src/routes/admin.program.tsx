@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Pencil, Save, X } from "lucide-react";
+import { Pencil, Save, Upload, X } from "lucide-react";
 import { adminApi, type WeeklyScheduleEntry } from "@/lib/admin-api";
 
 export const Route = createFileRoute("/admin/program")({
@@ -22,6 +22,7 @@ type EditState = {
   day_of_week: number;
   title: string;
   title_en: string;
+  image_url: string;
   is_active: boolean;
 };
 
@@ -29,6 +30,7 @@ function AdminProgram() {
   const [entries, setEntries] = useState<WeeklyScheduleEntry[]>([]);
   const [editing, setEditing] = useState<EditState | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const load = async () => {
     setEntries(await adminApi.listWeeklySchedule());
@@ -46,8 +48,21 @@ function AdminProgram() {
       day_of_week: day,
       title: existing?.title ?? "",
       title_en: existing?.title_en ?? "",
+      image_url: existing?.image_url ?? "",
       is_active: existing?.is_active ?? true,
     });
+  };
+
+  const onUpload = async (file: File) => {
+    if (!editing) return;
+    setUploading(true);
+    try {
+      const { publicUrl } = await adminApi.uploadWeeklyScheduleImage(file);
+      setEditing({ ...editing, image_url: publicUrl });
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Yükleme başarısız.");
+    }
+    setUploading(false);
   };
 
   const save = async () => {
@@ -57,6 +72,7 @@ function AdminProgram() {
       day_of_week: editing.day_of_week,
       title: editing.title,
       title_en: editing.title_en || null,
+      image_url: editing.image_url || null,
       is_active: editing.is_active,
     };
     if (editing.id) {
@@ -89,6 +105,15 @@ function AdminProgram() {
           const entry = byDay.get(day);
           return (
             <div key={day} className="glass-card rounded-2xl p-4 flex items-center gap-3">
+              {entry?.image_url ? (
+                <img
+                  src={entry.image_url}
+                  alt=""
+                  className="h-12 w-12 rounded-xl object-cover shrink-0"
+                />
+              ) : (
+                <div className="h-12 w-12 rounded-xl bg-sea shrink-0" />
+              )}
               <div className="w-24 shrink-0">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-gold">{label}</p>
               </div>
@@ -148,6 +173,40 @@ function AdminProgram() {
                 value={editing.title_en}
                 onChange={(v) => setEditing({ ...editing, title_en: v })}
               />
+
+              <div>
+                <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
+                  Görsel
+                </label>
+                <div className="flex items-center gap-3 flex-wrap">
+                  {editing.image_url && (
+                    <img
+                      src={editing.image_url}
+                      alt=""
+                      className="h-20 w-20 rounded-xl object-cover"
+                    />
+                  )}
+                  <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-border text-xs">
+                    <Upload className="h-3.5 w-3.5" />
+                    {uploading ? "Yükleniyor…" : "Yükle"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={(e) => e.target.files?.[0] && onUpload(e.target.files[0])}
+                    />
+                  </label>
+                  {editing.image_url && (
+                    <button
+                      onClick={() => setEditing({ ...editing, image_url: "" })}
+                      className="text-xs text-destructive"
+                    >
+                      Kaldır
+                    </button>
+                  )}
+                </div>
+              </div>
+
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"

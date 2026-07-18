@@ -381,6 +381,26 @@ async function handleAdminApi(req, res) {
     return json(res, 200, data);
   }
 
+  if (pathname === "/api/admin/weekly-schedule/upload" && req.method === "POST") {
+    const request = toWebRequest(req);
+    const formData = await request.formData();
+    const file = formData.get("file");
+    if (!(file instanceof File)) {
+      return json(res, 400, { error: "Yüklenecek dosya bulunamadı." });
+    }
+
+    const ext = file.name.includes(".") ? file.name.split(".").pop() : "bin";
+    const objectPath = `weekly-schedule/${Date.now()}-${crypto.randomUUID()}.${ext}`;
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const { error } = await supabase.storage.from("dbahce").upload(objectPath, buffer, {
+      contentType: file.type || "application/octet-stream",
+      upsert: false,
+    });
+    if (error) return json(res, 500, { error: error.message });
+    const { data } = supabase.storage.from("dbahce").getPublicUrl(objectPath);
+    return json(res, 200, { publicUrl: data.publicUrl });
+  }
+
   if (pathname.startsWith("/api/admin/weekly-schedule/")) {
     const id = pathname.slice("/api/admin/weekly-schedule/".length);
     if (req.method === "PUT") {

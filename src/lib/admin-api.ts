@@ -138,6 +138,14 @@ export const adminApi = {
     request<{ ok: true }>(`/api/admin/weekly-schedule/${id}`, {
       method: "DELETE",
     }),
+  uploadWeeklyScheduleImage: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return request<{ publicUrl: string }>("/api/admin/weekly-schedule/upload", {
+      method: "POST",
+      body: formData,
+    });
+  },
   getSiteRatings: () => request<SiteRatings>("/api/admin/site-ratings"),
   updateSiteRatings: (payload: Partial<SiteRatings>) =>
     request<SiteRatings>("/api/admin/site-ratings", {

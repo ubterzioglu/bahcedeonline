@@ -77,6 +77,14 @@ export function ProgramPage() {
         <div className="glass-card rounded-3xl p-4 space-y-2.5">
           {entries.map((entry) => (
             <div key={entry.id} className="flex items-center gap-3">
+              {entry.image_url && (
+                <img
+                  src={entry.image_url}
+                  alt=""
+                  className="h-11 w-11 rounded-xl object-cover shrink-0"
+                  loading="lazy"
+                />
+              )}
               <span
                 className={`shrink-0 w-28 rounded-full px-4 py-1.5 text-center text-xs font-semibold text-black/80 ${DAY_COLORS[entry.day_of_week]}`}
               >
