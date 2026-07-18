@@ -1,9 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Music2, Send } from "lucide-react";
-import { z } from "zod";
-import { NowPlayingWidget } from "@/components/NowPlayingWidget";
+import { Music2 } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { seoLinks, seoLocaleMeta } from "@/lib/seo";
 
@@ -23,150 +19,19 @@ export const Route = createFileRoute("/sarki-oner")({
 
 export function SongRequest() {
   const { t } = useTranslation();
-  const schema = z.object({
-    guest_name: z.string().trim().max(50).optional(),
-    song_title: z.string().trim().min(1, t("song.form.required")).max(120),
-    artist: z.string().trim().max(80).optional(),
-    message: z.string().trim().max(280).optional(),
-  });
-
-  const [form, setForm] = useState({ guest_name: "", song_title: "", artist: "", message: "" });
-  const [sending, setSending] = useState(false);
-  const [done, setDone] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    const parsed = schema.safeParse(form);
-    if (!parsed.success) {
-      setError(parsed.error.issues[0].message);
-      return;
-    }
-    setSending(true);
-    const { error } = await supabase.from("song_requests").insert({
-      guest_name: parsed.data.guest_name || null,
-      song_title: parsed.data.song_title,
-      artist: parsed.data.artist || null,
-      message: parsed.data.message || null,
-    });
-    setSending(false);
-    if (error) {
-      setError(t("song.form.error"));
-      return;
-    }
-    setDone(true);
-    setForm({ guest_name: "", song_title: "", artist: "", message: "" });
-  };
 
   return (
     <div className="px-5 pt-8 space-y-5">
       <div className="text-center">
         <p className="font-script text-2xl text-gradient-gold mb-1">{t("song.script")}</p>
         <h1 className="font-display text-4xl text-foreground">{t("song.title")}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{t("song.sub")}</p>
       </div>
 
-      <NowPlayingWidget />
-
-      <form onSubmit={submit} className="glass-card rounded-2xl p-5 space-y-4">
-        {done ? (
-          <div className="text-center py-6">
-            <div className="text-5xl mb-3">🎶</div>
-            <h2 className="font-display text-2xl text-gold mb-1">{t("song.success.title")}</h2>
-            <p className="text-muted-foreground text-sm">{t("song.success.sub")}</p>
-            <button
-              type="button"
-              onClick={() => setDone(false)}
-              className="mt-5 text-sm text-gold border-b border-gold/40"
-            >
-              {t("song.success.again")}
-            </button>
-          </div>
-        ) : (
-          <>
-            <Field
-              label={t("song.form.name")}
-              value={form.guest_name}
-              onChange={(v) => setForm({ ...form, guest_name: v })}
-              placeholder={t("song.form.name.ph")}
-            />
-            <Field
-              label={t("song.form.title")}
-              value={form.song_title}
-              onChange={(v) => setForm({ ...form, song_title: v })}
-              placeholder={t("song.form.title.ph")}
-              required
-            />
-            <Field
-              label={t("song.form.artist")}
-              value={form.artist}
-              onChange={(v) => setForm({ ...form, artist: v })}
-              placeholder={t("song.form.artist.ph")}
-            />
-            <div>
-              <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
-                {t("song.form.message")}
-              </label>
-              <textarea
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                rows={3}
-                maxLength={280}
-                placeholder={t("song.form.message.ph")}
-                className="w-full bg-input/60 border border-border rounded-2xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-gold focus:outline-none transition"
-              />
-            </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            <button
-              type="submit"
-              disabled={sending}
-              className="w-full inline-flex items-center justify-center gap-2 bg-gold text-gold-foreground rounded-full py-4 text-sm font-medium shadow-gold disabled:opacity-50 active:scale-[0.98] transition"
-            >
-              <Send className="h-4 w-4" />
-              {sending ? t("song.form.sending") : t("song.form.submit")}
-            </button>
-          </>
-        )}
-      </form>
-
-      <div className="glass-card rounded-2xl p-5 flex gap-3">
-        <Music2 className="h-6 w-6 text-gold shrink-0 mt-0.5" />
-        <div className="text-xs text-muted-foreground leading-relaxed space-y-1.5">
-          <p className="text-foreground/70 font-medium">{t("song.notice.title")}</p>
-          <p>{t("song.notice.body")}</p>
-        </div>
+      <div className="glass-card rounded-2xl p-10 text-center space-y-3">
+        <Music2 className="h-10 w-10 text-gold mx-auto" />
+        <p className="font-display text-2xl text-gold">{t("song.comingSoon")}</p>
+        <p className="text-sm text-muted-foreground">{t("song.comingSoon.desc")}</p>
       </div>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  placeholder,
-  required,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1.5 block">
-        {label}
-      </label>
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        required={required}
-        maxLength={120}
-        className="w-full bg-input/60 border border-border rounded-full px-5 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-gold focus:outline-none transition"
-      />
     </div>
   );
 }

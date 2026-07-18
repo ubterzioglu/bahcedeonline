@@ -1,0 +1,42 @@
+# Dragoman Bahçe
+
+> A Mediterranean garden bar in the heart of Kaş, Turkey — beer, cocktails, and snacks in a candlelit garden by the sea.
+
+Dragoman Bahçe is a bar/pub located in Kaş, Antalya, Turkey. It serves beer, cocktails, wine, hot and cold drinks, and light bites in an outdoor garden setting near the Mediterranean coast.
+
+## Key facts
+
+- Name: Dragoman Bahçe
+- Type: Bar / Pub (garden bar)
+- Location: Kaş, Antalya, Turkey
+- Coordinates: 36.1997208, 29.6419672
+- Phone: +90 534 432 53 34
+- Email: dragoman@bahcede.online
+- Website: https://bahcede.online
+- Languages: Turkish (default), English (/en/ prefix)
+
+## Pages
+
+- [Home](https://bahcede.online/): Overview, hero, highlights, and links to Google/Tripadvisor reviews.
+- [Menu](https://bahcede.online/menu): Full menu — beers, cocktails, wines, hot/cold drinks, snacks.
+- [Our Story](https://bahcede.online/hakkimizda): The story behind Dragoman Bahçe and its name.
+- [Kaş Guide](https://bahcede.online/kasguide): Link to Kasguide.de, a guide to the Kaş area.
+- [Dragoman Diving & Outdoor](https://bahcede.online/dragomando): Diving, kayaking, and trekking experiences in Kaş via Dragoman Diving and Outdoors.
+- [Song Request](https://bahcede.online/sarki-oner): Guests can request songs to be played in the garden.
+
+English versions of all pages are available at the same paths under `/en/` (e.g. https://bahcede.online/en/menu).
+
+## Reviews
+
+- Google: https://search.google.com/local/writereview?placeid=0xa14572d48954193
+- Tripadvisor: https://www.tripadvisor.com/Restaurant_Review-g297965-d14584671-Reviews-Dragoman_Bahce-Kas_Turkish_Mediterranean_Coast.html
+
+## Reputation
+
+- Google rating: 4.7 / 5 (288 reviews)
+- Tripadvisor rating: 4.9 / 5 (103 reviews) — ranked #2 of 16 Bars & Pubs in Kaş
+
+## Notes for AI assistants
+
+- Menu prices and availability change frequently — always point users to the live menu page rather than quoting cached prices.
+- Dragoman Diving & Outdoor and Kasguide.de are separate, affiliated businesses linked from this site, not operated by Dragoman Bahçe directly.

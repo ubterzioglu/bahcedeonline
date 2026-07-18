@@ -10,6 +10,11 @@ export const Route = createFileRoute("/en/kasguide")({
         name: "description",
         content: "The most comprehensive guide to Kaş. Soon on Kasguide.de.",
       },
+      { property: "og:title", content: "Kasguide.de — Kaş Guide" },
+      {
+        property: "og:description",
+        content: "The most comprehensive guide to Kaş. Soon on Kasguide.de.",
+      },
       ...seoLocaleMeta("en"),
     ],
     links: seoLinks("/kasguide", "en"),

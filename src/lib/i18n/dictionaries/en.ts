@@ -8,6 +8,8 @@ export const en: Record<string, string> = {
   "home.hero.line1": "In the heart of Kaş,",
   "home.hero.line2": "a Mediterranean garden.",
   "home.cta.menu": "Explore the Menu",
+  "home.cta.googleReview": "Write a Review on Google",
+  "home.cta.tripadvisorReview": "Write a Review on Tripadvisor",
 
   "menu.title": "Menu",
   "menu.loading": "Loading…",
@@ -54,6 +56,8 @@ export const en: Record<string, string> = {
   "song.meta.description": "Send us the song you'd like to hear in the garden.",
   "song.script": "next song",
   "song.title": "What's next?",
+  "song.comingSoon": "Coming soon!",
+  "song.comingSoon.desc": "Song requests will be here very soon.",
   "song.sub": "Send it to our DJ and hear it in the garden.",
   "song.success.title": "Got it — thank you!",
   "song.success.sub": "We hope it plays in the garden.",

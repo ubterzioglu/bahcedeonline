@@ -339,6 +339,46 @@ async function handleAdminApi(req, res) {
     }
   }
 
+  if (pathname === "/api/admin/weekly-schedule" && req.method === "GET") {
+    const { data, error } = await supabase
+      .from("weekly_schedule")
+      .select("*")
+      .order("day_of_week", { ascending: true });
+    if (error) return json(res, 500, { error: error.message });
+    return json(res, 200, data ?? []);
+  }
+
+  if (pathname === "/api/admin/weekly-schedule" && req.method === "POST") {
+    const payload = await readJsonBody(req);
+    const { data, error } = await supabase
+      .from("weekly_schedule")
+      .insert(payload)
+      .select("*")
+      .single();
+    if (error) return json(res, 500, { error: error.message });
+    return json(res, 200, data);
+  }
+
+  if (pathname.startsWith("/api/admin/weekly-schedule/")) {
+    const id = pathname.slice("/api/admin/weekly-schedule/".length);
+    if (req.method === "PUT") {
+      const payload = await readJsonBody(req);
+      const { data, error } = await supabase
+        .from("weekly_schedule")
+        .update(payload)
+        .eq("id", id)
+        .select("*")
+        .single();
+      if (error) return json(res, 500, { error: error.message });
+      return json(res, 200, data);
+    }
+    if (req.method === "DELETE") {
+      const { error } = await supabase.from("weekly_schedule").delete().eq("id", id);
+      if (error) return json(res, 500, { error: error.message });
+      return json(res, 200, { ok: true });
+    }
+  }
+
   return json(res, 404, { error: "Admin API yolu bulunamadı." });
 }
 

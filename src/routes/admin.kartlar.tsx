@@ -111,7 +111,7 @@ function AdminKartlar() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3">
         {cards.length === 0 && (
           <div className="col-span-full glass-card rounded-2xl p-8 text-center text-sm text-muted-foreground">
             Henüz kart yok.

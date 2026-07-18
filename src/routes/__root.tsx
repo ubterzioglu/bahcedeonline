@@ -93,6 +93,15 @@ export const Route = createRootRoute({
           telephone: "+905344325334",
           email: "dragoman@bahcede.online",
           url: "https://bahcede.online",
+          hasMenu: "https://bahcede.online/menu",
+          servesCuisine: ["Mediterranean", "Turkish", "Cocktails"],
+          priceRange: "$$",
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.7",
+            reviewCount: "288",
+            bestRating: "5",
+          },
           sameAs: [
             "https://www.instagram.com/dragomanbahce",
             "https://www.facebook.com/dragomanbahce",

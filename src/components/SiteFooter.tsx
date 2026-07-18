@@ -58,7 +58,7 @@ export function SiteFooter() {
         <SocialIcon href={links.tripadvisor} label="Tripadvisor" icon={TripadvisorIcon} />
         <SocialIcon href={links.maps} label="Harita" icon={MapPin} />
       </div>
-      <div className="border-t border-border/30 px-6 py-2 text-center text-[10px] leading-relaxed text-muted-foreground">
+      <div className="border-t border-border/30 px-6 py-2 text-center text-[9px] leading-snug text-muted-foreground">
         <p>
           Dragoman Bahçe {new Date().getFullYear()} © · {t("footer.credit.designedBy")}{" "}
           <a
@@ -69,10 +69,7 @@ export function SiteFooter() {
           >
             UBT
           </a>{" "}
-          {t("footer.credit.withLove")} ·
-        </p>
-        <p>
-          {t("footer.credit.poweredBy")}{" "}
+          {t("footer.credit.withLove")} · {t("footer.credit.poweredBy")}{" "}
           <a
             href="https://corteqs.net/"
             target="_blank"
@@ -88,20 +85,17 @@ export function SiteFooter() {
             rel="dofollow"
             className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
           >
-            SEO Çalışması
+            SEO
           </a>{" "}
-          Spindora Tarafından Yapılmıştır.
-        </p>
-        <p className="site-footer-credit">
+          Spindora ·{" "}
           <a
             href="https://aryateknoloji.com"
             rel="dofollow"
             className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
           >
             Arya Teknoloji
-          </a>
-        </p>
-        <p className="site-footer-credit">
+          </a>{" "}
+          ·{" "}
           <a
             href="https://ufuksoynakliyat.com.tr"
             rel="dofollow"
@@ -109,7 +103,7 @@ export function SiteFooter() {
           >
             Evden Eve Nakliyat
           </a>{" "}
-          Şirketi Ufuksoy Nakliyat A.Ş
+          Ufuksoy Nakliyat A.Ş
         </p>
       </div>
     </footer>

@@ -4,6 +4,7 @@ type MenuItem = Database["public"]["Tables"]["menu_items"]["Row"];
 type SongRequest = Database["public"]["Tables"]["song_requests"]["Row"];
 type SongRequestStatus = Database["public"]["Enums"]["request_status"];
 type HomeCard = Database["public"]["Tables"]["home_cards"]["Row"];
+type WeeklyScheduleEntry = Database["public"]["Tables"]["weekly_schedule"]["Row"];
 
 async function request<T>(input: string, init?: RequestInit): Promise<T> {
   const response = await fetch(input, {
@@ -118,6 +119,21 @@ export const adminApi = {
       body: formData,
     });
   },
+  listWeeklySchedule: () => request<WeeklyScheduleEntry[]>("/api/admin/weekly-schedule"),
+  createWeeklyScheduleEntry: (payload: Partial<WeeklyScheduleEntry>) =>
+    request<WeeklyScheduleEntry>("/api/admin/weekly-schedule", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  updateWeeklyScheduleEntry: (id: string, payload: Partial<WeeklyScheduleEntry>) =>
+    request<WeeklyScheduleEntry>(`/api/admin/weekly-schedule/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  deleteWeeklyScheduleEntry: (id: string) =>
+    request<{ ok: true }>(`/api/admin/weekly-schedule/${id}`, {
+      method: "DELETE",
+    }),
 };
 
-export type { MenuItem, SongRequest, SongRequestStatus, HomeCard };
+export type { MenuItem, SongRequest, SongRequestStatus, HomeCard, WeeklyScheduleEntry };

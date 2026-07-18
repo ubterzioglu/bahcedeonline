@@ -194,6 +194,36 @@ export type Database = {
         };
         Relationships: [];
       };
+      weekly_schedule: {
+        Row: {
+          created_at: string;
+          day_of_week: number;
+          id: string;
+          is_active: boolean;
+          title: string;
+          title_en: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          day_of_week: number;
+          id?: string;
+          is_active?: boolean;
+          title: string;
+          title_en?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          day_of_week?: number;
+          id?: string;
+          is_active?: boolean;
+          title?: string;
+          title_en?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import hero from "@/assets/hero-bahce.jpg";
 import beachVideo from "@/assets/beach-waves.mp4";
-import { Sparkles, ChevronRight } from "lucide-react";
+import { Sparkles, ChevronRight, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { useTranslation } from "@/lib/i18n/useTranslation";
@@ -11,6 +11,11 @@ import { LanguageToggle } from "@/components/LanguageToggle";
 import { seoLinks, seoLocaleMeta } from "@/lib/seo";
 
 type HomeCard = Database["public"]["Tables"]["home_cards"]["Row"];
+
+const GOOGLE_REVIEW_URL =
+  "https://www.google.com/search?q=Dragoman+Bah%C3%A7e+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIyNzIzNjA0sjS0NDQzNrcwNTTdwMj4ilHapSgxPT83MU_BKTHj8PJUhaDUqtS84sz8vNS8Raz4ZAFFhuFpVQAAAA&rldimm=726301291916378515&tbm=lcl#lkt=LocalPoiReviews";
+const TRIPADVISOR_REVIEW_URL =
+  "https://www.tripadvisor.com/Restaurant_Review-g297965-d14584671-Reviews-Dragoman_Bahce-Kas_Turkish_Mediterranean_Coast.html";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -72,6 +77,24 @@ export function Home() {
 
           <div className="mt-auto space-y-4">
             <LanguageToggle variant="hero" />
+            <div className="flex gap-2">
+              <a
+                href={GOOGLE_REVIEW_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/18 bg-white/5 px-3 py-2.5 text-[11px] font-medium tracking-[0.01em] text-white active:scale-[0.985] transition duration-300"
+              >
+                <Star className="h-3.5 w-3.5" /> {t("home.cta.googleReview")}
+              </a>
+              <a
+                href={TRIPADVISOR_REVIEW_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/18 bg-white/5 px-3 py-2.5 text-[11px] font-medium tracking-[0.01em] text-white active:scale-[0.985] transition duration-300"
+              >
+                <Star className="h-3.5 w-3.5" /> {t("home.cta.tripadvisorReview")}
+              </a>
+            </div>
             <Link
               to={localize("/menu")}
               className="hero-cta flex items-center justify-center gap-2.5 rounded-full border border-white/18 px-8 py-5 text-lg font-semibold tracking-[0.01em] text-white active:scale-[0.985] transition duration-300"
