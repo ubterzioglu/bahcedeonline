@@ -111,6 +111,24 @@ export function Home() {
           <HomeCardTile key={card.id} card={card} locale={locale} localize={localize} />
         ))}
       </section>
+
+      {/* TRIPADVISOR CERTIFICATE OF EXCELLENCE */}
+      <section className="px-5 pt-8 flex justify-center">
+        <a
+          href={TRIPADVISOR_REVIEW_URL}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Tripadvisor Certificate of Excellence"
+          className="inline-flex flex-col items-center gap-2 rounded-2xl px-6 py-4 transition hover:opacity-80"
+        >
+          <img
+            src="https://static.tacdn.com/img2/travelers_choice/widgets/tchotel_2022_L.png"
+            alt="Tripadvisor Certificate of Excellence"
+            className="h-24 w-24 object-contain"
+            loading="lazy"
+          />
+        </a>
+      </section>
     </>
   );
 }
