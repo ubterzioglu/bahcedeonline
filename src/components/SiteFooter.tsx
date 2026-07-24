@@ -103,7 +103,15 @@ export function SiteFooter() {
           >
             Evden Eve Nakliyat
           </a>{" "}
-          Ufuksoy Nakliyat A.Ş
+          Ufuksoy Nakliyat A.Ş ·{" "}
+          <a
+            href="https://tekhurdametal.com/istanbul-hurdaci/"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            İstanbul Hurdacı
+          </a>{" "}
+          Firması Tek Hurda Metal A.Ş
         </p>
       </div>
     </footer>
