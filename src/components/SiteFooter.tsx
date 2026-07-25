@@ -69,7 +69,7 @@ export function SiteFooter() {
             CorteQS
           </a>
         </p>
-        <p className="site-footer-credit">
+        <p className="site-footer-credit text-[0.82rem] leading-[1.6] sm:text-base sm:leading-[1.55]">
           <a
             href="https://www.spindorai.com/seo/seo-calismasi"
             rel="dofollow"
