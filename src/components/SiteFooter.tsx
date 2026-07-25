@@ -104,11 +104,56 @@ export function SiteFooter() {
           Firması Tek Hurda Metal A.Ş
           {" · "}
           <a
+            href="https://tekhurdametal.com/hurda-fiyatlari/"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            Hurda Fiyatları
+          </a>{" "}
+          Tek Hurda Metal
+          {" · "}
+          <a
+            href="https://tekhurdametal.com/hurda-demir-fiyatlari/"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            Demir Hurda Fiyatları
+          </a>{" "}
+          Tek Hurda Metal
+          {" · "}
+          <a
+            href="https://tekhurdametal.com/beylikduzu-hurdaci/"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            Beylikdüzü Hurdacı
+          </a>{" "}
+          Firması Tek Hurda Metal A.Ş
+          {" · "}
+          <a
             href="https://lionerotik.com/urunler/fetis-urunleri"
             rel="dofollow"
             className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
           >
             Antalya Sex Shop
+          </a>{" "}
+          Lion Erotik
+          {" · "}
+          <a
+            href="https://lionerotik.com/urunler/fetis-urunleri"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            Antalya Erotik Shop
+          </a>{" "}
+          Lion Erotik
+          {" · "}
+          <a
+            href="https://lionerotik.com/urunler/fetis-urunleri"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            Antalya Seks Shop
           </a>{" "}
           Lion Erotik
         </p>
