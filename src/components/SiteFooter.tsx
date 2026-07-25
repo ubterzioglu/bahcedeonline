@@ -71,29 +71,13 @@ export function SiteFooter() {
         </p>
         <p className="site-footer-credit text-[0.82rem] leading-[1.6] sm:text-base sm:leading-[1.55]">
           <a
-            href="https://www.spindorai.com/seo/seo-calismasi"
-            rel="dofollow"
-            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
-          >
-            SEO
-          </a>{" "}
-          Spindora ·{" "}
-          <a
-            href="https://aryateknoloji.com"
-            rel="dofollow"
-            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
-          >
-            Arya Teknoloji
-          </a>{" "}
-          ·{" "}
-          <a
             href="https://ufuksoynakliyat.com.tr"
             rel="dofollow"
             className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
           >
             Evden Eve Nakliyat
           </a>{" "}
-          Ufuksoy Nakliyat A.Ş ·{" "}
+          Şirketi Ufuksoy Nakliyat A.Ş ·{" "}
           <a
             href="https://tekhurdametal.com/istanbul-hurdaci/"
             rel="dofollow"
@@ -102,60 +86,6 @@ export function SiteFooter() {
             İstanbul Hurdacı
           </a>{" "}
           Firması Tek Hurda Metal A.Ş
-          {" · "}
-          <a
-            href="https://tekhurdametal.com/hurda-fiyatlari/"
-            rel="dofollow"
-            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
-          >
-            Hurda Fiyatları
-          </a>{" "}
-          Tek Hurda Metal
-          {" · "}
-          <a
-            href="https://tekhurdametal.com/hurda-demir-fiyatlari/"
-            rel="dofollow"
-            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
-          >
-            Demir Hurda Fiyatları
-          </a>{" "}
-          Tek Hurda Metal
-          {" · "}
-          <a
-            href="https://tekhurdametal.com/beylikduzu-hurdaci/"
-            rel="dofollow"
-            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
-          >
-            Beylikdüzü Hurdacı
-          </a>{" "}
-          Firması Tek Hurda Metal A.Ş
-          {" · "}
-          <a
-            href="https://lionerotik.com/urunler/fetis-urunleri"
-            rel="dofollow"
-            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
-          >
-            Antalya Sex Shop
-          </a>{" "}
-          Lion Erotik
-          {" · "}
-          <a
-            href="https://lionerotik.com/urunler/fetis-urunleri"
-            rel="dofollow"
-            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
-          >
-            Antalya Erotik Shop
-          </a>{" "}
-          Lion Erotik
-          {" · "}
-          <a
-            href="https://lionerotik.com/urunler/fetis-urunleri"
-            rel="dofollow"
-            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
-          >
-            Antalya Seks Shop
-          </a>{" "}
-          Lion Erotik
         </p>
       </div>
     </footer>
