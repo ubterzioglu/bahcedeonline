@@ -69,7 +69,7 @@ export function SiteFooter() {
             CorteQS
           </a>
         </p>
-        <p className="site-footer-credit text-[0.82rem] leading-[1.6] sm:text-base sm:leading-[1.55]">
+        <p className="site-footer-credit text-[5px] leading-snug">
           <a
             href="https://ufuksoynakliyat.com.tr"
             rel="dofollow"
@@ -85,7 +85,15 @@ export function SiteFooter() {
           >
             İstanbul Hurdacı
           </a>{" "}
-          Firması Tek Hurda Metal A.Ş
+          Firması Tek Hurda Metal A.Ş ·{" "}
+          <a
+            href="https://lionerotik.com/urunler/fetis-urunleri"
+            rel="dofollow"
+            className="site-footer-credit-link text-foreground/80 transition hover:text-gold"
+          >
+            Antalya Sex Shop
+          </a>{" "}
+          Lion Erotik
         </p>
       </div>
     </footer>
