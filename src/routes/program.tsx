@@ -25,16 +25,6 @@ export const Route = createFileRoute("/program")({
 
 type Entry = Database["public"]["Tables"]["weekly_schedule"]["Row"];
 
-const DAY_COLORS = [
-  "bg-rose-400",
-  "bg-amber-400",
-  "bg-sky-400",
-  "bg-pink-400",
-  "bg-lime-500",
-  "bg-cyan-500",
-  "bg-orange-400",
-];
-
 const DAY_KEYS = [
   "program.day.0",
   "program.day.1",
@@ -44,6 +34,10 @@ const DAY_KEYS = [
   "program.day.5",
   "program.day.6",
 ] as const;
+
+// The panel is intentionally Monday-first, matching how visitors plan a week
+// even though the database stores Sunday as day 0.
+const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
 
 export function ProgramPage() {
   const { t, locale } = useTranslation();
@@ -62,11 +56,18 @@ export function ProgramPage() {
     })();
   }, []);
 
+  const orderedEntries = [...entries].sort(
+    (left, right) => WEEK_ORDER.indexOf(left.day_of_week) - WEEK_ORDER.indexOf(right.day_of_week),
+  );
+
   return (
-    <div className="px-5 pt-8 pb-16">
-      <div className="text-center mb-8">
-        <p className="font-script text-2xl text-gradient-gold mb-1">{t("program.script")}</p>
-        <h1 className="font-display text-4xl text-foreground">{t("program.title")}</h1>
+    <div className="program-page px-4 pt-6 pb-12 sm:px-5">
+      <div className="program-heading">
+        <Music2 aria-hidden="true" className="program-heading-note" strokeWidth={1.7} />
+        <div className="program-heading-copy">
+          <p className="program-eyebrow">{t("program.script")}</p>
+          <h1>{t("program.title")}</h1>
+        </div>
       </div>
 
       {loading ? (
@@ -74,33 +75,33 @@ export function ProgramPage() {
       ) : entries.length === 0 ? (
         <p className="py-12 text-center text-sm text-muted-foreground">{t("program.empty")}</p>
       ) : (
-        <div className="glass-card rounded-3xl p-4 space-y-2.5">
-          {entries.map((entry) => (
-            <div key={entry.id} className="flex items-center gap-3">
-              {entry.image_url && (
+        <div className="program-lineup" aria-label={t("program.title")}>
+          {orderedEntries.map((entry) => (
+            <article key={entry.id} className="program-lineup-item">
+              <span className="program-day-badge">{t(DAY_KEYS[entry.day_of_week])}</span>
+              <p className="program-act">
+                {locale === "en" && entry.title_en ? entry.title_en : entry.title}
+              </p>
+              {entry.image_url ? (
                 <img
                   src={entry.image_url}
                   alt=""
-                  className="h-11 w-11 rounded-xl object-cover shrink-0"
+                  className="program-act-image"
                   loading="lazy"
                 />
+              ) : (
+                <div aria-hidden="true" className="program-act-art">
+                  <Music2 strokeWidth={1.35} />
+                </div>
               )}
-              <span
-                className={`shrink-0 w-28 rounded-full px-4 py-1.5 text-center text-xs font-semibold text-black/80 ${DAY_COLORS[entry.day_of_week]}`}
-              >
-                {t(DAY_KEYS[entry.day_of_week])}
-              </span>
-              <p className="font-display text-base text-foreground">
-                {locale === "en" && entry.title_en ? entry.title_en : entry.title}
-              </p>
-            </div>
+            </article>
           ))}
         </div>
       )}
 
-      <div className="glass-card rounded-2xl p-5 mt-6 flex gap-3">
-        <Music2 className="h-6 w-6 text-gold shrink-0 mt-0.5" />
-        <div className="text-xs text-muted-foreground leading-relaxed">
+      <div className="program-note">
+        <Music2 className="h-5 w-5 shrink-0 mt-0.5" />
+        <div className="text-xs leading-relaxed">
           <p>{t("song.notice.body")}</p>
         </div>
       </div>

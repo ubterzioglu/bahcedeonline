@@ -296,4 +296,166 @@
   .scrollbar-none::-webkit-scrollbar {
     display: none;
   }
+
+  .program-page {
+    --program-ink: #171917;
+    --program-paper: #f8f6ee;
+    --program-sun: #ffc928;
+    background:
+      linear-gradient(90deg, rgb(23 25 23 / 3%) 1px, transparent 1px),
+      linear-gradient(rgb(23 25 23 / 2.2%) 1px, transparent 1px),
+      var(--program-paper);
+    background-size: 24px 24px;
+    color: var(--program-ink);
+    min-height: 520px;
+  }
+
+  .program-heading {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    overflow: hidden;
+    min-height: 7.6rem;
+    padding: 1rem 0.25rem 1.3rem;
+  }
+
+  .program-heading::before,
+  .program-heading::after {
+    color: var(--program-ink);
+    content: "♫";
+    font-family: Georgia, serif;
+    line-height: 1;
+    opacity: 0.84;
+    position: absolute;
+  }
+
+  .program-heading::before {
+    font-size: 4.8rem;
+    left: -1.2rem;
+    top: 0.55rem;
+    transform: rotate(-21deg);
+  }
+
+  .program-heading::after {
+    font-size: 3.1rem;
+    left: 1.55rem;
+    top: 3.45rem;
+    transform: rotate(16deg);
+  }
+
+  .program-heading-note {
+    height: 4.1rem;
+    margin-left: 0.2rem;
+    margin-top: 0.1rem;
+    position: relative;
+    width: 4.1rem;
+    z-index: 1;
+  }
+
+  .program-heading-copy {
+    padding-top: 0.2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .program-eyebrow {
+    color: #62685d;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1;
+    margin: 0 0 0.2rem;
+  }
+
+  .program-heading h1 {
+    color: var(--program-ink);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(2.7rem, 12vw, 4.4rem);
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: -0.075em;
+    line-height: 0.82;
+    margin: 0;
+  }
+
+  .program-lineup {
+    border-bottom: 1px solid rgb(23 25 23 / 18%);
+    border-top: 2px solid var(--program-ink);
+  }
+
+  .program-lineup-item {
+    align-items: stretch;
+    border-bottom: 1px solid rgb(23 25 23 / 18%);
+    display: grid;
+    grid-template-columns: minmax(5.5rem, 6.6rem) minmax(0, 1fr) 4.1rem;
+    min-height: 4.6rem;
+  }
+
+  .program-lineup-item:last-child {
+    border-bottom: 0;
+  }
+
+  .program-day-badge {
+    align-self: center;
+    background: var(--program-sun);
+    clip-path: polygon(0 0, calc(100% - 0.8rem) 0, 100% 50%, calc(100% - 0.8rem) 100%, 0 100%);
+    color: var(--program-ink);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0.85rem 0;
+    padding: 0.62rem 1.1rem 0.62rem 0.8rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .program-act {
+    align-self: center;
+    color: var(--program-ink);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(1.05rem, 4.6vw, 1.45rem);
+    font-weight: 700;
+    line-height: 0.95;
+    margin: 0;
+    padding: 0.7rem 0.8rem 0.7rem 0.4rem;
+  }
+
+  .program-act-image,
+  .program-act-art {
+    height: 100%;
+    min-height: 4.6rem;
+    width: 100%;
+  }
+
+  .program-act-image {
+    filter: saturate(0.78) contrast(1.06);
+    object-fit: cover;
+  }
+
+  .program-act-art {
+    align-items: center;
+    background:
+      linear-gradient(135deg, rgb(30 44 29 / 25%), transparent 52%),
+      linear-gradient(45deg, #8b9474, #d5c880);
+    color: rgb(23 25 23 / 76%);
+    display: flex;
+    justify-content: center;
+  }
+
+  .program-act-art svg {
+    height: 1.65rem;
+    width: 1.65rem;
+  }
+
+  .program-note {
+    align-items: flex-start;
+    border-top: 1px solid rgb(23 25 23 / 34%);
+    color: #474c43;
+    display: flex;
+    gap: 0.65rem;
+    margin-top: 1.6rem;
+    padding: 1rem 0.25rem 0;
+  }
 }
